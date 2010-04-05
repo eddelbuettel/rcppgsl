@@ -1,0 +1,7 @@
+
+## This assumes that the LIB_GSL variable points to working GSL libraries
+## It also assume that we can call Rscript to ask Rcpp about its locations
+PKG_CPPFLAGS=-I$(LIB_GSL)/include $(shell Rscript.exe -e "Rcpp:::CxxFlags()") -I../inst/include
+PKG_LIBS=-L$(LIB_GSL)/lib -lgsl -lgslcblas $(shell Rscript.exe -e "Rcpp:::LdFlags()")
+
+
