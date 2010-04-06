@@ -59,31 +59,6 @@ namespace Rcpp{
 		template<> Rcomplex caster<gsl_complex_long_double,Rcomplex>( gsl_complex_long_double from) ;
     
     }
-	
-//    namespace RcppGsl {
-//    	template <typename T> struct contained	 ; /* not defined on purpose */
-//    	template <> struct contained<gsl_vector>{Êtypedef double type ;} ;
-//		template <> struct contained<gsl_vector_float>{Êtypedef float type ; } ; 
-//		template <> struct contained<gsl_vector_int>{ typedef int type; } ;
-//		template <> struct contained<gsl_vector_long>{ typedef long type ; } ;
-//		template <> struct contained<gsl_vector_char>{ typedef Rbyte type ; } ;
-//		template <> struct contained<gsl_vector_complex>{ typedef gsl_complex type ; } ;   
-//		template <> struct contained<gsl_vector_complex_float>{ typedef gsl_complex_float type ; };
-//		template <> struct contained<gsl_vector_complex_long_double>{ typedef gsl_complex_long_double type ; } ;
-//		template <> struct contained<gsl_vector_long_double>{ typedef long double type ; }
-//		template <> struct contained<gsl_vector_short>{Êtypedef short type ; }
-//		template <> struct contained<gsl_vector_uchar>{ typedef unsigned char type ; } ;
-//		template <> struct contained<gsl_vector_uint>{ typedef unsigned int type ; } ;
-//		template <> struct contained<gsl_vector_ushort>{ typedef unsigned short type ; } ;
-//		template <> struct contained<gsl_vector_ulong>{ typedef unsigned long type ; } ;
-//		
-//		template <typename T> struct needs_reinterpret : public ::Rcpp::traits::false_type{} ;
-//		template <> struct needs_reinterpret<gsl_vector_complex>  : public ::Rcpp::traits::true_type{} ;
-//		template <> struct needs_reinterpret<gsl_vector_complex_float>  : public ::Rcpp::traits::true_type{} ;
-//		template <> struct needs_reinterpret<gsl_vector_complex_long_double>  : public ::Rcpp::traits::true_type{} ;
-//		template <> struct needs_reinterpret<gsl_vector_char>  : public ::Rcpp::traits::true_type{} ;
-//	}
-    
     
 	template <> SEXP wrap( const gsl_vector& ) ;
 	template <> SEXP wrap( const gsl_vector_int& ) ;

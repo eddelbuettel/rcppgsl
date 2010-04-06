@@ -26,69 +26,56 @@
 
 namespace Rcpp{
 
-template <> SEXP wrap( const gsl_vector& x){
-	return wrap( x.data, x.data + x.size ) ;
+namespace RcppGsl{
+    
+	template <typename T> class gslvector_importer{
+	public:
+		typedef T r_import_type ; /* this is important */
+		
+	private:
+		r_import_type* data ;
+		int stride ;
+		int n ;
+		
+	public:
+		gslvector_importer( T* data_, int stride_, int n_) : data(data_), stride(stride_), n(n_){}
+		inline r_import_type get( int i) const {
+			return data[ i * stride ];
+		}
+		inline int size() const { return n ; }
+	} ;
+	
 }
 
-template <> SEXP wrap( const gsl_vector_float& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
+#define RCPPGSL_WRAP(__TYPE__,__DATA__)                                                  \
+template <> SEXP wrap( const __TYPE__& x){                                               \
+	return wrap( RcppGsl::gslvector_importer<__DATA__>( x.data, x.stride, x.size ) ) ;   \
+} ;
 
-template <> SEXP wrap( const gsl_vector_int& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
+#define RCPPGSL_WRAP_CAST(__TYPE__,__DATA__,__CAST__)                                   \
+template <> SEXP wrap( const __TYPE__& x){                                     \
+	return wrap( RcppGsl::gslvector_importer<__DATA__>(                                  \
+		reinterpret_cast<__CAST__>(x.data), x.stride, x.size ) ) ;             \
+} ;
 
-template <> SEXP wrap( const gsl_vector_long& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
+RCPPGSL_WRAP(gsl_vector             , double)
+RCPPGSL_WRAP(gsl_vector_float       , float)
+RCPPGSL_WRAP(gsl_vector_int         , int)
+RCPPGSL_WRAP(gsl_vector_long        , long)
+RCPPGSL_WRAP(gsl_vector_long_double , long double)
+RCPPGSL_WRAP(gsl_vector_short       , short)
+RCPPGSL_WRAP(gsl_vector_uchar       , unsigned char)
+RCPPGSL_WRAP(gsl_vector_uint        , unsigned int)
+RCPPGSL_WRAP(gsl_vector_ushort      , unsigned short)
+RCPPGSL_WRAP(gsl_vector_ulong       , unsigned long)
 
-template <> SEXP wrap( const gsl_vector_char& x){
-	return wrap( 
-		reinterpret_cast<Rbyte* const>(x.data), 
-		reinterpret_cast<Rbyte* const>(x.data) + x.size ) ;	
-}
+RCPPGSL_WRAP_CAST(gsl_vector_char               ,unsigned char          , Rbyte* const)
+RCPPGSL_WRAP_CAST(gsl_vector_complex            ,gsl_complex            ,gsl_complex*)
+RCPPGSL_WRAP_CAST(gsl_vector_complex_float      ,gsl_complex_float      ,gsl_complex_float*)
+RCPPGSL_WRAP_CAST(gsl_vector_complex_long_double,gsl_complex_long_double,gsl_complex_long_double*)
 
-template <> SEXP wrap( const gsl_vector_complex& x){
-	return wrap(
-		reinterpret_cast<gsl_complex*>(x.data), 
-		reinterpret_cast<gsl_complex*>(x.data) + x.size ) ;	
-}
- 
-template <> SEXP wrap( const gsl_vector_complex_float& x){
-	return wrap( 
-		reinterpret_cast<gsl_complex_float*>(x.data), 
-		reinterpret_cast<gsl_complex_float*>(x.data) + x.size ) ;	
-}
-
-template <> SEXP wrap( const gsl_vector_complex_long_double& x){
-	return wrap( 
-		reinterpret_cast<gsl_complex_long_double*>(x.data), 
-		reinterpret_cast<gsl_complex_long_double*>(x.data) + x.size ) ;	
-}
-
-template <> SEXP wrap( const gsl_vector_long_double& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
-
-template <> SEXP wrap( const gsl_vector_short& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
-
-template <> SEXP wrap( const gsl_vector_uchar& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
-
-template <> SEXP wrap( const gsl_vector_uint& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
-
-template <> SEXP wrap( const gsl_vector_ushort& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
-
-template <> SEXP wrap( const gsl_vector_ulong& x){
-	return wrap( x.data, x.data + x.size ) ;
-}
+#undef RCPPGSL_WRAP_CAST
+#undef RCPPGSL_WRAP
 
 } 
 
