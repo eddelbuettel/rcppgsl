@@ -52,6 +52,18 @@ namespace Rcpp{
 			return x ;
 		}
 	
+		template<> gsl_complex_long_double caster<Rcomplex,gsl_complex_long_double>( Rcomplex from){
+			gsl_complex_long_double x ;
+			GSL_REAL(x) = static_cast<float>( from.r ) ;
+			GSL_IMAG(x) = static_cast<float>( from.i ) ;
+			return x ;
+		}
+		template<> Rcomplex caster<gsl_complex_long_double,Rcomplex>( gsl_complex_long_double from){
+			Rcomplex x ;
+			x.r = static_cast<double>( GSL_REAL(from) ) ;
+			x.i = static_cast<double>( GSL_IMAG(from) ) ;
+			return x ;
+		}
 	}
 
 template <> SEXP wrap( const gsl_vector& x){
@@ -77,7 +89,7 @@ template <> SEXP wrap( const gsl_vector_char& x){
 }
 
 template <> SEXP wrap( const gsl_vector_complex& x){
-	return wrap( 
+	return wrap(
 		reinterpret_cast<gsl_complex*>(x.data), 
 		reinterpret_cast<gsl_complex*>(x.data) + x.size ) ;	
 }
@@ -87,7 +99,13 @@ template <> SEXP wrap( const gsl_vector_complex_float& x){
 		reinterpret_cast<gsl_complex_float*>(x.data), 
 		reinterpret_cast<gsl_complex_float*>(x.data) + x.size ) ;	
 }
-   
+
+template <> SEXP wrap( const gsl_vector_complex_long_double& x){
+	return wrap( 
+		reinterpret_cast<gsl_complex_long_double*>(x.data), 
+		reinterpret_cast<gsl_complex_long_double*>(x.data) + x.size ) ;	
+}
+  
 } 
 
 #endif

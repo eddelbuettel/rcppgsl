@@ -39,6 +39,12 @@ namespace Rcpp{
 		template<> struct r_type_traits<gsl_complex_float>{ typedef r_type_primitive_tag r_category ; } ;
 		template<> struct r_type_traits< std::pair<const std::string,gsl_complex_float> >{ typedef r_type_primitive_tag r_category ; } ;
 	
+		/* support for gsl_complex_long_double */
+		template<> struct r_sexptype_traits<gsl_complex_long_double>{ enum{ rtype = CPLXSXP } ; } ;
+		template<> struct wrap_type_traits<gsl_complex_long_double> { typedef wrap_type_primitive_tag wrap_category; } ;
+		template<> struct r_type_traits<gsl_complex_long_double>{ typedef r_type_primitive_tag r_category ; } ;
+		template<> struct r_type_traits< std::pair<const std::string,gsl_complex_long_double> >{ typedef r_type_primitive_tag r_category ; } ;
+	
 	}
 	
 	namespace internal{
@@ -47,6 +53,9 @@ namespace Rcpp{
 		
 		template<> gsl_complex_float caster<Rcomplex,gsl_complex_float>( Rcomplex from) ;
 		template<> Rcomplex caster<gsl_complex_float,Rcomplex>( gsl_complex_float from) ;
+    
+		template<> gsl_complex_long_double caster<Rcomplex,gsl_complex_long_double>( Rcomplex from) ;
+		template<> Rcomplex caster<gsl_complex_long_double,Rcomplex>( gsl_complex_long_double from) ;
     
     }
 	
@@ -57,6 +66,7 @@ namespace Rcpp{
 	template <> SEXP wrap( const gsl_vector_char& ) ;
 	template <> SEXP wrap( const gsl_vector_complex& ) ;
 	template <> SEXP wrap( const gsl_vector_complex_float& ) ;
+	template <> SEXP wrap( const gsl_vector_complex_long_double& ) ;
 }
 
 #endif
