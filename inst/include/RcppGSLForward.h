@@ -17,18 +17,15 @@
 // You should have received a copy of the GNU General Public License
 // along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef RCPPGSL__RCPPGSL_H
-#define RCPPGSL__RCPPGSL_H
+#ifndef RCPPGSL__RCPPGSLFORWARD_H
+#define RCPPGSL__RCPPGSLFORWARD_H
 
-#include <RcppGSLForward.h>
-#include <Rcpp.h>
+#include <RcppCommon.h>
+#include <gsl/gsl_vector.h>
 
+/* forward declarations */
 namespace Rcpp{
-
-template <> SEXP wrap( const gsl_vector& x){
-	return wrap( x.data, x.data + x.size ) ;
+	template <> SEXP wrap( const gsl_vector& ) ;
 }
-
-} 
 
 #endif
