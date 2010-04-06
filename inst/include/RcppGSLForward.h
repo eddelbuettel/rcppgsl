@@ -1,4 +1,4 @@
-// RcppGSL.h: Rcpp/GSL glue
+// RcppGSLForward.h: Rcpp/GSL glue
 //
 // Copyright (C)  2010 Romain Francois and Dirk Eddelbuettel
 //
@@ -26,6 +26,7 @@
 /* forward declarations */
 namespace Rcpp{
 	template <> SEXP wrap( const gsl_vector& ) ;
+	template <> SEXP wrap( const gsl_vector_float& ) ;
 }
 
 #endif

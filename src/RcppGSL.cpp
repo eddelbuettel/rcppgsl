@@ -1,15 +1,20 @@
 #include <RcppGSL.h>
 
+using namespace Rcpp ;
+
 extern "C" SEXP test_gsl_vector(){
-	gsl_vector * x = gsl_vector_alloc (10);
-	gsl_vector_set_zero( x ) ;
+	gsl_vector * x_double = gsl_vector_calloc (10);
+	gsl_vector_float * x_float = gsl_vector_float_calloc(10) ;
 	
-	// we cannot have Rcpp::NumericVector xx = x ; 
-	// because this does not involve the assignment operator
-	// but the constructor and Vector only had templated assignement
-	// operator, not templated constructor, so we have to do this in two steps
-	Rcpp::NumericVector xx ;
-	xx = *x  ;
-	gsl_vector_free (x);
-	return xx ;
+	/* create an R list containing copies of gsl data */
+	List res = List::create( 
+		_["gsl_vector"] = *x_double, 
+		_["gsl_vector_float"] = *x_float 
+		) ;
+	
+	/* cleanup gsl data */
+	gsl_vector_free(x_double);
+	gsl_vector_float_free( x_float);
+	
+	return res ;
 }

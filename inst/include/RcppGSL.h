@@ -29,6 +29,10 @@ template <> SEXP wrap( const gsl_vector& x){
 	return wrap( x.data, x.data + x.size ) ;
 }
 
+template <> SEXP wrap( const gsl_vector_float& x){
+	return wrap( x.data, x.data + x.size ) ;
+}
+
 } 
 
 #endif

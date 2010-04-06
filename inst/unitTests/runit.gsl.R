@@ -19,6 +19,11 @@
 
 test.gsl.vector <- function(){
 	res <- .Call( "test_gsl_vector", PACKAGE = "RcppGSL" )
-	checkEquals( res, numeric(10) , msg = "wrap( gsl_vector )" )
+	checkEquals( res, 
+		list( 
+			"gsl_vector" = numeric(10), 
+			"gsl_vector_float" = numeric(10) 
+		), 
+		msg = "wrap( gsl_vector )" )
 }
 
