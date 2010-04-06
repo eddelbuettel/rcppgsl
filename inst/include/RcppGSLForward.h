@@ -25,10 +25,26 @@
 
 /* forward declarations */
 namespace Rcpp{
+	
+	namespace traits{
+		/* support for gsl_complex */
+		template<> struct r_sexptype_traits<gsl_complex>{ enum{ rtype = CPLXSXP } ; } ;
+		template<> struct wrap_type_traits<gsl_complex> { typedef wrap_type_primitive_tag wrap_category; } ;
+		template<> struct r_type_traits<gsl_complex>{ typedef r_type_primitive_tag r_category ; } ;
+		template<> struct r_type_traits< std::pair<const std::string,gsl_complex> >{ typedef r_type_primitive_tag r_category ; } ;
+	}
+	
+	namespace internal{
+		template<> gsl_complex caster<Rcomplex,gsl_complex>( Rcomplex from) ;
+		template<> Rcomplex caster<gsl_complex,Rcomplex>( gsl_complex from) ;
+    }
+	
 	template <> SEXP wrap( const gsl_vector& ) ;
 	template <> SEXP wrap( const gsl_vector_float& ) ;
 	template <> SEXP wrap( const gsl_vector_int& ) ;
 	template <> SEXP wrap( const gsl_vector_long& ) ;
+	template <> SEXP wrap( const gsl_vector_char& ) ;
+	template <> SEXP wrap( const gsl_vector_complex& ) ;
 }
 
 #endif

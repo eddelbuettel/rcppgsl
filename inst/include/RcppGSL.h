@@ -25,6 +25,21 @@
 
 namespace Rcpp{
 	
+	namespace internal{
+		template<> gsl_complex caster<Rcomplex,gsl_complex>( Rcomplex from){
+			gsl_complex x ;
+			GSL_REAL(x) = from.r ;
+			GSL_IMAG(x) = from.i ;
+			return x ;
+		}
+		template<> Rcomplex caster<gsl_complex,Rcomplex>( gsl_complex from){
+			Rcomplex x ;
+			x.r = GSL_REAL(from) ;
+			x.i = GSL_IMAG(from) ;
+			return x ;
+		}
+	}
+
 template <> SEXP wrap( const gsl_vector& x){
 	return wrap( x.data, x.data + x.size ) ;
 }
@@ -41,6 +56,17 @@ template <> SEXP wrap( const gsl_vector_long& x){
 	return wrap( x.data, x.data + x.size ) ;
 }
 
+template <> SEXP wrap( const gsl_vector_char& x){
+	return wrap( 
+		reinterpret_cast<Rbyte* const>(x.data), 
+		reinterpret_cast<Rbyte* const>(x.data) + x.size ) ;	
+}
+
+template <> SEXP wrap( const gsl_vector_complex& x){
+	return wrap( 
+		reinterpret_cast<gsl_complex*>(x.data), 
+		reinterpret_cast<gsl_complex*>(x.data) + x.size ) ;	
+}
 
 } 
 

@@ -24,7 +24,9 @@ test.gsl.vector <- function(){
 			"gsl_vector" = numeric(10), 
 			"gsl_vector_float" = numeric(10), 
 			"gsl_vector_int" = integer(10), 
-			"gsl_vector_long" = numeric(10)
+			"gsl_vector_long" = numeric(10), 
+			"gsl_vector_char" = raw(10), 
+			"gsl_vector_complex" = complex(10)
 		), 
 		msg = "wrap( gsl_vector )" )
 }
