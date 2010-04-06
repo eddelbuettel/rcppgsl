@@ -102,6 +102,19 @@ namespace Rcpp{
 	
 	
 	template <> SEXP wrap( const gsl_matrix& ) ;
+	template <> SEXP wrap( const gsl_matrix_int& ) ;
+	template <> SEXP wrap( const gsl_matrix_float& ) ;
+	template <> SEXP wrap( const gsl_matrix_long& ) ;
+	template <> SEXP wrap( const gsl_matrix_char& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex_float& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex_long_double& ) ;
+	template <> SEXP wrap( const gsl_matrix_long_double& ) ;
+	template <> SEXP wrap( const gsl_matrix_short& ) ;
+	template <> SEXP wrap( const gsl_matrix_uchar& ) ;
+	template <> SEXP wrap( const gsl_matrix_uint& ) ;
+	template <> SEXP wrap( const gsl_matrix_ushort& ) ;
+	template <> SEXP wrap( const gsl_matrix_ulong& ) ;
 	
 }
 

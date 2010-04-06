@@ -39,3 +39,33 @@ test.gsl.vector <- function(){
 		msg = "wrap( gsl_vector )" )
 }
 
+test.gsl.matrix <- function(){
+	helper <- function(what){
+		as.what <- get( paste( "as.", deparse(substitute(what)), sep = "" ) )
+		x <- what(10)
+		x[1] <- as.what(1) 
+		x[7] <- as.what(1)
+		dim( x )  <- c(5,2)
+		x
+	}
+	res <- .Call( "test_gsl_matrix", PACKAGE = "RcppGSL" )
+	checkEquals( res, 
+		list( 
+			"gsl_matrix"                     = helper( numeric ), 
+			"gsl_matrix_float"               = helper( numeric ), 
+			"gsl_matrix_int"                 = helper( integer ), 
+			"gsl_matrix_long"                = helper( numeric ), 
+			"gsl_matrix_char"                = helper( raw ), 
+			"gsl_matrix_complex"             = helper( complex ), 
+			"gsl_matrix_complex_float"       = helper( complex ), 
+			"gsl_matrix_complex_long_double" = helper( complex ), 
+			"gsl_matrix_long_double"         = helper( numeric ), 
+			"gsl_matrix_short"               = helper( integer ), 
+			"gsl_matrix_uchar"               = helper( raw ), 
+			"gsl_matrix_uint"                = helper( integer ), 
+			"gsl_matrix_ushort"              = helper( integer ), 
+			"gsl_matrix_ulong"               = helper( numeric )
+		), 
+		msg = "wrap( gsl_matrix )" )
+
+}
