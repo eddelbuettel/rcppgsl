@@ -1,0 +1,7 @@
+#!/bin/sh
+
+rm -f  config.log config.status confdefs.h \
+       src/*.o src/*.so \
+	   src/Makevars \
+       */*~ *~
+rm -rf autom4te.cache
