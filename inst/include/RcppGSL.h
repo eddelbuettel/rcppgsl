@@ -105,7 +105,11 @@ template <> SEXP wrap( const gsl_vector_complex_long_double& x){
 		reinterpret_cast<gsl_complex_long_double*>(x.data), 
 		reinterpret_cast<gsl_complex_long_double*>(x.data) + x.size ) ;	
 }
-  
+
+template <> SEXP wrap( const gsl_vector_long_double& x){
+	return wrap( x.data, x.data + x.size ) ;
+}
+
 } 
 
 #endif

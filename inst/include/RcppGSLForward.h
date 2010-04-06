@@ -67,6 +67,8 @@ namespace Rcpp{
 	template <> SEXP wrap( const gsl_vector_complex& ) ;
 	template <> SEXP wrap( const gsl_vector_complex_float& ) ;
 	template <> SEXP wrap( const gsl_vector_complex_long_double& ) ;
+	template <> SEXP wrap( const gsl_vector_long_double& ) ;
+	
 }
 
 #endif
