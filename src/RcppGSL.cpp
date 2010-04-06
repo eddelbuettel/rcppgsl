@@ -54,3 +54,15 @@ extern "C" SEXP test_gsl_vector(){
 	
 	return res ;
 }
+
+extern "C" SEXP test_gsl_matrix(){
+	gsl_matrix * x_double = gsl_matrix_alloc(5, 2); gsl_matrix_set_identity( x_double ) ;
+	
+	List res = List::create( 
+		_["gsl_matrix"] = *x_double 
+		) ;
+	
+	gsl_matrix_free( x_double );
+	
+	return res ;
+}

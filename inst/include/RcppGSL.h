@@ -130,6 +130,14 @@ template <> SEXP wrap( const gsl_vector_ulong& x){
 	return wrap( x.data, x.data + x.size ) ;
 }
 
+
+/* matrices */
+
+template <> SEXP wrap( const gsl_matrix& x){
+	return internal::rowmajor_wrap( x.data, x.size1, x.size2 ) ;
+}
+
+
 } 
 
 #endif
