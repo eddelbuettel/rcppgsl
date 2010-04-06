@@ -110,6 +110,26 @@ template <> SEXP wrap( const gsl_vector_long_double& x){
 	return wrap( x.data, x.data + x.size ) ;
 }
 
+template <> SEXP wrap( const gsl_vector_short& x){
+	return wrap( x.data, x.data + x.size ) ;
+}
+
+template <> SEXP wrap( const gsl_vector_uchar& x){
+	return wrap( x.data, x.data + x.size ) ;
+}
+
+template <> SEXP wrap( const gsl_vector_uint& x){
+	return wrap( x.data, x.data + x.size ) ;
+}
+
+template <> SEXP wrap( const gsl_vector_ushort& x){
+	return wrap( x.data, x.data + x.size ) ;
+}
+
+template <> SEXP wrap( const gsl_vector_ulong& x){
+	return wrap( x.data, x.data + x.size ) ;
+}
+
 } 
 
 #endif
