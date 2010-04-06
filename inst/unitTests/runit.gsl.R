@@ -22,7 +22,9 @@ test.gsl.vector <- function(){
 	checkEquals( res, 
 		list( 
 			"gsl_vector" = numeric(10), 
-			"gsl_vector_float" = numeric(10) 
+			"gsl_vector_float" = numeric(10), 
+			"gsl_vector_int" = integer(10), 
+			"gsl_vector_long" = numeric(10)
 		), 
 		msg = "wrap( gsl_vector )" )
 }

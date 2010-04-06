@@ -2,12 +2,10 @@
 # set by configure
 GSL_CFLAGS = @GSL_CFLAGS@
 GSL_LIBS   = @GSL_LIBS@
-RCPP_CXXFLAGS = @RCPP_CXXFLAGS@
 RCPP_LDFLAGS = @RCPP_LDFLAGS@
 
 # combine to standard arguments for R
 PKG_CPPFLAGS = -W $(GSL_CFLAGS) -I../inst/include
-PKG_CXXFLAGS = $(RCPP_CXXFLAGS)
 PKG_LIBS = $(GSL_LIBS) $(RCPP_LDFLAGS)
 
 
