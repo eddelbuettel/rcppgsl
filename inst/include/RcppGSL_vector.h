@@ -26,7 +26,7 @@
 
 namespace Rcpp{
 
-namespace RcppGsl{
+namespace RcppGSL{
     
 	template <typename T> class gslvector_importer{
 	public:
@@ -47,15 +47,16 @@ namespace RcppGsl{
 	
 }
 
-#define RCPPGSL_WRAP(__TYPE__,__DATA__)                                                  \
-template <> SEXP wrap( const __TYPE__& x){                                               \
-	return wrap( RcppGsl::gslvector_importer<__DATA__>( x.data, x.stride, x.size ) ) ;   \
+#define RCPPGSL_WRAP(__TYPE__,__DATA__)                              \
+template <> SEXP wrap( const __TYPE__& x){                           \
+	return wrap( RcppGSL::gslvector_importer<__DATA__>(              \
+		x.data, x.stride, x.size ) ) ;                               \
 } ;
 
-#define RCPPGSL_WRAP_CAST(__TYPE__,__DATA__,__CAST__)                                   \
-template <> SEXP wrap( const __TYPE__& x){                                     \
-	return wrap( RcppGsl::gslvector_importer<__DATA__>(                                  \
-		reinterpret_cast<__CAST__>(x.data), x.stride, x.size ) ) ;             \
+#define RCPPGSL_WRAP_CAST(__TYPE__,__DATA__,__CAST__)                \
+template <> SEXP wrap( const __TYPE__& x){                           \
+	return wrap( RcppGSL::gslvector_importer<__DATA__>(              \
+		reinterpret_cast<__CAST__>(x.data), x.stride, x.size ) ) ;   \
 } ;
 
 RCPPGSL_WRAP(gsl_vector             , double)

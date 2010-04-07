@@ -57,7 +57,6 @@ namespace Rcpp{
     
 		template<> gsl_complex_long_double caster<Rcomplex,gsl_complex_long_double>( Rcomplex from) ;
 		template<> Rcomplex caster<gsl_complex_long_double,Rcomplex>( gsl_complex_long_double from) ;
-    
     }
     
 	template <> SEXP wrap( const gsl_vector& ) ;
@@ -75,6 +74,20 @@ namespace Rcpp{
 	template <> SEXP wrap( const gsl_vector_ushort& ) ;
 	template <> SEXP wrap( const gsl_vector_ulong& ) ;
 	
+	template <> SEXP wrap( const gsl_vector_view& ) ;
+	template <> SEXP wrap( const gsl_vector_int_view& ) ;
+	template <> SEXP wrap( const gsl_vector_float_view& ) ;
+	template <> SEXP wrap( const gsl_vector_long_view& ) ;
+	template <> SEXP wrap( const gsl_vector_char_view& ) ;
+	template <> SEXP wrap( const gsl_vector_complex_view& ) ;
+	template <> SEXP wrap( const gsl_vector_complex_float_view& ) ;
+	template <> SEXP wrap( const gsl_vector_complex_long_double_view& ) ;
+	template <> SEXP wrap( const gsl_vector_long_double_view& ) ;
+	template <> SEXP wrap( const gsl_vector_short_view& ) ;
+	template <> SEXP wrap( const gsl_vector_uchar_view& ) ;
+	template <> SEXP wrap( const gsl_vector_uint_view& ) ;
+	template <> SEXP wrap( const gsl_vector_ushort_view& ) ;
+	template <> SEXP wrap( const gsl_vector_ulong_view& ) ;
 	
 	template <> SEXP wrap( const gsl_matrix& ) ;
 	template <> SEXP wrap( const gsl_matrix_int& ) ;
