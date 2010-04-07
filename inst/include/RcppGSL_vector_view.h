@@ -17,8 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef RCPPGSL__RCPPGSL_VECTOR_H
-#define RCPPGSL__RCPPGSL_VECTOR_H
+#ifndef RCPPGSL__RCPPGSL_VECTOR_VIEW_H
+#define RCPPGSL__RCPPGSL_VECTOR_VIEW_H
 
 #include <RcppGSLForward.h>
 #include <Rcpp.h>
@@ -28,10 +28,10 @@ namespace Rcpp{
 
 #define RCPPGSL_VIEW(SUFFIX)                                         \
 template <> SEXP wrap( const gsl_vector##SUFFIX##_view& x){          \
-	return wrap(x->vector) ;                                         \
+	return wrap(x.vector) ;                                         \
 }  ;                                                                 \
 template <> SEXP wrap( const gsl_vector##SUFFIX##_const_view& x ){   \
-   return wrap(x->vector) ;                                          \
+   return wrap(x.vector) ;                                          \
 }
 
 RCPPGSL_VIEW()

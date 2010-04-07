@@ -105,3 +105,21 @@ extern "C" SEXP test_gsl_matrix(){
 	
 	return res ;
 }
+
+extern "C" SEXP test_gsl_vector_view(){
+	int n = 10 ;
+	gsl_vector *v = gsl_vector_calloc (n);
+	for( int i=0 ; i<n; i++){
+		gsl_vector_set( v, i, i ) ;	
+	}
+	gsl_vector_view v_even = gsl_vector_subvector_with_stride(v, 0, 2, n/2);
+    gsl_vector_view v_odd  = gsl_vector_subvector_with_stride(v, 1, 2, n/2);
+    
+    List res = List::create( 
+    	_["even"] = v_even, 
+    	_["odd" ] = v_odd
+    	) ;
+    gsl_vector_free(v);
+	
+    return res ;
+}

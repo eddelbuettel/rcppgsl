@@ -89,6 +89,21 @@ namespace Rcpp{
 	template <> SEXP wrap( const gsl_vector_ushort_view& ) ;
 	template <> SEXP wrap( const gsl_vector_ulong_view& ) ;
 	
+	template <> SEXP wrap( const gsl_vector_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_int_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_float_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_long_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_char_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_complex_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_complex_float_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_complex_long_double_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_long_double_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_short_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_uchar_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_uint_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_ushort_const_view& ) ;
+	template <> SEXP wrap( const gsl_vector_ulong_const_view& ) ;
+	
 	template <> SEXP wrap( const gsl_matrix& ) ;
 	template <> SEXP wrap( const gsl_matrix_int& ) ;
 	template <> SEXP wrap( const gsl_matrix_float& ) ;
