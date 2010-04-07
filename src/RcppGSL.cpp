@@ -123,3 +123,25 @@ extern "C" SEXP test_gsl_vector_view(){
 	
     return res ;
 }
+
+extern "C" SEXP test_gsl_matrix_view(){
+	int nrow = 4 ;
+	int ncol = 6 ;
+	gsl_matrix *m = gsl_matrix_alloc(nrow, ncol);
+	int k =0 ;
+	for( int i=0 ; i<nrow; i++){
+		for( int j=0; j<ncol; j++, k++){
+			gsl_matrix_set( m, i, j, k ) ;
+		}
+	}
+	gsl_matrix_view x = gsl_matrix_submatrix(m, 2, 2, 2, 2 ) ;
+	
+	List res = List::create( 
+		_["full"] = *m, 
+		_["view"] = x
+		) ;
+	gsl_matrix_free(m);
+	
+	return res ;
+}
+

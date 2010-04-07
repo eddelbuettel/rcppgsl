@@ -75,6 +75,10 @@ test.gsl.vector.view <- function(){
 	checkEquals( res, 
 		list( even = 2.0 * 0:4, odd = 2.0 * 0:4 + 1.0 ), 
 		msg = "wrap( gsl.vector.view )" )
-	
+}
+
+test.gsl.matrix.view <- function(){
+	res <- .Call( "test_gsl_matrix_view", PACKAGE = "RcppGSL" )
+	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view)" )
 }
 

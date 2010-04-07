@@ -103,6 +103,7 @@ namespace Rcpp{
 	template <> SEXP wrap( const gsl_vector_uint_const_view& ) ;
 	template <> SEXP wrap( const gsl_vector_ushort_const_view& ) ;
 	template <> SEXP wrap( const gsl_vector_ulong_const_view& ) ;
+
 	
 	template <> SEXP wrap( const gsl_matrix& ) ;
 	template <> SEXP wrap( const gsl_matrix_int& ) ;
@@ -119,6 +120,36 @@ namespace Rcpp{
 	template <> SEXP wrap( const gsl_matrix_ushort& ) ;
 	template <> SEXP wrap( const gsl_matrix_ulong& ) ;
 	
+	template <> SEXP wrap( const gsl_matrix_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_int_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_float_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_long_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_char_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex_float_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex_long_double_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_long_double_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_short_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_uchar_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_uint_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_ushort_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_ulong_view& ) ;
+	
+	template <> SEXP wrap( const gsl_matrix_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_int_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_float_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_long_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_char_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex_float_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_complex_long_double_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_long_double_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_short_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_uchar_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_uint_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_ushort_const_view& ) ;
+	template <> SEXP wrap( const gsl_matrix_ulong_const_view& ) ;
+
 }
 
 #endif

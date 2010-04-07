@@ -27,5 +27,6 @@
 #include <RcppGSL_vector.h>
 #include <RcppGSL_matrix.h>
 #include <RcppGSL_vector_view.h>
+#include <RcppGSL_matrix_view.h>
 
 #endif
