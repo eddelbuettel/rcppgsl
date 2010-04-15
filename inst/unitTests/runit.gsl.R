@@ -18,7 +18,7 @@
 # along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
 test.gsl.vector <- function(){
-	res <- .Call( "test_gsl_vector", PACKAGE = "RcppGSL" )
+	res <- .Cpp( "test_gsl_vector", PACKAGE = "RcppGSL" )
 	checkEquals( res, 
 		list( 
 			"gsl_vector" = numeric(10), 
@@ -48,7 +48,7 @@ test.gsl.matrix <- function(){
 		dim( x )  <- c(5,2)
 		x
 	}
-	res <- .Call( "test_gsl_matrix", PACKAGE = "RcppGSL" )
+	res <- .Cpp( "test_gsl_matrix", PACKAGE = "RcppGSL" )
 	checkEquals( res, 
 		list( 
 			"gsl_matrix"                     = helper( numeric ), 
@@ -71,14 +71,14 @@ test.gsl.matrix <- function(){
 }
 
 test.gsl.vector.view <- function(){
-	res <- .Call( "test_gsl_vector_view", PACKAGE = "RcppGSL" )
+	res <- .Cpp( "test_gsl_vector_view", PACKAGE = "RcppGSL" )
 	checkEquals( res, 
 		list( even = 2.0 * 0:4, odd = 2.0 * 0:4 + 1.0 ), 
 		msg = "wrap( gsl.vector.view )" )
 }
 
 test.gsl.matrix.view <- function(){
-	res <- .Call( "test_gsl_matrix_view", PACKAGE = "RcppGSL" )
+	res <- .Cpp( "test_gsl_matrix_view", PACKAGE = "RcppGSL" )
 	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view)" )
 }
 

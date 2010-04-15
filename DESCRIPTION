@@ -8,6 +8,6 @@ Maintainer: Dirk Eddelbuettel and Romain Francois <RomainAndDirk@r-enthusiasts.c
 Description: Glue between Rcpp and the GNU GSL
 License: GPL (>=2)
 LazyLoad: yes
-Depends: Rcpp (>= 0.7.11.4)
+Depends: Rcpp (>= 0.7.11.5)
 LinkingTo: Rcpp
 SystemRequirements: GNU GSL
