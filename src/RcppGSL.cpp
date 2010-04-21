@@ -145,10 +145,3 @@ extern "C" SEXP test_gsl_matrix_view(){
 	return res ;
 }
 
-#if defined(WIN32)
-#include <R_ext/Rdynload.h>
-void R_init_RcppGSL(DllInfo* info){
-	std::set_terminate( forward_uncaught_exceptions_to_r ) ;
-}
-#endif
-
