@@ -10,4 +10,4 @@ License: GPL (>=2)
 LazyLoad: yes
 Depends: Rcpp (>= 0.7.12.6)
 LinkingTo: Rcpp
-SystemRequirements: GNU GSL
+SystemRequirements: GNU GSL, GNU make
