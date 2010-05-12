@@ -24,8 +24,6 @@
 #include <Rcpp.h>
 #include <RcppGSL_caster.h> 
 
-namespace Rcpp{
-
 namespace RcppGSL{
     
 	template <typename T> class gslvector_importer{
@@ -47,17 +45,19 @@ namespace RcppGSL{
 	
 }
 
+namespace Rcpp{
+
 #define RCPPGSL_WRAP(__TYPE__,__DATA__)                              \
 template <> SEXP wrap( const __TYPE__& x){                           \
 	return wrap( RcppGSL::gslvector_importer<__DATA__>(              \
 		x.data, x.stride, x.size ) ) ;                               \
-} ;
+} 
 
 #define RCPPGSL_WRAP_CAST(__TYPE__,__DATA__,__CAST__)                \
 template <> SEXP wrap( const __TYPE__& x){                           \
 	return wrap( RcppGSL::gslvector_importer<__DATA__>(              \
 		reinterpret_cast<__CAST__>(x.data), x.stride, x.size ) ) ;   \
-} ;
+} 
 
 RCPPGSL_WRAP(gsl_vector             , double)
 RCPPGSL_WRAP(gsl_vector_float       , float)
@@ -74,6 +74,10 @@ RCPPGSL_WRAP_CAST(gsl_vector_char               ,unsigned char          , Rbyte*
 RCPPGSL_WRAP_CAST(gsl_vector_complex            ,gsl_complex            ,gsl_complex*)
 RCPPGSL_WRAP_CAST(gsl_vector_complex_float      ,gsl_complex_float      ,gsl_complex_float*)
 RCPPGSL_WRAP_CAST(gsl_vector_complex_long_double,gsl_complex_long_double,gsl_complex_long_double*)
+
+template <typename T> SEXP wrap( const ::RcppGSL::vector<T>& x){
+	return wrap( *(x.data) ) ;
+}
 
 #undef RCPPGSL_WRAP_CAST
 #undef RCPPGSL_WRAP

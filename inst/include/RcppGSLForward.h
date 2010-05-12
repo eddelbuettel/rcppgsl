@@ -24,9 +24,8 @@
 #include <gsl/gsl_vector.h> 
 #include <gsl/gsl_matrix.h>
 
-/* forward declarations */
 namespace Rcpp{
-	
+
 	namespace traits{
 		/* support for gsl_complex */
 		template<> struct r_sexptype_traits<gsl_complex>{ enum{ rtype = CPLXSXP } ; } ;
@@ -58,7 +57,79 @@ namespace Rcpp{
 		template<> gsl_complex_long_double caster<Rcomplex,gsl_complex_long_double>( Rcomplex from) ;
 		template<> Rcomplex caster<gsl_complex_long_double,Rcomplex>( gsl_complex_long_double from) ;
     }
-    
+
+}
+
+namespace RcppGSL{
+	template <typename T> class vector ;
+	template <typename T> class vector_view ;
+	
+#undef _RCPPGSL_SPEC
+#define _RCPPGSL_SPEC(__T__,__SUFFIX__,__CAST__)      	                        \
+template <> class vector<__T__>  {           	                                   \
+public:                                      	                                   \
+	typedef __T__ type ;                     	                                   \
+	typedef __T__* pointer ;                 	                                   \
+	typedef gsl_vector##__SUFFIX__ gsltype ; 	                                   \
+	gsltype* data ;                          	                                   \
+	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \
+	vector( SEXP x) throw(::Rcpp::not_compatible) : data(0), owner(true) {       \
+		SEXP y = ::Rcpp::r_cast<RTYPE>(x) ;                                      \
+		int size = ::Rf_length( y ) ;                                            \
+		data = gsl_vector##__SUFFIX__##_calloc( size ) ;                         \
+		::Rcpp::internal::export_range<__CAST__*>( y,                            \
+			reinterpret_cast<__CAST__*>( data->data ) ) ;                        \
+	}                                                                            \
+	vector( gsltype* x, bool owner_=true) : data(x), owner(owner_) {}            \
+	vector( int size , bool owner_ = true ) :                                    \
+		data( gsl_vector##__SUFFIX__##_calloc( size ) ), owner(owner_){}         \
+	~vector(){ if(owner) gsl_vector##__SUFFIX__##_free(data) ; }                 \
+	operator gsltype*(){ return data ; }                                         \
+	gsltype* operator->() const { return data; }                                 \
+	gsltype& operator*() const { return *data; }                                 \
+private:                                                                         \
+	bool owner ;                                                                 \
+	vector( const vector& x) ;                                                   \
+	vector& operator=(const vector& other) ;                                     \
+} ;                                                                              \
+template <> class vector_view<__T__>  {           	                            \
+public:                                      	                                   \
+	typedef __T__ type ;                     	                                   \
+	typedef __T__* pointer ;                 	                                   \
+	typedef gsl_vector##__SUFFIX__##_view gsltype ; 	                           \
+	gsltype* data ;                          	                                   \
+	vector_view( gsltype* x) : data(x) {}                                        \
+	~vector_view(){  }                                                           \
+	operator gsltype*(){ return data ; }                                         \
+} ;                                                                             \
+
+// FIXME: the private copy ctors and assignment operator are 
+//        here to prevent copying of the object. maybe we can think of 
+//        a better strategy
+
+_RCPPGSL_SPEC(double                   ,                       , double                  )
+_RCPPGSL_SPEC(float                    , _float                , float                   )
+_RCPPGSL_SPEC(int                      , _int                  , int                     )
+_RCPPGSL_SPEC(long                     , _long                 , long                    )
+_RCPPGSL_SPEC(long double              , _long_double          , long double             )
+_RCPPGSL_SPEC(short                    , _short                , short                   )
+_RCPPGSL_SPEC(unsigned char            , _uchar                , unsigned char           )
+_RCPPGSL_SPEC(unsigned int             , _uint                 , unsigned int            )
+_RCPPGSL_SPEC(unsigned short           , _ushort               , unsigned short          )
+_RCPPGSL_SPEC(unsigned long            , _ulong                , unsigned long           )
+_RCPPGSL_SPEC(char                     , _char                 , unsigned char           )
+_RCPPGSL_SPEC(gsl_complex              , _complex              , gsl_complex             )
+_RCPPGSL_SPEC(gsl_complex_float        , _complex_float        , gsl_complex_float       )
+_RCPPGSL_SPEC(gsl_complex_long_double  , _complex_long_double  , gsl_complex_long_double )
+
+#undef _RCPPGSL_SPEC
+ 
+}
+
+
+/* forward declarations */
+namespace Rcpp{
+
 	template <> SEXP wrap( const gsl_vector& ) ;
 	template <> SEXP wrap( const gsl_vector_int& ) ;
 	template <> SEXP wrap( const gsl_vector_float& ) ;
@@ -150,6 +221,9 @@ namespace Rcpp{
 	template <> SEXP wrap( const gsl_matrix_ushort_const_view& ) ;
 	template <> SEXP wrap( const gsl_matrix_ulong_const_view& ) ;
 
+	template <typename T> SEXP wrap( const ::RcppGSL::vector<T>& ) ;
+	template <typename T> SEXP wrap( const ::RcppGSL::vector_view<T>& ) ;
+	 
 }
 
 #endif

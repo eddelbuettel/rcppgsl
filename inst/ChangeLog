@@ -1,0 +1,7 @@
+2010-05-12  Romain Francois <romain@r-enthusiasts.com>
+
+	* inst/include/*.h: added classes RcppGSL::vector<T> that act as smart pointers
+	to gsl_vector_* objects. This gives nicer syntax and helps Rcpp implicit 
+	converters wrap and as.
+
+

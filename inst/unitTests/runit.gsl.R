@@ -17,6 +17,28 @@
 # You should have received a copy of the GNU General Public License
 # along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
+test.gsl.vector.wrappers <- function(){
+	res <- .Call( "test_gsl_vector_wrapper", PACKAGE = "RcppGSL" )
+	checkEquals( res, 
+		list( 
+			"gsl_vector" = numeric(10), 
+			"gsl_vector_float" = numeric(10), 
+			"gsl_vector_int" = integer(10), 
+			"gsl_vector_long" = numeric(10), 
+			"gsl_vector_char" = raw(10), 
+			"gsl_vector_complex" = complex(10), 
+			"gsl_vector_complex_float" = complex(10), 
+			"gsl_vector_complex_long_double" = complex(10), 
+			"gsl_vector_long_double" = numeric(10), 
+			"gsl_vector_short" = integer(10), 
+			"gsl_vector_uchar" = raw(10), 
+			"gsl_vector_uint" = integer(10), 
+			"gsl_vector_ushort" = integer(10), 
+			"gsl_vector_ulong" = numeric(10)
+		), 
+		msg = "wrap( gsl_vector )" )
+}
+
 test.gsl.vector <- function(){
 	res <- .Call( "test_gsl_vector", PACKAGE = "RcppGSL" )
 	checkEquals( res, 
@@ -80,5 +102,11 @@ test.gsl.vector.view <- function(){
 test.gsl.matrix.view <- function(){
 	res <- .Call( "test_gsl_matrix_view", PACKAGE = "RcppGSL" )
 	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view)" )
+}
+      
+test.gsl.vector.input.SEXP <- function(){
+	x <- rnorm( 10 )
+	res <- .Call( "test_gsl_vector_input", x, PACKAGE = "RcppGSL" )
+	checkEquals( res, sum(x), msg = "RcppGSL::vector<double>(SEXP)" )
 }
 

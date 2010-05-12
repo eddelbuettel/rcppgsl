@@ -24,8 +24,6 @@
 #include <Rcpp.h>
 #include <RcppGSL_caster.h> 
 
-namespace Rcpp{                                                                                  
-
 namespace RcppGSL {
 	
 	template <typename T> class gslmatrix_importer{
@@ -49,6 +47,8 @@ namespace RcppGSL {
 		}
 	} ;               
 }
+
+namespace Rcpp{                                                                                  
 
 #define RCPPGSL_WRAP(__TYPE__,__DATA__)                                  \
 template <> SEXP wrap( const __TYPE__& x){                               \

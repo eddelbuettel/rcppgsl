@@ -2,6 +2,41 @@
 
 using namespace Rcpp ;
 
+extern "C" SEXP test_gsl_vector_wrapper(){
+	RcppGSL::vector<double> x_double( 10 );
+	RcppGSL::vector<float> x_float( 10 );
+	RcppGSL::vector<int> x_int( 10 ) ; 
+	RcppGSL::vector<long> x_long( 10 ) ; 
+	RcppGSL::vector<char> x_char( 10 ) ; 
+	RcppGSL::vector<long double> x_long_double( 10 ) ;
+	RcppGSL::vector<short> x_short( 10 ) ; 
+	RcppGSL::vector<unsigned char> x_uchar( 10 ) ;
+	RcppGSL::vector<unsigned int> x_uint( 10 ) ; 
+	RcppGSL::vector<unsigned short> x_ushort( 10 ) ;
+	RcppGSL::vector<unsigned long> x_ulong( 10 ) ;
+	RcppGSL::vector<gsl_complex> x_complex( 10 ) ; 
+	RcppGSL::vector<gsl_complex_float> x_complex_float( 10 ) ;
+	RcppGSL::vector<gsl_complex_long_double> x_complex_long_double( 10 ) ;
+	
+	List res = List::create( 
+		_["gsl_vector"] = x_double, 
+		_["gsl_vector_float"] = x_float, 
+		_["gsl_vector_int"] = x_int, 
+		_["gsl_vector_long"] = x_long, 
+		_["gsl_vector_char"] = x_char, 
+		_["gsl_vector_complex"] = x_complex,
+		_["gsl_vector_complex_float"] = x_complex_float, 
+		_["gsl_vector_complex_long_double"] = x_complex_long_double, 
+		_["gsl_vector_long_double"] = x_long_double, 
+		_["gsl_vector_short"] = x_short, 
+		_["gsl_vector_uchar"] = x_uchar, 
+		_["gsl_vector_uint"] = x_uint,                             
+		_["gsl_vector_ushort"] = x_ushort, 
+		_["gsl_vector_ulong"] = x_ulong
+		) ;
+	return res ;
+}
+
 extern "C" SEXP test_gsl_vector(){
 	gsl_vector * x_double = gsl_vector_calloc (10);
 	gsl_vector_float * x_float = gsl_vector_float_calloc(10) ;
@@ -142,6 +177,16 @@ extern "C" SEXP test_gsl_matrix_view(){
 		) ;
 	gsl_matrix_free(m);
 	
+	return res ;
+}
+
+RCPP_FUNCTION_1( double, test_gsl_vector_input, SEXP x){
+	RcppGSL::vector<double> vec(x) ;
+	int n = vec->size ;
+	double res = 0.0 ;
+	for( int i=0; i<n; i++){
+		res += gsl_vector_get( vec, i ) ;
+	}
 	return res ;
 }
 
