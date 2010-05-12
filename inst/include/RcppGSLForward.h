@@ -116,9 +116,38 @@ public:                                      	                                  
 	}                                                                            \
 } ;                                                                             \
 
-// FIXME: the private copy ctors and assignment operator are 
-//        here to prevent copying of the object. maybe we can think of 
-//        a better strategy
+// template <> class matrix<__T__>  {           	                                   \     
+// public:                                      	                                   \     
+// 	typedef __T__ type ;                     	                                   \     
+// 	typedef __T__* pointer ;                 	                                   \     
+// 	typedef gsl_matrix##__SUFFIX__ gsltype ; 	                                   \     
+// 	gsltype* data ;                          	                                   \     
+// 	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \       
+// 	matrix( SEXP x) throw(::Rcpp::not_compatible) : data(0) {                    \       
+// 		if( !Rf_isMatrix(x) ) throw not_compatible("not a matrix") ;             \       
+// 		SEXP y = ::Rcpp::internal::rowmajor_wrap( ) ;                            \       
+// 		data = gsl_matrix##__SUFFIX__##_calloc( size ) ;                         \       
+// 		::Rcpp::internal::export_range<__CAST__*>( y,                            \       
+// 			reinterpret_cast<__CAST__*>( data->data ) ) ;                        \       
+// 	}                                                                            \       
+// 	matrix( gsltype* x) : data(x) {}                                             \       
+// 	matrix( int nrow, int ncol) :                                                \       
+// 		data( gsl_matrix##__SUFFIX__##_alloc( nrow, ncol ) ){}                   \       
+// 	~matrix(){ }                                                                 \       
+// 	operator gsltype*(){ return data ; }                                         \       
+// 	gsltype* operator->() const { return data; }                                 \       
+// 	gsltype& operator*() const { return *data; }                                 \       
+// 	matrix( const matrix& x) : data(x.data)  {}                                  \       
+// 	matrix& operator=(const matrix& other) {                                     \       
+// 		data = other.data ;                                                      \       
+// 		return *this ;                                                           \       
+// 	}                                                                            \       
+// 	void free(){                                                                 \       
+// 		gsl_matrix##__SUFFIX__##_free(data) ;                                    \       
+// 	}                                                                            \       
+// } ;                                                                              \       
+//  
+
 
 _RCPPGSL_SPEC(double                   ,                       , double                  )
 _RCPPGSL_SPEC(float                    , _float                , float                   )
