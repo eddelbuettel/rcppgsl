@@ -1,4 +1,5 @@
 #!/usr/bin/r -t
+#                        Emacs make this -*- mode: R; tab-width: 4 -*-
 #
 # Copyright (C) 2010	Romain Francois and Dirk Eddelbuettel
 #
@@ -41,23 +42,23 @@ test.gsl.vector.wrappers <- function(){
 
 test.gsl.vector <- function(){
 	res <- .Call( "test_gsl_vector", PACKAGE = "RcppGSL" )
-	checkEquals( res, 
-		list( 
-			"gsl_vector" = numeric(10), 
-			"gsl_vector_float" = numeric(10), 
-			"gsl_vector_int" = integer(10), 
-			"gsl_vector_long" = numeric(10), 
-			"gsl_vector_char" = raw(10), 
-			"gsl_vector_complex" = complex(10), 
-			"gsl_vector_complex_float" = complex(10), 
-			"gsl_vector_complex_long_double" = complex(10), 
-			"gsl_vector_long_double" = numeric(10), 
-			"gsl_vector_short" = integer(10), 
-			"gsl_vector_uchar" = raw(10), 
-			"gsl_vector_uint" = integer(10), 
-			"gsl_vector_ushort" = integer(10), 
+	checkEquals( res,
+		list(
+			"gsl_vector" = numeric(10),
+			"gsl_vector_float" = numeric(10),
+			"gsl_vector_int" = integer(10),
+			"gsl_vector_long" = numeric(10),
+			"gsl_vector_char" = raw(10),
+			"gsl_vector_complex" = complex(10),
+			"gsl_vector_complex_float" = complex(10),
+			"gsl_vector_complex_long_double" = complex(10),
+			"gsl_vector_long_double" = numeric(10),
+			"gsl_vector_short" = integer(10),
+			"gsl_vector_uchar" = raw(10),
+			"gsl_vector_uint" = integer(10),
+			"gsl_vector_ushort" = integer(10),
 			"gsl_vector_ulong" = numeric(10)
-		), 
+		),
 		msg = "wrap( gsl_vector )" )
 }
 
@@ -65,37 +66,37 @@ test.gsl.matrix <- function(){
 	helper <- function(what){
 		as.what <- get( paste( "as.", deparse(substitute(what)), sep = "" ) )
 		x <- what(10)
-		x[1] <- as.what(1) 
+		x[1] <- as.what(1)
 		x[7] <- as.what(1)
 		dim( x )  <- c(5,2)
 		x
 	}
 	res <- .Call( "test_gsl_matrix", PACKAGE = "RcppGSL" )
-	checkEquals( res, 
-		list( 
-			"gsl_matrix"                     = helper( numeric ), 
-			"gsl_matrix_float"               = helper( numeric ), 
-			"gsl_matrix_int"                 = helper( integer ), 
-			"gsl_matrix_long"                = helper( numeric ), 
-			"gsl_matrix_char"                = helper( raw ), 
-			"gsl_matrix_complex"             = helper( complex ), 
-			"gsl_matrix_complex_float"       = helper( complex ), 
-			"gsl_matrix_complex_long_double" = helper( complex ), 
-			"gsl_matrix_long_double"         = helper( numeric ), 
-			"gsl_matrix_short"               = helper( integer ), 
-			"gsl_matrix_uchar"               = helper( raw ), 
-			"gsl_matrix_uint"                = helper( integer ), 
-			"gsl_matrix_ushort"              = helper( integer ), 
+	checkEquals( res,
+		list(
+			"gsl_matrix"                     = helper( numeric ),
+			"gsl_matrix_float"               = helper( numeric ),
+			"gsl_matrix_int"                 = helper( integer ),
+			"gsl_matrix_long"                = helper( numeric ),
+			"gsl_matrix_char"                = helper( raw ),
+			"gsl_matrix_complex"             = helper( complex ),
+			"gsl_matrix_complex_float"       = helper( complex ),
+			"gsl_matrix_complex_long_double" = helper( complex ),
+			"gsl_matrix_long_double"         = helper( numeric ),
+			"gsl_matrix_short"               = helper( integer ),
+			"gsl_matrix_uchar"               = helper( raw ),
+			"gsl_matrix_uint"                = helper( integer ),
+			"gsl_matrix_ushort"              = helper( integer ),
 			"gsl_matrix_ulong"               = helper( numeric )
-		), 
+		),
 		msg = "wrap( gsl_matrix )" )
 
 }
 
 test.gsl.vector.view <- function(){
 	res <- .Call( "test_gsl_vector_view", PACKAGE = "RcppGSL" )
-	checkEquals( res, 
-		list( even = 2.0 * 0:4, odd = 2.0 * 0:4 + 1.0 ), 
+	checkEquals( res,
+		list( even = 2.0 * 0:4, odd = 2.0 * 0:4 + 1.0 ),
 		msg = "wrap( gsl.vector.view )" )
 }
 
