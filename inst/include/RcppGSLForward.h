@@ -75,24 +75,28 @@ public:                                      	                                  
 	typedef gsl_vector##__SUFFIX__ gsltype ; 	                                   \
 	gsltype* data ;                          	                                   \
 	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \
-	vector( SEXP x) throw(::Rcpp::not_compatible) : data(0), owner(true) {       \
+	vector( SEXP x) throw(::Rcpp::not_compatible) : data(0) {                    \
 		SEXP y = ::Rcpp::r_cast<RTYPE>(x) ;                                      \
 		int size = ::Rf_length( y ) ;                                            \
 		data = gsl_vector##__SUFFIX__##_calloc( size ) ;                         \
 		::Rcpp::internal::export_range<__CAST__*>( y,                            \
 			reinterpret_cast<__CAST__*>( data->data ) ) ;                        \
 	}                                                                            \
-	vector( gsltype* x, bool owner_=true) : data(x), owner(owner_) {}            \
-	vector( int size , bool owner_ = true ) :                                    \
-		data( gsl_vector##__SUFFIX__##_calloc( size ) ), owner(owner_){}         \
-	~vector(){ if(owner) gsl_vector##__SUFFIX__##_free(data) ; }                 \
+	vector( gsltype* x) : data(x) {}                                             \
+	vector( int size) :                                                          \
+		data( gsl_vector##__SUFFIX__##_calloc( size ) ){}                        \
+	~vector(){ }                                                                 \
 	operator gsltype*(){ return data ; }                                         \
 	gsltype* operator->() const { return data; }                                 \
 	gsltype& operator*() const { return *data; }                                 \
-private:                                                                         \
-	bool owner ;                                                                 \
-	vector( const vector& x) ;                                                   \
-	vector& operator=(const vector& other) ;                                     \
+	vector( const vector& x) : data(x.data)  {}                                  \
+	vector& operator=(const vector& other) {                                     \
+		data = other.data ;                                                      \
+		return *this ;                                                           \
+	}                                                                            \
+	void free(){                                                                 \
+		gsl_vector##__SUFFIX__##_free(data) ;                                    \
+	}                                                                            \
 } ;                                                                              \
 template <> class vector_view<__T__>  {           	                            \
 public:                                      	                                   \

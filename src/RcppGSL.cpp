@@ -34,6 +34,22 @@ extern "C" SEXP test_gsl_vector_wrapper(){
 		_["gsl_vector_ushort"] = x_ushort, 
 		_["gsl_vector_ulong"] = x_ulong
 		) ;
+	
+	x_double.free();
+	x_float.free();
+	x_int.free() ; 
+	x_long.free() ; 
+	x_char.free() ; 
+	x_long_double.free() ;
+	x_short.free() ; 
+	x_uchar.free() ;
+	x_uint.free() ; 
+	x_ushort.free() ;
+	x_ulong.free() ;
+	x_complex.free() ; 
+	x_complex_float.free() ;
+	x_complex_long_double.free() ;
+	
 	return res ;
 }
 
@@ -180,13 +196,13 @@ extern "C" SEXP test_gsl_matrix_view(){
 	return res ;
 }
 
-RCPP_FUNCTION_1( double, test_gsl_vector_input, SEXP x){
-	RcppGSL::vector<double> vec(x) ;
+RCPP_FUNCTION_1( double, test_gsl_vector_input, RcppGSL::vector<double> vec){
 	int n = vec->size ;
 	double res = 0.0 ;
 	for( int i=0; i<n; i++){
 		res += gsl_vector_get( vec, i ) ;
 	}
+	vec.free() ;
 	return res ;
 }
 
