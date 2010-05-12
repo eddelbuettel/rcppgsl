@@ -107,6 +107,13 @@ public:                                      	                                  
 	vector_view( gsltype* x) : data(x) {}                                        \
 	~vector_view(){  }                                                           \
 	operator gsltype*(){ return data ; }                                         \
+	gsltype* operator->() const { return data; }                                 \
+	gsltype& operator*() const { return *data; }                                 \
+	vector_view( const vector_view& x) : data(x.data)  {}                        \
+	vector_view& operator=(const vector_view& other) {                           \
+		data = other.data ;                                                      \
+		return *this ;                                                           \
+	}                                                                            \
 } ;                                                                             \
 
 // FIXME: the private copy ctors and assignment operator are 
