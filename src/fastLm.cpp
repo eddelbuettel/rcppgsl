@@ -22,42 +22,40 @@
 #include <RcppGSL.h>
 
 #include <gsl/gsl_multifit.h>
+#include <cmath>
 
+RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
+	
+	RcppGSL::vector<double> y = ys ;
+	RcppGSL::matrix<double> X = Xs ; 
 
-extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
+	using Rcpp::_ ;
 
-    RcppGSL::vector<double> y(ys);		// creates RcppGSL vector from SEXP
-    RcppGSL::matrix<double> X(Xs);		// creates RcppGSL matrix from SEXP
-
-    //Rcpp::NumericVector Yr(ys);			
-    //Rcpp::NumericMatrix Xr(Xs);			// creates Rcpp matrix from SEXP
-
-    //int i, j, n = Xr.nrow(), k = Xr.ncol();
-    int i, j, n=4,k=2;  // FIXME -- need coef extraction
+    int n=X->size1,k=X->size2;
     double chisq;
 
-    //gsl_matrix *X = gsl_matrix_alloc (n, k);
-    //gsl_vector *y = gsl_vector_alloc (n);
-    gsl_vector *c = gsl_vector_alloc (k);   // FIXME trivial ctor
-    gsl_matrix *cov = gsl_matrix_alloc (k, k);
-    //for (i = 0; i < n; i++) {
-    //    for (j = 0; j < k; j++)
-    //        gsl_matrix_set (X, i, j, Xr(i,j));
-    //    gsl_vector_set (y, i, Yr(i));
-    //}
-
+    RcppGSL::vector<double> c(k) ;
+    RcppGSL::matrix<double> cov(k,k) ;
+    
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
     gsl_multifit_linear (X, y, c, cov, &chisq, work);
     gsl_multifit_linear_free (work);
-
-	// FIXME need free()
-
-	//Rcpp::NumericVector coefr = Rcpp::wrap(c);
-    //RcppGSL::vector<double> coefr(5);
-    return Rcpp::List::create( Rcpp::Named( "coef", c),
-                               Rcpp::Named( "stderr", c));
-    //return Rcpp::List::create( Rcpp::_["coef"] = c,
-    //                           Rcpp::_["stderr"], c);
-    return Xs;
+         
+    gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
+          
+    Rcpp::NumericVector stderr ; stderr = diag ;
+    std::transform( stderr.begin(), stderr.end(), stderr.begin(), sqrt ) ;
+    
+    Rcpp::List res = Rcpp::List::create( 
+    	_["coef"] = c, 
+    	_["stderr"] = stderr
+    	) ;
+    
+    c.free() ;
+    cov.free();
+    y.free();
+    X.free();
+	
+    return res ;
 }
 
