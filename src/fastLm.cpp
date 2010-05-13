@@ -25,13 +25,13 @@
 #include <cmath>
 
 RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
+	using Rcpp::_ ;
 	
+	// create gsl data structures from SEXP
 	RcppGSL::vector<double> y = ys ;
 	RcppGSL::matrix<double> X = Xs ; 
-
-	using Rcpp::_ ;
-
-    int n=X.nrow(),k=X.ncol() ;
+	
+	int n=X.nrow(),k=X.ncol() ;
     double chisq;
 
     RcppGSL::vector<double> c(k) ;
@@ -40,9 +40,12 @@ RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
     gsl_multifit_linear (X, y, c, cov, &chisq, work);
     gsl_multifit_linear_free (work);
-         
+     
+	// extract the diagonal as a vector view
     gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
           
+    // currently there is not a more direct interface in Rcpp::NumericVector
+    // that takes advantage of wrap, so we have to do it in two steps
     Rcpp::NumericVector stderr ; stderr = diag ;
     std::transform( stderr.begin(), stderr.end(), stderr.begin(), sqrt ) ;
     
@@ -51,11 +54,13 @@ RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
     	_["stderr"] = stderr
     	) ;
     
+    // free all the vectors and matrices
     c.free() ;
     cov.free();
     y.free();
     X.free();
 	
+    // return the list to R
     return res ;
 }
 
