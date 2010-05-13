@@ -125,6 +125,7 @@ public:                                      	                                  
 		data = other.data ;                                                      \
 		return *this ;                                                           \
 	}                                                                            \
+	inline size_t size(){ return data->size ; }                                  \
 	void free(){                                                                 \
 		gsl_vector##__SUFFIX__##_free(data) ;                                    \
 	}                                                                            \
@@ -149,6 +150,9 @@ public:                                      	                                  
 		data = other.data ;                                                      \
 		return *this ;                                                           \
 	}                                                                            \
+	inline size_t nrow(){ return data->size1 ; }                                 \
+	inline size_t ncol(){ return data->size2 ; }                                 \
+	inline size_t size(){ return data->size1 * data->size2 ; }                   \
 	void free(){                                                                 \
 		gsl_matrix##__SUFFIX__##_free(data) ;                                    \
 	}                                                                            \

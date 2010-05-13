@@ -31,7 +31,7 @@ RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
 
 	using Rcpp::_ ;
 
-    int n=X->size1,k=X->size2;
+    int n=X.nrow(),k=X.ncol() ;
     double chisq;
 
     RcppGSL::vector<double> c(k) ;
