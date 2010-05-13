@@ -1,4 +1,10 @@
 useDynLib(RcppGSL)
 
-#exportPattern("^[[:alpha:]]+")
-export(fastLm)
+##exportPattern("^[[:alpha:]]+")
+export(fastLmCall,
+       fastLm,
+       fastLm.default,
+       fastLm.formula,
+       print.fastLm,
+       summary.fastLm,
+       print.summary.fastLm)

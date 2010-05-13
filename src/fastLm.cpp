@@ -50,13 +50,15 @@ RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
     std::transform( stderr.begin(), stderr.end(), stderr.begin(), sqrt );
     
     Rcpp::List res = Rcpp::List::create( 
-    	_["coef"] = c, 
-    	_["stderr"] = stderr
+    	_["coefficients"] = coef, 
+    	_["stderr"] = stderr,
+		_["vcov"] = cov,
+		_["df"] = n - k
     	) ;
     
     // free all the GSL vectors and matrices -- as these are really C data structure
 	// we cannot take advantage of automatic memory management
-    c.free() ;
+    coef.free() ;
     cov.free();
     y.free();
     X.free();
