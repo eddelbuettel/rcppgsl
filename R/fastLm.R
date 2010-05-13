@@ -29,10 +29,10 @@ fastLm <- function(x, ...) UseMethod("fastLm")
 
 fastLm.default <- function(x, y, ...) {
 
+    x <- as.matrix(x)
     y <- as.numeric(y)
-    X <- as.matrix(x)
 
-    res <- fastLmCall(y, X)
+    res <- fastLmCall(y, x)
 
     res$fitted.values <- as.vector(x %*% res$coefficients)
     res$residuals <- y - res$fitted.values
@@ -43,7 +43,7 @@ fastLm.default <- function(x, y, ...) {
 }
 
 print.fastLm <- function(x, ...) {
-    cat("Call:\n")
+    cat("\nCall:\n")
     print(x$call)
     cat("\nCoefficients:\n")
     print(x$coefficients)
@@ -66,7 +66,7 @@ summary.fastLm <- function(object, ...) {
 }
 
 print.summary.fastLm <- function(x, ...) {
-    cat("Call:\n")
+    cat("\nCall:\n")
     print(x$call)
     cat("\n")
 
