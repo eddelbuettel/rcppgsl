@@ -1,2 +1,4 @@
 useDynLib(RcppGSL)
+
 #exportPattern("^[[:alpha:]]+")
+export(fastLm)
