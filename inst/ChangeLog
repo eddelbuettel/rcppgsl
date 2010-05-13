@@ -1,7 +1,16 @@
+2010-05-13  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/fastLm.R: fastLm is now generic and behaves similar to lm():
+	formula interface, returns object of class 'fastLm', and had methods
+	for print, summary and predict
+	* man/fasttLm.Rd: documented interface accordingly
+	* src/fastLm.cpp: Added covariance matrix and degrees of freedom to
+	list of result returned from C++ to R
+
 2010-05-13  Romain Francois <romain@r-enthusiasts.com>
 
 	* inst/include/*.h: wrap specializations are now inline
-	
+
 	* inst/include/*.h: new classes RcppGSL::matrix<T> and RcppGSL::matrix_view<T>
 
 2010-05-12  Dirk Eddelbuettel  <edd@debian.org>
@@ -11,7 +20,7 @@
 2010-05-12  Romain Francois <romain@r-enthusiasts.com>
 
 	* inst/include/*.h: added classes RcppGSL::vector<T> that act as smart pointers
-	to gsl_vector_* objects. This gives nicer syntax and helps Rcpp implicit 
+	to gsl_vector_* objects. This gives nicer syntax and helps Rcpp implicit
 	converters wrap and as.
 
 
