@@ -2,7 +2,7 @@
 //
 // fastLm.cpp: Rcpp and GSL based implementation of lm
 //
-// Copyright (C)  2010 Dirk Eddelbuettel, Romain Francois
+// Copyright (C)  2010 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of RcppGSL.
 //
@@ -27,18 +27,18 @@
 RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
 	using Rcpp::_ ;
 	
-	// create gsl data structures from SEXP
-	RcppGSL::vector<double> y = ys ;
-	RcppGSL::matrix<double> X = Xs ; 
+	RcppGSL::vector<double> y = ys;		// create gsl data structures from SEXP
+	RcppGSL::matrix<double> X = Xs; 
 	
-	int n=X.nrow(),k=X.ncol() ;
+	int n = X.nrow(), k = X.ncol();
     double chisq;
 
-    RcppGSL::vector<double> c(k) ;
-    RcppGSL::matrix<double> cov(k,k) ;
+    RcppGSL::vector<double> coef(k); 	// to hold the coefficient vector 
+    RcppGSL::matrix<double> cov(k,k);	// and the covariance matrix
     
+	// the actual fit requires working memory we allocate and free
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
-    gsl_multifit_linear (X, y, c, cov, &chisq, work);
+    gsl_multifit_linear (X, y, coef, cov, &chisq, work);
     gsl_multifit_linear_free (work);
      
 	// extract the diagonal as a vector view
@@ -46,21 +46,21 @@ RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
           
     // currently there is not a more direct interface in Rcpp::NumericVector
     // that takes advantage of wrap, so we have to do it in two steps
-    Rcpp::NumericVector stderr ; stderr = diag ;
-    std::transform( stderr.begin(), stderr.end(), stderr.begin(), sqrt ) ;
+    Rcpp::NumericVector stderr ; stderr = diag;
+    std::transform( stderr.begin(), stderr.end(), stderr.begin(), sqrt );
     
     Rcpp::List res = Rcpp::List::create( 
     	_["coef"] = c, 
     	_["stderr"] = stderr
     	) ;
     
-    // free all the vectors and matrices
+    // free all the GSL vectors and matrices -- as these are really C data structure
+	// we cannot take advantage of automatic memory management
     c.free() ;
     cov.free();
     y.free();
     X.free();
 	
-    // return the list to R
-    return res ;
+    return res;    // return the result list to R 
 }
 
