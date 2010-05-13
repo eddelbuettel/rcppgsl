@@ -96,6 +96,8 @@ namespace Rcpp{
 namespace RcppGSL{
 	template <typename T> class vector ;
 	template <typename T> class vector_view ;
+	template <typename T> class matrix ;
+	template <typename T> class matrix_view ;
 	
 #undef _RCPPGSL_SPEC
 #define _RCPPGSL_SPEC(__T__,__SUFFIX__,__CAST__)      	                        \
@@ -145,7 +147,51 @@ public:                                      	                                  
 		data = other.data ;                                                      \
 		return *this ;                                                           \
 	}                                                                            \
-} ;                                                                             \
+} ;                                                                              \
+template <> class matrix<__T__>  {           	                                   \
+public:                                      	                                   \
+	typedef __T__ type ;                     	                                   \
+	typedef __T__* pointer ;                 	                                   \
+	typedef gsl_matrix##__SUFFIX__ gsltype ; 	                                   \
+	gsltype* data ;                          	                                   \
+	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \
+	matrix( SEXP x) throw(::Rcpp::not_compatible) : data(0) { import(x); }       \
+	matrix( gsltype* x) : data(x) {}                                             \
+	matrix( int nrow, int ncol) :                                                \
+		data( gsl_matrix##__SUFFIX__##_alloc( nrow, ncol ) ){}                   \
+	~matrix(){ }                                                                 \
+	operator gsltype*(){ return data ; }                                         \
+	gsltype* operator->() const { return data; }                                 \
+	gsltype& operator*() const { return *data; }                                 \
+	matrix( const matrix& x) : data(x.data)  {}                                  \
+	matrix& operator=(const matrix& other) {                                     \
+		data = other.data ;                                                      \
+		return *this ;                                                           \
+	}                                                                            \
+	void free(){                                                                 \
+		gsl_matrix##__SUFFIX__##_free(data) ;                                    \
+	}                                                                            \
+private:                                                                         \
+	inline void import(SEXP x) throw(::Rcpp::not_compatible);                    \
+} ;                                                                              \
+template <> class matrix_view<__T__>  {           	                            \
+public:                                      	                                   \
+	typedef __T__ type ;                     	                                   \
+	typedef __T__* pointer ;                 	                                   \
+	typedef gsl_matrix##__SUFFIX__##_view gsltype ; 	                           \
+	gsltype* data ;                          	                                   \
+	matrix_view( gsltype* x) : data(x) {}                                        \
+	~matrix_view(){  }                                                           \
+	operator gsltype*(){ return data ; }                                         \
+	gsltype* operator->() const { return data; }                                 \
+	gsltype& operator*() const { return *data; }                                 \
+	matrix_view( const matrix_view& x) : data(x.data)  {}                        \
+	matrix_view& operator=(const matrix_view& other) {                           \
+		data = other.data ;                                                      \
+		return *this ;                                                           \
+	}                                                                            \
+} ;
+ 
 
 _RCPPGSL_SPEC(double                   ,                       , double                  )
 _RCPPGSL_SPEC(float                    , _float                , float                   )
@@ -196,6 +242,8 @@ _RCPPGSL_WRAPDEF(_ulong )
 
 	template <typename T> SEXP wrap( const ::RcppGSL::vector<T>& ) ;
 	template <typename T> SEXP wrap( const ::RcppGSL::vector_view<T>& ) ;
+	template <typename T> SEXP wrap( const ::RcppGSL::matrix<T>& ) ;
+	template <typename T> SEXP wrap( const ::RcppGSL::matrix_view<T>& ) ;
 	 
 }
 

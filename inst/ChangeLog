@@ -1,6 +1,8 @@
 2010-05-13  Romain Francois <romain@r-enthusiasts.com>
 
 	* inst/include/*.h: wrap specializations are now inline
+	
+	* inst/include/*.h: new classes RcppGSL::matrix<T> and RcppGSL::matrix_view<T>
 
 2010-05-12  Dirk Eddelbuettel  <edd@debian.org>
 

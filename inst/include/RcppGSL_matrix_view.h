@@ -51,6 +51,10 @@ RCPPGSL_VIEW(_ushort)
 RCPPGSL_VIEW(_ulong)
 #undef RCPPGSL_VIEW
 
+template <typename T> SEXP wrap( const ::RcppGSL::matrix_view<T>& x){
+	return wrap( *(x.data) ) ;
+}
+
 } 
 
 #endif

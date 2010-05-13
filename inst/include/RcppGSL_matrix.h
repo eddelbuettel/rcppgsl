@@ -94,6 +94,85 @@ RCPPGSL_WRAP_CAST(gsl_matrix_complex_long_double,gsl_complex_long_double )
 #undef RCPPGSL_WRAP
 #undef RCPPGSL_WRAP_CAST
 
+}
+
+namespace RcppGSL {
+
+#undef _RCPPGSL_DEF
+#define _RCPPGSL_DEF(__T__,__SUFFIX__)                                      \
+inline void matrix<__T__>::import( SEXP x) throw(::Rcpp::not_compatible) {  \
+	Rcpp::Matrix<RTYPE> mat( x );                                           \
+	int nc = mat.ncol() ;                                                   \
+	int nr = mat.nrow() ;                                                   \
+	int i = 0, j = 0 ;                                                      \
+	data = gsl_matrix##__SUFFIX__##_alloc( nr, nc ) ;                       \
+	Rcpp::Matrix<RTYPE>::iterator it = mat.begin() ;                        \
+	for( ; j<nc; j++){                                                      \
+		for( i=0; i<nr; i++, it++){                                         \
+			gsl_matrix##__SUFFIX__##_set( data, i, j, *it ) ;               \
+		}                                                                   \
+	}                                                                       \
+}
+#undef _RCPPGSL_DEF_CAST
+#define _RCPPGSL_DEF_CAST(__T__,__SUFFIX__,__CAST__)                        \
+inline void matrix<__T__>::import( SEXP x) throw(::Rcpp::not_compatible){   \
+	Rcpp::Matrix<RTYPE> mat( x );                                           \
+	int nc = mat.ncol() ;                                                   \
+	int nr = mat.nrow() ;                                                   \
+	int i = 0, j = 0 ;                                                      \
+	data = gsl_matrix##__SUFFIX__##_alloc( nr, nc ) ;                       \
+	Rcpp::Matrix<RTYPE>::iterator it = mat.begin() ;                        \
+	typedef Rcpp::traits::storage_type<RTYPE>::type STORAGE ;               \
+	for( ; j<nc; j++){                                                      \
+		for( i=0; i<nr; i++, it++){                                         \
+			gsl_matrix##__SUFFIX__##_set( data, i, j,                       \
+				Rcpp::internal::caster<STORAGE,__CAST__>(*it) ) ;           \
+		}                                                                   \
+	}                                                                       \
+}
+
+_RCPPGSL_DEF(double                   ,        )
+_RCPPGSL_DEF(int                      , _int   )
+_RCPPGSL_DEF(unsigned char            , _uchar )
+
+_RCPPGSL_DEF_CAST(float                    , _float                , float                   )
+_RCPPGSL_DEF_CAST(long                     , _long                 , long                    )
+_RCPPGSL_DEF_CAST(long double              , _long_double          , long double             )
+_RCPPGSL_DEF_CAST(short                    , _short                , short                   )
+_RCPPGSL_DEF_CAST(unsigned int             , _uint                 , unsigned int            )
+_RCPPGSL_DEF_CAST(unsigned short           , _ushort               , unsigned short          )
+_RCPPGSL_DEF_CAST(unsigned long            , _ulong                , unsigned long           )
+_RCPPGSL_DEF_CAST(gsl_complex              , _complex              , gsl_complex             )
+_RCPPGSL_DEF_CAST(gsl_complex_float        , _complex_float        , gsl_complex_float       )
+_RCPPGSL_DEF_CAST(gsl_complex_long_double  , _complex_long_double  , gsl_complex_long_double )
+
+inline void matrix<char>::import( SEXP x) throw(::Rcpp::not_compatible){
+	Rcpp::Matrix<RAWSXP> mat( x );                                        
+	int nc = mat.ncol() ;                                                
+	int nr = mat.nrow() ;                                                
+	int i = 0, j = 0 ;                                                   
+	data = gsl_matrix_char_alloc( nr, nc ) ;                    
+	Rcpp::Matrix<RAWSXP>::iterator it = mat.begin() ;                     
+	for( ; j<nc; j++){                                                   
+		for( i=0; i<nr; i++, it++){                                      
+			gsl_matrix_char_set( data, i, j,                    
+				static_cast<char>(*it) ) ;        
+		}                                                                
+	}                                                                    
+}
+
+#undef _RCPPGSL_DEF
+#undef _RCPPGSL_DEF_CAST
+	
+}
+
+
+namespace Rcpp{
+
+template <typename T> SEXP wrap( const ::RcppGSL::matrix<T>& x){
+	return wrap( *(x.data) ) ;
+}
+
 } 
 
 #endif

@@ -111,3 +111,9 @@ test.gsl.vector.input.SEXP <- function(){
 	checkEquals( res, sum(x), msg = "RcppGSL::vector<double>(SEXP)" )
 }
 
+test.gsl.matrix.input.SEXP <- function(){
+	x <- matrix( rnorm(20), nc = 4 )
+	res <- .Call( "test_gsl_matrix_input", x, PACKAGE = "RcppGSL" )
+	checkEquals( res, sum(x[,1]), msg = "RcppGSL::matrix<double>(SEXP)" )
+}
+
