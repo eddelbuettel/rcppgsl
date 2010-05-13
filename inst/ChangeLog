@@ -1,3 +1,11 @@
+2010-05-13  Romain Francois <romain@r-enthusiasts.com>
+
+	* inst/include/*.h: wrap specializations are now inline
+
+2010-05-12  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/fastLm.cpp : added fastLm from Rcpp examples
+
 2010-05-12  Romain Francois <romain@r-enthusiasts.com>
 
 	* inst/include/*.h: added classes RcppGSL::vector<T> that act as smart pointers

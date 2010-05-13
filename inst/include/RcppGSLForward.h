@@ -50,15 +50,46 @@ namespace Rcpp{
 	}
 	
 	namespace internal{
-		template<> gsl_complex caster<Rcomplex,gsl_complex>( Rcomplex from) ;
-		template<> Rcomplex caster<gsl_complex,Rcomplex>( gsl_complex from) ;
+	
+		template<> inline gsl_complex caster<Rcomplex,gsl_complex>( Rcomplex from){
+			gsl_complex x ;
+			GSL_REAL(x) = from.r ;
+			GSL_IMAG(x) = from.i ;
+			return x ;
+		}
+		template<> inline Rcomplex caster<gsl_complex,Rcomplex>( gsl_complex from){
+			Rcomplex x ;
+			x.r = GSL_REAL(from) ;
+			x.i = GSL_IMAG(from) ;
+			return x ;
+		}
 		
-		template<> gsl_complex_float caster<Rcomplex,gsl_complex_float>( Rcomplex from) ;
-		template<> Rcomplex caster<gsl_complex_float,Rcomplex>( gsl_complex_float from) ;
-    
-		template<> gsl_complex_long_double caster<Rcomplex,gsl_complex_long_double>( Rcomplex from) ;
-		template<> Rcomplex caster<gsl_complex_long_double,Rcomplex>( gsl_complex_long_double from) ;
-    }
+		template<> inline gsl_complex_float caster<Rcomplex,gsl_complex_float>( Rcomplex from){
+			gsl_complex_float x ;
+			GSL_REAL(x) = static_cast<float>( from.r ) ;
+			GSL_IMAG(x) = static_cast<float>( from.i ) ;
+			return x ;
+		}
+		template<> inline Rcomplex caster<gsl_complex_float,Rcomplex>( gsl_complex_float from){
+			Rcomplex x ;
+			x.r = static_cast<double>( GSL_REAL(from) ) ;
+			x.i = static_cast<double>( GSL_IMAG(from) ) ;
+			return x ;
+		}
+	
+		template<> inline gsl_complex_long_double caster<Rcomplex,gsl_complex_long_double>( Rcomplex from){
+			gsl_complex_long_double x ;
+			GSL_REAL(x) = static_cast<float>( from.r ) ;
+			GSL_IMAG(x) = static_cast<float>( from.i ) ;
+			return x ;
+		}
+		template<> inline Rcomplex caster<gsl_complex_long_double,Rcomplex>( gsl_complex_long_double from){
+			Rcomplex x ;
+			x.r = static_cast<double>( GSL_REAL(from) ) ;
+			x.i = static_cast<double>( GSL_IMAG(from) ) ;
+			return x ;
+		}
+	}
 
 }
 
@@ -116,39 +147,6 @@ public:                                      	                                  
 	}                                                                            \
 } ;                                                                             \
 
-// template <> class matrix<__T__>  {           	                                   \     
-// public:                                      	                                   \     
-// 	typedef __T__ type ;                     	                                   \     
-// 	typedef __T__* pointer ;                 	                                   \     
-// 	typedef gsl_matrix##__SUFFIX__ gsltype ; 	                                   \     
-// 	gsltype* data ;                          	                                   \     
-// 	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \       
-// 	matrix( SEXP x) throw(::Rcpp::not_compatible) : data(0) {                    \       
-// 		if( !Rf_isMatrix(x) ) throw not_compatible("not a matrix") ;             \       
-// 		SEXP y = ::Rcpp::internal::rowmajor_wrap( ) ;                            \       
-// 		data = gsl_matrix##__SUFFIX__##_calloc( size ) ;                         \       
-// 		::Rcpp::internal::export_range<__CAST__*>( y,                            \       
-// 			reinterpret_cast<__CAST__*>( data->data ) ) ;                        \       
-// 	}                                                                            \       
-// 	matrix( gsltype* x) : data(x) {}                                             \       
-// 	matrix( int nrow, int ncol) :                                                \       
-// 		data( gsl_matrix##__SUFFIX__##_alloc( nrow, ncol ) ){}                   \       
-// 	~matrix(){ }                                                                 \       
-// 	operator gsltype*(){ return data ; }                                         \       
-// 	gsltype* operator->() const { return data; }                                 \       
-// 	gsltype& operator*() const { return *data; }                                 \       
-// 	matrix( const matrix& x) : data(x.data)  {}                                  \       
-// 	matrix& operator=(const matrix& other) {                                     \       
-// 		data = other.data ;                                                      \       
-// 		return *this ;                                                           \       
-// 	}                                                                            \       
-// 	void free(){                                                                 \       
-// 		gsl_matrix##__SUFFIX__##_free(data) ;                                    \       
-// 	}                                                                            \       
-// } ;                                                                              \       
-//  
-
-
 _RCPPGSL_SPEC(double                   ,                       , double                  )
 _RCPPGSL_SPEC(float                    , _float                , float                   )
 _RCPPGSL_SPEC(int                      , _int                  , int                     )
@@ -172,96 +170,29 @@ _RCPPGSL_SPEC(gsl_complex_long_double  , _complex_long_double  , gsl_complex_lon
 /* forward declarations */
 namespace Rcpp{
 
-	template <> SEXP wrap( const gsl_vector& ) ;
-	template <> SEXP wrap( const gsl_vector_int& ) ;
-	template <> SEXP wrap( const gsl_vector_float& ) ;
-	template <> SEXP wrap( const gsl_vector_long& ) ;
-	template <> SEXP wrap( const gsl_vector_char& ) ;
-	template <> SEXP wrap( const gsl_vector_complex& ) ;
-	template <> SEXP wrap( const gsl_vector_complex_float& ) ;
-	template <> SEXP wrap( const gsl_vector_complex_long_double& ) ;
-	template <> SEXP wrap( const gsl_vector_long_double& ) ;
-	template <> SEXP wrap( const gsl_vector_short& ) ;
-	template <> SEXP wrap( const gsl_vector_uchar& ) ;
-	template <> SEXP wrap( const gsl_vector_uint& ) ;
-	template <> SEXP wrap( const gsl_vector_ushort& ) ;
-	template <> SEXP wrap( const gsl_vector_ulong& ) ;
-	
-	template <> SEXP wrap( const gsl_vector_view& ) ;
-	template <> SEXP wrap( const gsl_vector_int_view& ) ;
-	template <> SEXP wrap( const gsl_vector_float_view& ) ;
-	template <> SEXP wrap( const gsl_vector_long_view& ) ;
-	template <> SEXP wrap( const gsl_vector_char_view& ) ;
-	template <> SEXP wrap( const gsl_vector_complex_view& ) ;
-	template <> SEXP wrap( const gsl_vector_complex_float_view& ) ;
-	template <> SEXP wrap( const gsl_vector_complex_long_double_view& ) ;
-	template <> SEXP wrap( const gsl_vector_long_double_view& ) ;
-	template <> SEXP wrap( const gsl_vector_short_view& ) ;
-	template <> SEXP wrap( const gsl_vector_uchar_view& ) ;
-	template <> SEXP wrap( const gsl_vector_uint_view& ) ;
-	template <> SEXP wrap( const gsl_vector_ushort_view& ) ;
-	template <> SEXP wrap( const gsl_vector_ulong_view& ) ;
-	
-	template <> SEXP wrap( const gsl_vector_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_int_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_float_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_long_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_char_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_complex_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_complex_float_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_complex_long_double_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_long_double_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_short_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_uchar_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_uint_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_ushort_const_view& ) ;
-	template <> SEXP wrap( const gsl_vector_ulong_const_view& ) ;
+#undef _RCPPGSL_WRAPDEF
+#define _RCPPGSL_WRAPDEF(__SUFFIX__)                                          \
+template<> inline SEXP wrap( const gsl_vector##__SUFFIX__& ) ;                \
+template<> inline SEXP wrap( const gsl_vector##__SUFFIX__##_view& ) ;         \
+template<> inline SEXP wrap( const gsl_vector##__SUFFIX__##_const_view& ) ;   \
+template<> inline SEXP wrap( const gsl_matrix##__SUFFIX__& ) ;                \
+template<> inline SEXP wrap( const gsl_matrix##__SUFFIX__##_view& ) ;         \
+template<> inline SEXP wrap( const gsl_matrix##__SUFFIX__##_const_view& ) ;
 
-	
-	template <> SEXP wrap( const gsl_matrix& ) ;
-	template <> SEXP wrap( const gsl_matrix_int& ) ;
-	template <> SEXP wrap( const gsl_matrix_float& ) ;
-	template <> SEXP wrap( const gsl_matrix_long& ) ;
-	template <> SEXP wrap( const gsl_matrix_char& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex_float& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex_long_double& ) ;
-	template <> SEXP wrap( const gsl_matrix_long_double& ) ;
-	template <> SEXP wrap( const gsl_matrix_short& ) ;
-	template <> SEXP wrap( const gsl_matrix_uchar& ) ;
-	template <> SEXP wrap( const gsl_matrix_uint& ) ;
-	template <> SEXP wrap( const gsl_matrix_ushort& ) ;
-	template <> SEXP wrap( const gsl_matrix_ulong& ) ;
-	
-	template <> SEXP wrap( const gsl_matrix_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_int_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_float_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_long_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_char_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex_float_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex_long_double_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_long_double_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_short_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_uchar_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_uint_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_ushort_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_ulong_view& ) ;
-	
-	template <> SEXP wrap( const gsl_matrix_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_int_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_float_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_long_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_char_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex_float_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_complex_long_double_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_long_double_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_short_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_uchar_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_uint_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_ushort_const_view& ) ;
-	template <> SEXP wrap( const gsl_matrix_ulong_const_view& ) ;
+_RCPPGSL_WRAPDEF()
+_RCPPGSL_WRAPDEF(_int ) 
+_RCPPGSL_WRAPDEF(_float ) 
+_RCPPGSL_WRAPDEF(_long ) 
+_RCPPGSL_WRAPDEF(_char ) 
+_RCPPGSL_WRAPDEF(_complex ) 
+_RCPPGSL_WRAPDEF(_complex_float ) 
+_RCPPGSL_WRAPDEF(_complex_long_double ) 
+_RCPPGSL_WRAPDEF(_long_double ) 
+_RCPPGSL_WRAPDEF(_short ) 
+_RCPPGSL_WRAPDEF(_uchar ) 
+_RCPPGSL_WRAPDEF(_uint ) 
+_RCPPGSL_WRAPDEF(_ushort ) 
+_RCPPGSL_WRAPDEF(_ulong ) 
 
 	template <typename T> SEXP wrap( const ::RcppGSL::vector<T>& ) ;
 	template <typename T> SEXP wrap( const ::RcppGSL::vector_view<T>& ) ;

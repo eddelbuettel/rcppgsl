@@ -24,7 +24,6 @@
 
 #include <RcppGSLForward.h>
 #include <Rcpp.h>
-#include <RcppGSL_caster.h> 
 
 namespace RcppGSL{
     
@@ -56,7 +55,7 @@ template <> SEXP wrap( const __TYPE__& x){                           \
 } 
 
 #define RCPPGSL_WRAP_CAST(__TYPE__,__DATA__,__CAST__)                \
-template <> SEXP wrap( const __TYPE__& x){                           \
+template <>  SEXP wrap( const __TYPE__& x){                           \
 	return wrap( RcppGSL::gslvector_importer<__DATA__>(              \
 		reinterpret_cast<__CAST__>(x.data), x.stride, x.size ) ) ;   \
 } 

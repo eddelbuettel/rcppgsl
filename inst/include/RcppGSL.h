@@ -21,9 +21,9 @@
 #define RCPPGSL__RCPPGSL_H
 
 #include <RcppGSLForward.h>
+
 #include <Rcpp.h>
 
-#include <RcppGSL_caster.h>
 #include <RcppGSL_vector.h>
 #include <RcppGSL_matrix.h>
 #include <RcppGSL_vector_view.h>

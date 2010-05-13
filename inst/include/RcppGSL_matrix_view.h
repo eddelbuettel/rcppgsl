@@ -24,7 +24,6 @@
 
 #include <RcppGSLForward.h>
 #include <Rcpp.h>
-#include <RcppGSL_caster.h> 
 
 namespace Rcpp{
 
