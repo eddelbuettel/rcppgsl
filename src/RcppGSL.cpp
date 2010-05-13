@@ -238,3 +238,13 @@ RCPP_FUNCTION_1( double, test_gsl_matrix_input, RcppGSL::matrix<double> mat){
 	return res ;
 }
 
+RCPP_FUNCTION_0(Rcpp::IntegerVector, test_gsl_vector_conv){
+	RcppGSL::vector<int> vec(10) ;
+	for( int i=0; i<10; i++){
+		gsl_vector_int_set( vec, i, i ) ;	
+	}
+	Rcpp::IntegerVector x ; 
+	x = vec ;
+	return x ;
+}
+
