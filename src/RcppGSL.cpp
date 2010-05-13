@@ -1,8 +1,8 @@
 // -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 4 -*-
 //
-// RcppGSL.cpp: Rcpp/Armadillo glue
+// RcppGSL.cpp: Rcpp/GSL glue
 //
-// Copyright (C)  2010 Dirk Eddelbuettel, Romain Francois and Douglas Bates
+// Copyright (C)  2010 Dirk Eddelbuettel, Romain Francois
 //
 // This file is part of RcppGSL.
 //
@@ -18,7 +18,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
-
 
 #include <RcppGSL.h>
 
