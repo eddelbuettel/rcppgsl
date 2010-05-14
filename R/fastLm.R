@@ -48,7 +48,7 @@ print.fastLm <- function(x, ...) {
     cat("\nCall:\n")
     print(x$call)
     cat("\nCoefficients:\n")
-    print(x$coefficients)
+    print(x$coefficients, digits=5)
 }
 
 summary.fastLm <- function(object, ...) {
