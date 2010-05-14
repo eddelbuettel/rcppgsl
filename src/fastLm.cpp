@@ -52,7 +52,6 @@ RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
     Rcpp::List res = Rcpp::List::create( 
     	_["coefficients"] = coef, 
     	_["stderr"] = stderr,
-		_["vcov"] = cov,
 		_["df"] = n - k
     	) ;
     

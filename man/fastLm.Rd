@@ -62,10 +62,9 @@ fastLm(x, ...)
 }
 
 \value{
-  \code{fastLmCall} returns a list with four components:
+  \code{fastLmCall} returns a list with three components:
   \item{coefficients}{a vector of coefficients}
   \item{stderr}{a vector of the (estimated) standard errors of the coefficient estimates}
-  \item{vcov}{the covariance matrix of the estimates}
   \item{df}{a scalar denoting the degrees of freedom in the model}
   
   \code{fastLm} returns a richer object which also includes the

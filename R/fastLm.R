@@ -34,7 +34,6 @@ fastLm.default <- function(x, y, ...) {
 
     res <- fastLmCall(y, x)
     names(res$coefficients) <- colnames(x)
-    colnames(res$vcov) <- rownames(res$vcov) <- colnames(x)
 
     res$fitted.values <- as.vector(x %*% res$coefficients)
     res$residuals <- y - res$fitted.values
