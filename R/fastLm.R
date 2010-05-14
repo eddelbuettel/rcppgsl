@@ -33,6 +33,8 @@ fastLm.default <- function(x, y, ...) {
     y <- as.numeric(y)
 
     res <- fastLmCall(y, x)
+    names(res$coefficients) <- colnames(x)
+    colnames(res$vcov) <- rownames(res$vcov) <- colnames(x)
 
     res$fitted.values <- as.vector(x %*% res$coefficients)
     res$residuals <- y - res$fitted.values
@@ -79,8 +81,6 @@ fastLm.formula <- function(formula, data=list(), ...) {
     y <- model.response(mf)
 
     res <- fastLm.default(x, y, ...)
-    names(res$coefficients) <- colnames(x)
-    colnames(res$vcov) <- rownames(res$vcov) <- colnames(x)
     res$call <- match.call()
     res$formula <- formula
     res
