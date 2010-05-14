@@ -38,12 +38,12 @@ fastLm(x, ...)
   Linear models should be estimated using the \code{\link{lm}} function. In
   some cases, \code{\link{lm.fit}} may be appropriate.
 
-  This function provides a reference use case of the \code{GSL}
+  The \code{fastLmCall} function provides a reference use case of the \code{GSL}
   library via the wrapper functions in the \pkg{RcppGSL} package.
-
-  It does not provide a formula interface. It does check for missing
-  values. It does (yet?) return a proper object with suitable accessor
-  functions. That's why we call it bare-bones.
+  
+  The \code{fastLm} function provides a more standard implementation of
+  a linear model fit, offering both a default and a formula interface as
+  well as \code{print}, \code{summary} and \code{predict} methods.
 
   Lastly, one must be be careful in timing comparisons of
   \code{\link{lm}} and friends versus this approach based on \code{GSL}
@@ -59,17 +59,18 @@ fastLm(x, ...)
   \dQuote{pivot only on (apparent) rank deficiency} and numerical
   analysts have no idea why statisticians want this so it is not part of
   conventional linear algebra software.
-
 }
 
 \value{
-  \code{fastLm} returns a list with two components:
-  \item{coefficients}{a vector of coefficients} \item{stderr}{a vector
-  of the (estimated) standard errors of the coefficient estimates}
-
-  In other words, no actual \sQuote{fastLm} object is provided unlike
-  for \code{\link{lm}} or \code{\link[MASS]{rlm}} but rather just a
-  simple list unlike \code{\link{lm.fit}}.
+  \code{fastLmCall} returns a list with four components:
+  \item{coefficients}{a vector of coefficients}
+  \item{stderr}{a vector of the (estimated) standard errors of the coefficient estimates}
+  \item{vcov}{the covariance matrix of the estimates}
+  \item{df}{a scalar denoting the degrees of freedom in the model}
+  
+  \code{fastLm} returns a richer object which also includes the
+  residuals and call similar to the \code{\link{lm}} or
+  \code{\link[MASS]{rlm}} functions..
 }
 \seealso{\code{\link{lm}}, \code{\link{lm.fit}}} 
 \references{GNU GSL project: \url{http://www.gnu.org/software/gsl}}
