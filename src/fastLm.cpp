@@ -24,44 +24,51 @@
 #include <gsl/gsl_multifit.h>
 #include <cmath>
 
-RCPP_FUNCTION_2( Rcpp::List, fastLm, SEXP ys, SEXP Xs ){
-	using Rcpp::_ ;
-	
-	RcppGSL::vector<double> y = ys;		// create gsl data structures from SEXP
-	RcppGSL::matrix<double> X = Xs; 
-	
-	int n = X.nrow(), k = X.ncol();
-    double chisq;
+extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
 
-    RcppGSL::vector<double> coef(k); 	// to hold the coefficient vector 
-    RcppGSL::matrix<double> cov(k,k);	// and the covariance matrix
-    
-	// the actual fit requires working memory we allocate and free
-    gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
-    gsl_multifit_linear (X, y, coef, cov, &chisq, work);
-    gsl_multifit_linear_free (work);
-     
-	// extract the diagonal as a vector view
-    gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
-          
-    // currently there is not a more direct interface in Rcpp::NumericVector
-    // that takes advantage of wrap, so we have to do it in two steps
-    Rcpp::NumericVector stderr ; stderr = diag;
-    std::transform( stderr.begin(), stderr.end(), stderr.begin(), sqrt );
-    
-    Rcpp::List res = Rcpp::List::create( 
-    	_["coefficients"] = coef, 
-    	_["stderr"] = stderr,
-		_["df"] = n - k
-    	) ;
-    
-    // free all the GSL vectors and matrices -- as these are really C data structure
-	// we cannot take advantage of automatic memory management
-    coef.free() ;
-    cov.free();
-    y.free();
-    X.free();
+    try {
 	
-    return res;    // return the result list to R 
+		RcppGSL::vector<double> y = ys;		// create gsl data structures from SEXP
+		RcppGSL::matrix<double> X = Xs; 
+	
+		int n = X.nrow(), k = X.ncol();
+		double chisq;
+
+		RcppGSL::vector<double> coef(k); 	// to hold the coefficient vector 
+		RcppGSL::matrix<double> cov(k,k);	// and the covariance matrix
+    
+		// the actual fit requires working memory we allocate and free
+		gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
+		gsl_multifit_linear (X, y, coef, cov, &chisq, work);
+		gsl_multifit_linear_free (work);
+     
+		// extract the diagonal as a vector view
+		gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
+          
+		// currently there is not a more direct interface in Rcpp::NumericVector
+		// that takes advantage of wrap, so we have to do it in two steps
+		Rcpp::NumericVector stderr ; stderr = diag;
+		std::transform( stderr.begin(), stderr.end(), stderr.begin(), sqrt );
+
+		Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
+											Rcpp::Named("stderr") = stderr,
+											Rcpp::Named("df") = n - k);
+
+		// free all the GSL vectors and matrices -- as these are really C data structure
+		// we cannot take advantage of automatic memory management
+		coef.free() ;
+		cov.free();
+		y.free();
+		X.free();
+
+		return res;    // return the result list to R 
+	    
+    } catch( std::exception &ex ) {
+		forward_exception_to_r( ex );
+
+    } catch(...) { 
+		::Rf_error( "c++ exception (unknown reason)" ); 
+    }
+    
 }
 
