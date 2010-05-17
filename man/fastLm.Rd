@@ -1,6 +1,6 @@
 \name{fastLm}
 \alias{fastLm}
-\alias{fastLmCall}
+\alias{fastLmPure}
 \alias{fastLm.default}
 \alias{fastLm.formula}
 \alias{print.fastLm}
@@ -14,7 +14,7 @@
   function of the \code{GNU GSL} library.
 }
 \usage{
-fastLmCall(y, X)
+fastLmPure(y, X)
 
 fastLm(x, ...)
 \method{fastLm}{default}(x, y, ...)
@@ -38,7 +38,7 @@ fastLm(x, ...)
   Linear models should be estimated using the \code{\link{lm}} function. In
   some cases, \code{\link{lm.fit}} may be appropriate.
 
-  The \code{fastLmCall} function provides a reference use case of the \code{GSL}
+  The \code{fastLmPure} function provides a reference use case of the \code{GSL}
   library via the wrapper functions in the \pkg{RcppGSL} package.
   
   The \code{fastLm} function provides a more standard implementation of
@@ -62,7 +62,7 @@ fastLm(x, ...)
 }
 
 \value{
-  \code{fastLmCall} returns a list with three components:
+  \code{fastLmPure} returns a list with three components:
   \item{coefficients}{a vector of coefficients}
   \item{stderr}{a vector of the (estimated) standard errors of the coefficient estimates}
   \item{df}{a scalar denoting the degrees of freedom in the model}
@@ -83,7 +83,7 @@ fastLm(x, ...)
   data(trees)
 
   ## bare-bones direct interface
-  flm <- fastLmCall( log(trees$Volume),  cbind(1, log(trees$Girth)) )
+  flm <- fastLmPure( log(trees$Volume),  cbind(1, log(trees$Girth)) )
   print(flm)
 
   ## standard R interface for formula or data returning object of class fastLm
