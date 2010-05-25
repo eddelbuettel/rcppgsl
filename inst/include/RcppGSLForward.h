@@ -98,13 +98,28 @@ namespace RcppGSL{
 	template <typename T> class matrix ;
 	
 #undef _RCPPGSL_SPEC
-#define _RCPPGSL_SPEC(__T__,__SUFFIX__,__CAST__)      	                        \
+#define _RCPPGSL_SPEC(__T__,__SUFFIX__,__CAST__)                                 \
 template <> class vector<__T__>  {           	                                   \
 public:                                      	                                   \
 	typedef __T__ type ;                     	                                   \
 	typedef __T__* pointer ;                 	                                   \
 	typedef gsl_vector##__SUFFIX__ gsltype ; 	                                   \
-	gsltype* data ;                          	                                   \
+	gsltype* data ;                            	                               \
+	class Proxy {                                                                \
+	public:                                                                      \
+		Proxy( gsltype* data_, int index_ ) :  index(index_), parent(data_){}    \
+		Proxy& operator=( type x) {                                              \
+			gsl_vector##__SUFFIX__##_set( parent, index, x ) ;                     \
+			return *this ;                                                       \
+		}                                                                        \
+		inline operator type() {                                                 \
+			return gsl_vector##__SUFFIX__##_get( parent, index ) ;               \
+		}                                                                        \
+		inline void move(int d){ index += d ; }                                  \
+		int index ;                                                              \
+		gsltype* parent ;                                                        \
+	} ;                                                                          \
+	typedef ::Rcpp::internal::Proxy_Iterator<Proxy> iterator ;                   \
 	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \
 	vector( SEXP x) throw(::Rcpp::not_compatible) : data(0) {                    \
 		SEXP y = ::Rcpp::r_cast<RTYPE>(x) ;                                      \
@@ -125,8 +140,13 @@ public:                                      	                                  
 		data = other.data ;                                                      \
 		return *this ;                                                           \
 	}                                                                            \
-	inline size_t size(){ return data->size ; }                                  \
-	void free(){                                                                 \
+    inline Proxy operator[]( int i ) {                                           \
+    	return Proxy( data, i ) ;                                                \
+    }                                                                            \
+	inline iterator begin(){ return iterator( Proxy(*this, 0 ) ) ; }             \
+    inline iterator end(){ return iterator( Proxy(*this, data->size ) ) ; }      \
+    inline size_t size(){ return data->size ; }                                  \
+	inline void free(){                                                          \
 		gsl_vector##__SUFFIX__##_free(data) ;                                    \
 	}                                                                            \
 } ;                                                                              \
@@ -176,7 +196,7 @@ _RCPPGSL_SPEC(gsl_complex_float        , _complex_float        , gsl_complex_flo
 _RCPPGSL_SPEC(gsl_complex_long_double  , _complex_long_double  , gsl_complex_long_double )
 
 #undef _RCPPGSL_SPEC
- 
+
 }
 
 

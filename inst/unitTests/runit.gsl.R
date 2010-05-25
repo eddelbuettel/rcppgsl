@@ -122,3 +122,14 @@ test.gsl.RcppGSL.vector <- function(){
 	checkEquals( res, 0:9, msg = "RcppGSL::vector<int> -> IntegerVector" )
 }
 
+test.gsl.RcppGSL.vector.indexing <- function(){
+	res <- .Call( "test_gsl_vector_indexing", seq(0.5, 10.5), PACKAGE = "RcppGSL" )
+	checkEquals( res, seq( 1.5, 11.5 ) )
+}
+
+test.gsl.RcppGSL.vector.iterating <- function(){
+	x   <-  seq(0.5, 10.5)
+	res <- .Call( "test_gsl_vector_iterating", x , PACKAGE = "RcppGSL" )
+	checkEquals( res, sum(x) )
+}
+

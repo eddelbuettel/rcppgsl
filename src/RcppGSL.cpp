@@ -248,3 +248,14 @@ RCPP_FUNCTION_0(Rcpp::IntegerVector, test_gsl_vector_conv){
 	return x ;
 }
 
+RCPP_FUNCTION_1(RcppGSL::vector<double>, test_gsl_vector_indexing, RcppGSL::vector<double> vec ){
+	for( size_t i=0; i< vec.size(); i++){
+		vec[i] = vec[i] + 1.0 ;
+	}
+	return vec ;
+}
+
+RCPP_FUNCTION_1(double, test_gsl_vector_iterating, RcppGSL::vector<double> vec ){
+	return std::accumulate( vec.begin(), vec.end(), 0.0 ); 
+}
+

@@ -1,7 +1,7 @@
 Package: RcppGSL
 Type: Package
 Title: Glue between Rcpp and the GNU GSL
-Version: 0.0.2
+Version: 0.0.3
 Date: 2010-04-04
 Author: Romain Francois and Dirk Eddelbuettel
 Maintainer: Dirk Eddelbuettel and Romain Francois <RomainAndDirk@r-enthusiasts.com>

@@ -1,3 +1,8 @@
+2010-05-25  Romain Francois <romain@r-enthusiasts.com>
+
+	* inst/include/RcppGSLForward.h : add indexing operator, stl iterator and 
+	begin() and end() methods to RcppGSL::vector using proxy classes
+
 2010-05-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/fastLm.R: fastLm is now generic and behaves similar to lm():
