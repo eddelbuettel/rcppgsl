@@ -5,6 +5,11 @@
 	
 	* inst/include/RcppGSLForward.h : RcppGSL::matrix gets indexing 
 	operator(int,int)
+	
+	* configure.win: added empty configure.win so that R CMD check does not
+	get jealous about the configure script
+	
+	* src/Makevars.win: use Brian Ripley's suggestions to anticipate R 2.12.0
 
 2010-05-13  Dirk Eddelbuettel  <edd@debian.org>
 
