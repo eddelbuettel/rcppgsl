@@ -234,7 +234,7 @@ extern "C" SEXP test_gsl_vector_view(){
 \end{verbatim}
 
 As with vectors, c++ objects \texttt{RcppGSL::vector\_view} can be implicitely 
-converted to their associated gsl view type, as listed in table~\ref{tabviews}
+converted to their associated gsl view type, as listed in table \ref{tabviews}
 so that they can be passed to compatible gsl algorithms.
 
 \begin{table}
@@ -244,20 +244,20 @@ so that they can be passed to compatible gsl algorithms.
 \hline
 gsl vector views & RcppGSL \\
 \hline
-\texttt{gsl\_vector\_view} & \texttt{RcppGSL::vector_view<double>} \\
-\texttt{gsl\_vector\_view\_int} & 	\texttt{RcppGSL::vector_view<int>} \\ 
-\texttt{gsl\_vector\_view\_float} & 	\texttt{RcppGSL::vector_view<float>} \\ 
-\texttt{gsl\_vector\_view\_long} & 	\texttt{RcppGSL::vector_view<long>} \\ 
-\texttt{gsl\_vector\_view\_char} & 	\texttt{RcppGSL::vector_view<char>} \\ 
-\texttt{gsl\_vector\_view\_complex} & 	\texttt{RcppGSL::vector_view<gsl\_complex>} \\ 
-\texttt{gsl\_vector\_view\_complex\_float} & \texttt{RcppGSL::vector_view<gsl\_complex\_float>} \\ 
-\texttt{gsl\_vector\_view\_complex\_long\_double} & 	\texttt{RcppGSL::vector_view<gsl\_complex\_long\_double>} \\ 
-\texttt{gsl\_vector\_view\_long\_double} & 	\texttt{RcppGSL::vector_view<long double>} \\ 
-\texttt{gsl\_vector\_view\_short} & 	\texttt{RcppGSL::vector_view<short>} \\ 
-\texttt{gsl\_vector\_view\_uchar} & 	\texttt{RcppGSL::vector_view<unsigned char>} \\ 
-\texttt{gsl\_vector\_view\_uint} & 	\texttt{RcppGSL::vector_view<unsigned int>} \\ 
-\texttt{gsl\_vector\_view\_ushort} & 	\texttt{RcppGSL::vector_view<insigned short>} \\ 
-\texttt{gsl\_vector\_view\_ulong} & 	\texttt{RcppGSL::vector_view<unsigned long>} \\
+\texttt{gsl\_vector\_view} & \texttt{RcppGSL::vector\_view<double>} \\
+\texttt{gsl\_vector\_view\_int} & 	\texttt{RcppGSL::vector\_view<int>} \\ 
+\texttt{gsl\_vector\_view\_float} & 	\texttt{RcppGSL::vector\_view<float>} \\ 
+\texttt{gsl\_vector\_view\_long} & 	\texttt{RcppGSL::vector\_view<long>} \\ 
+\texttt{gsl\_vector\_view\_char} & 	\texttt{RcppGSL::vector\_view<char>} \\ 
+\texttt{gsl\_vector\_view\_complex} & 	\texttt{RcppGSL::vector\_view<gsl\_complex>} \\ 
+\texttt{gsl\_vector\_view\_complex\_float} & \texttt{RcppGSL::vector\_view<gsl\_complex\_float>} \\ 
+\texttt{gsl\_vector\_view\_complex\_long\_double} & 	\texttt{RcppGSL::vector\_view<gsl\_complex\_long\_double>} \\ 
+\texttt{gsl\_vector\_view\_long\_double} & 	\texttt{RcppGSL::vector\_view<long double>} \\ 
+\texttt{gsl\_vector\_view\_short} & 	\texttt{RcppGSL::vector\_view<short>} \\ 
+\texttt{gsl\_vector\_view\_uchar} & 	\texttt{RcppGSL::vector\_view<unsigned char>} \\ 
+\texttt{gsl\_vector\_view\_uint} & 	\texttt{RcppGSL::vector\_view<unsigned int>} \\ 
+\texttt{gsl\_vector\_view\_ushort} & 	\texttt{RcppGSL::vector\_view<insigned short>} \\ 
+\texttt{gsl\_vector\_view\_ulong} & 	\texttt{RcppGSL::vector\_view<unsigned long>} \\
  
 \hline
 \end{tabular}
