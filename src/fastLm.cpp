@@ -47,11 +47,11 @@ extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
           
 		// currently there is not a more direct interface in Rcpp::NumericVector
 		// that takes advantage of wrap, so we have to do it in two steps
-		Rcpp::NumericVector stderr ; stderr = diag;
-		std::transform( stderr.begin(), stderr.end(), stderr.begin(), sqrt );
+		Rcpp::NumericVector std_err ; stderr = diag;
+		std::transform( std_err.begin(), std_err.end(), std_err.begin(), sqrt );
 
 		Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
-											Rcpp::Named("stderr") = stderr,
+											Rcpp::Named("stderr") = std_err,
 											Rcpp::Named("df") = n - k);
 
 		// free all the GSL vectors and matrices -- as these are really C data structure
