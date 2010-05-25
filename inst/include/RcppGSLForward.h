@@ -115,9 +115,9 @@ public:                                      	                                  
 		inline operator type() {                                                 \
 			return gsl_vector##__SUFFIX__##_get( parent, index ) ;               \
 		}                                                                        \
-		inline void move(int d){ index += d ; }                                  \
 		int index ;                                                              \
 		gsltype* parent ;                                                        \
+		inline void move(int d){ index += d ; }                                  \
 	} ;                                                                          \
 	typedef ::Rcpp::internal::Proxy_Iterator<Proxy> iterator ;                   \
 	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \
@@ -157,6 +157,21 @@ public:                                      	                                  
 	typedef gsl_matrix##__SUFFIX__ gsltype ; 	                                   \
 	gsltype* data ;                          	                                   \
 	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \
+	class Proxy {                                                                \
+	public:                                                                      \
+		Proxy( gsltype* data_, int row_, int col_ ) :                            \
+			row(row_), col(col_), parent(data_){}                                \
+		Proxy& operator=( type x) {                                              \
+			gsl_matrix##__SUFFIX__##_set( parent, row, col, x ) ;                \
+			return *this ;                                                       \
+		}                                                                        \
+		inline operator type() {                                                 \
+			return gsl_matrix##__SUFFIX__##_get( parent, row, col ) ;            \
+		}                                                                        \
+		int row ;                                                                \
+		int col ;                                                                \
+		gsltype* parent ;                                                        \
+	} ;                                                                          \
 	matrix( SEXP x) throw(::Rcpp::not_compatible) : data(0) { import(x); }       \
 	matrix( gsltype* x) : data(x) {}                                             \
 	matrix( int nrow, int ncol) :                                                \
@@ -173,6 +188,9 @@ public:                                      	                                  
 	inline size_t nrow(){ return data->size1 ; }                                 \
 	inline size_t ncol(){ return data->size2 ; }                                 \
 	inline size_t size(){ return data->size1 * data->size2 ; }                   \
+	inline Proxy operator()( int row, int col){                                  \
+		return Proxy( *this, row, col ) ;                                        \
+	}                                                                            \
 	void free(){                                                                 \
 		gsl_matrix##__SUFFIX__##_free(data) ;                                    \
 	}                                                                            \

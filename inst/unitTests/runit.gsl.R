@@ -133,3 +133,9 @@ test.gsl.RcppGSL.vector.iterating <- function(){
 	checkEquals( res, sum(x) )
 }
 
+test.gsl.RcppGSL.matrix.indexing <- function(){
+	m   <- matrix( 1:16+.5, nr = 4 )
+	res <- .Call( "test_gsl_matrix_indexing", m , PACKAGE = "RcppGSL" )
+	checkEquals( res, m+1 )
+}
+

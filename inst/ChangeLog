@@ -2,6 +2,9 @@
 
 	* inst/include/RcppGSLForward.h : add indexing operator, stl iterator and 
 	begin() and end() methods to RcppGSL::vector using proxy classes
+	
+	* inst/include/RcppGSLForward.h : RcppGSL::matrix gets indexing 
+	operator(int,int)
 
 2010-05-13  Dirk Eddelbuettel  <edd@debian.org>
 

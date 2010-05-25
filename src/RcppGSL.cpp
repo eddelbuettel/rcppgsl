@@ -259,3 +259,12 @@ RCPP_FUNCTION_1(double, test_gsl_vector_iterating, RcppGSL::vector<double> vec )
 	return std::accumulate( vec.begin(), vec.end(), 0.0 ); 
 }
 
+RCPP_FUNCTION_1(RcppGSL::matrix<double>, test_gsl_matrix_indexing, RcppGSL::matrix<double> mat ){
+	for( size_t i=0; i< mat.nrow(); i++){
+		for( size_t j=0; j< mat.ncol(); j++){
+			mat(i,j) = mat(i,j) + 1.0 ;
+		}
+	}
+	return mat ;
+}
+
