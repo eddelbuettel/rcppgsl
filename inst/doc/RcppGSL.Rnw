@@ -31,8 +31,8 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
   generators, special functions and least-squares fitting. 
   There are over 1000 functions in total with an extensive test suite.
   
-  The \texttt{Rcpp} package is a simple package that provides a bridge 
-  between \texttt{GSL} data structures and \texttt{Rcpp}. 
+  The \texttt{RcppGSL} package is a simple package that provides a bridge 
+  between \texttt{GSL} data structures and \texttt{Rcpp} concepts. 
 }
 
 \section{vectors}
@@ -99,13 +99,13 @@ RcppGSL::vector<double> v(3);
 
 // fill the vector
 for (i = 0; i < 3; i++) {
-  gsl_vector_set (v, i, 1.23 + i);
+  v[i] = 1.23 + i ;
 }
 
 // access elements
 double sum = 0.0 ;
 for (i = 0; i < 3; i++) {
-	 sum += gsl_vector_set( v, i ) ;
+	 sum += v[i] ;
 }
 
 // free the memory
@@ -125,11 +125,8 @@ template specialization:
 
 \begin{verbatim}
 RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
-  int n = vec->size ;
-  int res ;
-  for( int i=0; i<n; i++){
-    res += gsl_vector_int_get( vec, i ) ;
-  }
+  int n = vec.size() ;
+  int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
   vec.free() ;
   return res ;
 }
@@ -157,7 +154,7 @@ RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
   RcppGSL::vector<int> y = data["y"] ;
   double res = 0.0 ;
   for( int i=0; i< x->size; i++){
-    res += gsl_vector_get( x, i) * gsl_vector_int_get( y, i) ;
+    res += x[i] * y[i] ;
   }
   
   // as usual with GSL, we need to explicitely free the 
@@ -213,29 +210,62 @@ in RcppGSL.}
 \section{vector views}
 
 Several \texttt{GSL} algorithms return GSL vector views as result. \texttt{RcppGSL}
-defines implicit converters that allow vector views to be used in 
-\texttt{Rcpp} data structures. For example, this code first creates
-a GSL vector, then extract the odd and even parts using GSL functions: 
+defines the template class \texttt{RcppGSL::vector\_view} to handle 
+vector views using C++ syntax. 
 
 \begin{verbatim}
 extern "C" SEXP test_gsl_vector_view(){
   int n = 10 ;
-  gsl_vector *v = gsl_vector_calloc (n);
+  RcppGSL::vector<double> v(n) ;
   for( int i=0 ; i<n; i++){
-    gsl_vector_set( v, i, i ) ;	
+    v[i] = i ;	
   }
-  gsl_vector_view v_even = gsl_vector_subvector_with_stride(v, 0, 2, n/2);
-  gsl_vector_view v_odd  = gsl_vector_subvector_with_stride(v, 1, 2, n/2);
+  RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(v, 0, 2, n/2);
+  RcppGSL::vector_view<double> v_odd  = gsl_vector_subvector_with_stride(v, 1, 2, n/2);
   
   List res = List::create( 
     _["even"] = v_even, 
     _["odd" ] = v_odd
     ) ;
-  gsl_vector_free(v);
+  v.free() ;
   
   return res ;
 }
 \end{verbatim}
-      
+
+As with vectors, c++ objects \texttt{RcppGSL::vector\_view} can be implicitely 
+converted to their associated gsl view type, as listed in table~\ref{tabviews}
+so that they can be passed to compatible gsl algorithms.
+
+\begin{table}
+\centering
+\begin{small}
+\begin{tabular}{ll}
+\hline
+gsl vector views & RcppGSL \\
+\hline
+\texttt{gsl\_vector\_view} & \texttt{RcppGSL::vector_view<double>} \\
+\texttt{gsl\_vector\_view\_int} & 	\texttt{RcppGSL::vector_view<int>} \\ 
+\texttt{gsl\_vector\_view\_float} & 	\texttt{RcppGSL::vector_view<float>} \\ 
+\texttt{gsl\_vector\_view\_long} & 	\texttt{RcppGSL::vector_view<long>} \\ 
+\texttt{gsl\_vector\_view\_char} & 	\texttt{RcppGSL::vector_view<char>} \\ 
+\texttt{gsl\_vector\_view\_complex} & 	\texttt{RcppGSL::vector_view<gsl\_complex>} \\ 
+\texttt{gsl\_vector\_view\_complex\_float} & \texttt{RcppGSL::vector_view<gsl\_complex\_float>} \\ 
+\texttt{gsl\_vector\_view\_complex\_long\_double} & 	\texttt{RcppGSL::vector_view<gsl\_complex\_long\_double>} \\ 
+\texttt{gsl\_vector\_view\_long\_double} & 	\texttt{RcppGSL::vector_view<long double>} \\ 
+\texttt{gsl\_vector\_view\_short} & 	\texttt{RcppGSL::vector_view<short>} \\ 
+\texttt{gsl\_vector\_view\_uchar} & 	\texttt{RcppGSL::vector_view<unsigned char>} \\ 
+\texttt{gsl\_vector\_view\_uint} & 	\texttt{RcppGSL::vector_view<unsigned int>} \\ 
+\texttt{gsl\_vector\_view\_ushort} & 	\texttt{RcppGSL::vector_view<insigned short>} \\ 
+\texttt{gsl\_vector\_view\_ulong} & 	\texttt{RcppGSL::vector_view<unsigned long>} \\
+ 
+\hline
+\end{tabular}
+\end{small}
+\caption{\label{tabviews}Correspondance between GSL vector view types and templates defined
+in RcppGSL.}
+\end{table}
+
+
 \end{document}
 

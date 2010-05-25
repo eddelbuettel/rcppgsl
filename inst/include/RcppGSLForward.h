@@ -235,6 +235,7 @@ public:
 	typedef typename vector<T>::Proxy Proxy ;
 	
 	vector_view( view_type view_ ) : view(view_), vec(&view_.vector) {} 
+	inline operator view_type(){ return view ; }
 	inline Proxy operator[]( int i){ 
 		return vec[i] ;
 	}
@@ -256,7 +257,7 @@ public:
 	typedef typename matrix<T>::Proxy Proxy ;
 	
 	matrix_view( view_type view_ ) : view(view_), mat(&view_.matrix) {} 
-	
+	inline operator view_type(){ return view; }
 	inline Proxy operator()(int row, int col){
 		return mat(row,col);
 	}
