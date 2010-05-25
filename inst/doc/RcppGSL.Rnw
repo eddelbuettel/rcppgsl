@@ -267,5 +267,9 @@ in RcppGSL.}
 \end{table}
 
 
+\section{matrices}
+
+TODO: write content about \texttt{RcppGSL::matrix} and \texttt{RcppGSL::matrix\_view}
+
 \end{document}
 
