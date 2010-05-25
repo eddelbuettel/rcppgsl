@@ -96,9 +96,18 @@ namespace Rcpp{
 namespace RcppGSL{
 	template <typename T> class vector ;
 	template <typename T> class matrix ;
+	template <typename T> struct vector_view_type ;
+	template <typename T> struct matrix_view_type ;
+	
 	
 #undef _RCPPGSL_SPEC
 #define _RCPPGSL_SPEC(__T__,__SUFFIX__,__CAST__)                                 \
+template <> struct vector_view_type<__T__> {                                     \
+	typedef gsl_vector##__SUFFIX__##_view type ;                                 \
+} ;                                                                              \
+template <> struct matrix_view_type<__T__> {                                     \
+	typedef gsl_matrix##__SUFFIX__##_view type ;                                 \
+} ;                                                                              \
 template <> class vector<__T__>  {           	                                   \
 public:                                      	                                   \
 	typedef __T__ type ;                     	                                   \
@@ -215,6 +224,51 @@ _RCPPGSL_SPEC(gsl_complex_long_double  , _complex_long_double  , gsl_complex_lon
 
 #undef _RCPPGSL_SPEC
 
+template <typename T> class vector_view {
+public:
+	typedef vector<T> VEC  ;
+	typedef typename vector<T>::type type ;
+	typedef typename vector<T>::iterator iterator ;
+	
+	typedef typename vector<T>::gsltype gsltype ;
+	typedef typename vector_view_type<T>::type view_type ;
+	typedef typename vector<T>::Proxy Proxy ;
+	
+	vector_view( view_type view_ ) : view(view_), vec(&view_.vector) {} 
+	inline Proxy operator[]( int i){ 
+		return vec[i] ;
+	}
+	inline iterator begin(){ return vec.begin() ; }
+	inline iterator end(){ return vec.end() ; }
+	inline size_t size(){ return vec.size(); }
+	
+	view_type view ;
+private:
+	VEC vec ;
+} ;
+
+template <typename T> class matrix_view {
+public:
+	typedef matrix<T> MAT  ;
+	typedef typename matrix<T>::type type ;
+	typedef typename matrix<T>::gsltype gsltype ;
+	typedef typename matrix_view_type<T>::type view_type ;
+	typedef typename matrix<T>::Proxy Proxy ;
+	
+	matrix_view( view_type view_ ) : view(view_), mat(&view_.matrix) {} 
+	
+	inline Proxy operator()(int row, int col){
+		return mat(row,col);
+	}
+	inline size_t nrow(){ return mat.nrow() ; }              
+	inline size_t ncol(){ return mat.ncol() ; }              
+	inline size_t size(){ return mat.size() ; }
+	
+	view_type view ;
+private:
+	MAT mat ;
+} ;
+
 }
 
 
@@ -247,7 +301,10 @@ _RCPPGSL_WRAPDEF(_ulong )
 
 	template <typename T> SEXP wrap( const ::RcppGSL::vector<T>& ) ;
 	template <typename T> SEXP wrap( const ::RcppGSL::matrix<T>& ) ;
-	 
+	
+	template <typename T> SEXP wrap( const ::RcppGSL::vector_view<T>& ) ;
+	template <typename T> SEXP wrap( const ::RcppGSL::matrix_view<T>& ) ;
+	
 }
 
 #endif

@@ -98,11 +98,20 @@ test.gsl.vector.view <- function(){
 	checkEquals( res,
 		list( even = 2.0 * 0:4, odd = 2.0 * 0:4 + 1.0 ),
 		msg = "wrap( gsl.vector.view )" )
+		
+	res <- .Call( "test_gsl_vector_view_wrapper", PACKAGE = "RcppGSL" )
+	checkEquals( res,
+		list( even = 2.0 * 0:4, odd = 2.0 * 0:4 + 1.0 ),
+		msg = "wrap( gsl.vector.view.wrapper )" )
 }
 
 test.gsl.matrix.view <- function(){
 	res <- .Call( "test_gsl_matrix_view", PACKAGE = "RcppGSL" )
 	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view)" )
+	
+	res <- .Call( "test_gsl_matrix_view_wrapper", PACKAGE = "RcppGSL" )
+	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view.wrapper)" )
+	
 }
       
 test.gsl.vector.input.SEXP <- function(){
@@ -137,5 +146,16 @@ test.gsl.RcppGSL.matrix.indexing <- function(){
 	m   <- matrix( 1:16+.5, nr = 4 )
 	res <- .Call( "test_gsl_matrix_indexing", m , PACKAGE = "RcppGSL" )
 	checkEquals( res, m+1 )
+}
+
+test.gsl.RcppGSL.vector.view.iterating <- function(){
+	x   <-  seq(1.5, 10.5)
+	res <- .Call( "test_gsl_vector_view_iterating", x, PACKAGE = "RcppGSL" )
+	checkEquals( res, sum( x[ seq(1, length(x), by = 2 ) ] ) )
+}
+
+test.gsl.RcppGSL.matrix.view.indexing <- function(){
+	res <- .Call( "test_gsl_matrix_view_indexing", PACKAGE = "RcppGSL" )
+	checkEquals( res, 110.0 )
 }
 

@@ -233,7 +233,7 @@ RCPP_FUNCTION_1( double, test_gsl_matrix_input, RcppGSL::matrix<double> mat){
 	double res = 0.0 ;
 	for( int i=0; i<nr; i++){
 		res += gsl_matrix_get( mat, i, 0 ) ;
-	}
+	}   
 	mat.free() ;
 	return res ;
 }
@@ -248,23 +248,96 @@ RCPP_FUNCTION_0(Rcpp::IntegerVector, test_gsl_vector_conv){
 	return x ;
 }
 
-RCPP_FUNCTION_1(RcppGSL::vector<double>, test_gsl_vector_indexing, RcppGSL::vector<double> vec ){
+RCPP_FUNCTION_1(Rcpp::NumericVector, test_gsl_vector_indexing, RcppGSL::vector<double> vec ){
 	for( size_t i=0; i< vec.size(); i++){
 		vec[i] = vec[i] + 1.0 ;
 	}
-	return vec ;
+	NumericVector res = Rcpp::wrap( vec ) ;
+	vec.free() ;
+	return res ;
 }
 
 RCPP_FUNCTION_1(double, test_gsl_vector_iterating, RcppGSL::vector<double> vec ){
-	return std::accumulate( vec.begin(), vec.end(), 0.0 ); 
+	double res= std::accumulate( vec.begin(), vec.end(), 0.0 ); 
+	vec.free() ;
+	return res ;
 }
 
-RCPP_FUNCTION_1(RcppGSL::matrix<double>, test_gsl_matrix_indexing, RcppGSL::matrix<double> mat ){
+RCPP_FUNCTION_1(Rcpp::NumericMatrix, test_gsl_matrix_indexing, RcppGSL::matrix<double> mat ){
 	for( size_t i=0; i< mat.nrow(); i++){
 		for( size_t j=0; j< mat.ncol(); j++){
 			mat(i,j) = mat(i,j) + 1.0 ;
 		}
 	}
-	return mat ;
+	Rcpp::NumericMatrix res = Rcpp::wrap(mat) ;
+	mat.free() ;
+	return res ;
+}
+
+RCPP_FUNCTION_0(Rcpp::List, test_gsl_vector_view_wrapper ){
+	int n = 10 ;
+	RcppGSL::vector<double> vec( 10 ) ;
+	for( int i=0 ; i<n; i++){
+		vec[i] = i ; 
+	}
+	RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(vec, 0, 2, n/2);
+    RcppGSL::vector_view<double> v_odd  = gsl_vector_subvector_with_stride(vec, 1, 2, n/2);
+    
+    List res = List::create( 
+    	_["even"] = v_even, 
+    	_["odd" ] = v_odd
+    	) ;
+    vec.free() ;
+    
+    return res ;
+}
+
+RCPP_FUNCTION_0( Rcpp::List, test_gsl_matrix_view_wrapper ){
+	int nrow = 4 ;
+	int ncol = 6 ;
+	RcppGSL::matrix<double> m(nrow, ncol);
+	int k =0 ;
+	for( int i=0 ; i<nrow; i++){
+		for( int j=0; j<ncol; j++, k++){
+			m(i, j) = k ;
+		}
+	}
+	RcppGSL::matrix_view<double> x = gsl_matrix_submatrix(m, 2, 2, 2, 2 ) ;
+	
+	List res = List::create( 
+		_["full"] = m, 
+		_["view"] = x
+		) ;
+	m.free() ;
+	
+	return res ;
+}
+
+RCPP_FUNCTION_1(double, test_gsl_vector_view_iterating, RcppGSL::vector<double> vec ){
+	int n = vec.size() ;
+	RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(vec, 0, 2, n/2);
+    double res = std::accumulate( v_even.begin(), v_even.end(), 0.0 );
+    return res ;
+}
+
+RCPP_FUNCTION_0( double,test_gsl_matrix_view_indexing ){
+	int nr = 10 ;
+	int nc = 10 ;
+	RcppGSL::matrix<double> mat( nr, nc ) ;
+	int k = 0;
+	for( size_t i=0; i< mat.nrow(); i++){
+		for( size_t j=0; j< mat.ncol(); j++, k++){
+			mat(i,j) = k ;
+		}
+	}
+	RcppGSL::matrix_view<double> x = gsl_matrix_submatrix(mat, 2, 2, 2, 2 ) ;
+	double res = 0.0 ;
+	for( size_t i=0; i<x.nrow(); i++){
+		for( size_t j=0; j<x.ncol(); j++){
+			res += x(i,j) ;
+		}
+	}
+	mat.free() ;
+	return res ;
 }
 

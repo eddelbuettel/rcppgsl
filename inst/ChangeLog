@@ -11,6 +11,8 @@
 	
 	* src/Makevars.win: use Brian Ripley's suggestions to anticipate R 2.12.0
 
+	* inst/include/*.h: RcppGSL::vector_view and RcppGSL::matrix_view
+	
 2010-05-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/fastLm.R: fastLm is now generic and behaves similar to lm():
