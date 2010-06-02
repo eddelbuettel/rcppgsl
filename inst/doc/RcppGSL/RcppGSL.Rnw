@@ -1,12 +1,25 @@
 \documentclass[10pt]{article}
 %\VignetteIndexEntry{RcppGSL}
 
-\usepackage{url}
+\usepackage{url,color}
+\usepackage[authoryear,round,longnamesfirst]{natbib}
 \usepackage[colorlinks]{hyperref}
+\definecolor{link}{rgb}{0,0,0.3}	%% next few lines courtesy of RJournal.sty
+\hypersetup{
+    colorlinks,%
+    citecolor=link,%
+    filecolor=link,%
+    linkcolor=link,%
+    urlcolor=link
+}
+
+\newcommand{\proglang}[1]{\textsf{#1}}
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+
 \setlength{\oddsidemargin}{0pt}
 \setlength{\textwidth}{17cm} % uh-oh, I use letter :)
 \usepackage[authoryear,round,longnamesfirst]{natbib}
-       
+
 \newcommand{\proglang}[1]{\textsf{#1}}
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
 
@@ -18,8 +31,6 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 @
 % closing $ needed here
 
-
-\usepackage[colorlinks]{hyperref}
 \author{Dirk Eddelbuettel \and Romain Fran\c{c}ois}
 \title{RcppGSL}
 \date{Version \Sexpr{rcppgsl.version} as of \Sexpr{prettyDate}}
@@ -29,16 +40,16 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 
 \abstract{
   \noindent
-  The GNU Scientific Library \texttt{GSL} is a numerical library for
-  C and C++ programmers. It is free software under the GNU General Public License.
-  The library provides a wide range of mathematical routines such as random number
+  The GNU Scientific Library (\pkg{GSL}) is a numerical library for
+  \proglang{C} and \proglang{C++} programmers. %It is free software under the GNU General Public License.
+  It provides a wide range of mathematical routines such as random number
   generators, special functions and least-squares fitting.
   There are over 1000 functions in total with an extensive test suite.
 
-  The \texttt{RcppGSL} package provides an easy-to-use interface
-  between \texttt{GSL} data structures and concepts from \texttt{Rcpp}
+  The \pkg{RcppGSL} package provides an easy-to-use interface between
+  \pkg{GSL} data structures and \proglang{R} using concepts from \pkg{Rcpp}
   \citep{CRAN:Rcpp} which is itself a package that eases the interfaces
-  between R and C++.
+  between \proglang{R} and C++.
 }
 
 \section{Introduction}
@@ -53,8 +64,8 @@ TODO: Show FastLm() to show what this can be used for.
 
 \subsection{GSL Vectors}
 
-\texttt{GSL} defines various vector types to manipulate one-dimensionnal
-data, similar to R arrays. For example the \verb|gsl_vector| and \verb|gsl_vector_int|
+\pkg{GSL} defines various vector types to manipulate one-dimensionnal
+data, similar to \proglang{R} arrays. For example the \verb|gsl_vector| and \verb|gsl_vector_int|
 structs are defined as:
 
 <<lang=cpp>>=
@@ -101,7 +112,7 @@ gsl_vector_free (v);
 
 \subsection{RcppGSL::vector}
 
-\texttt{RcppGSL} defines the template \texttt{RcppGSL::vector<T>} to manipulate
+\pkg{RcppGSL} defines the template \texttt{RcppGSL::vector<T>} to manipulate
 \verb|gsl_vector| pointers taking advantage of C++ templates. Using the
 template the previous example becomes:
 
@@ -131,8 +142,8 @@ anywhere where a raw pointer \verb|gsl_vector| can be used, such as the
 \verb|gsl_vector_set| and \verb|gsl_vector_get| functions above.
 
 Beyond the convenience of a nicer syntax for allocation and release of memory,
-the \texttt{RcppGSL::vector} template faciliates interchange of \texttt{GSL}
-vectors with \texttt{Rcpp} concepts. The following example defines a \texttt{.Call}
+the \texttt{RcppGSL::vector} template faciliates interchange of \pkg{GSL}
+vectors with \pkg{Rcpp} concepts. The following example defines a \texttt{.Call}
 compatible function called \verb|sum_gsl_vector_int|
 that operates on a \verb|gsl_vector_int| through the \texttt{RcppGSL::vector<int>}
 template specialization:
@@ -145,7 +156,7 @@ RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
 }
 @
 
-The function can then simply be called from R :
+The function can then simply be called from \proglang{R} :
 
 <<>>=
 .Call( "sum_gsl_vector_int", 1:10 )
@@ -153,7 +164,7 @@ The function can then simply be called from R :
 
 A second example shows a simple function that grabs elements of an
 R list as \verb|gsl_vector| objects using implicit conversion mechanisms
-of Rcpp
+of \pkg{Rcpp}
 
 <<lang=cpp>>=
 RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
@@ -179,7 +190,7 @@ RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
 }
 @
 
-called from R :
+called from \proglang{R} :
 
 <<>>=
 data <- list( x = seq(0,1,length=10), y = 1:10 )
@@ -214,13 +225,13 @@ gsl vector & RcppGSL \\
 \hline
 \end{tabular}
 \end{small}
-\caption{Correspondance between GSL vector types and templates defined
-in RcppGSL.}
+\caption{Correspondance between \pkg{GSL} vector types and templates defined
+in \pkg{RcppGSL}.}
 \end{table}
 
 \section{ Vector Views}
 
-Several \texttt{GSL} algorithms return GSL vector views as result. \texttt{RcppGSL}
+Several \pkg{GSL} algorithms return \pkg{GSL} vector views as result. \pkg{RcppGSL}
 defines the template class \texttt{RcppGSL::vector\_view} to handle
 vector views using C++ syntax.
 
@@ -274,42 +285,42 @@ gsl vector views & RcppGSL \\
 \hline
 \end{tabular}
 \end{small}
-\caption{\label{tabviews}Correspondance between GSL vector view types and templates defined
-in RcppGSL.}
+\caption{\label{tabviews}Correspondance between \pkg{GSL} vector view types and templates defined
+in \pkg{RcppGSL}.}
 \end{table}
 
 \section{Matrices}
 
-\texttt{GSL} defines a set of matrix data types : \texttt{gsl\_matrix}, 
+\texttt{GSL} defines a set of matrix data types : \texttt{gsl\_matrix},
 \texttt{gsl\_matrix\_int} etc ... for which \pkg{RcppGSL} also defines
 convenience \proglang{C++} wrapper generated by the \texttt{RcppGSL::matrix}
 template.
 
 \subsection{creating matrices}
 
-The \texttt{RcppGSL::matrix} template exposes three constructors. 
+The \texttt{RcppGSL::matrix} template exposes three constructors.
 
 <<lang=cpp>>=
 // convert an R matrix to a GSL matrix
-matrix( SEXP x) throw(::Rcpp::not_compatible) 
+matrix( SEXP x) throw(::Rcpp::not_compatible)
 
 // encapsulate a GSL matrix pointer
 matrix( gsl_matrix* x)
 
 // create a new matrix with the given number of rows and columns
-matrix( int nrow, int ncol)                 
+matrix( int nrow, int ncol)
 @
 
 \subsection{implicit conversion}
 
 \texttt{RcppGSL::matrix} defines implicit conversion to a pointer to
-the associated GSL matrix type, as well as dereferencing operators, making 
+the associated GSL matrix type, as well as dereferencing operators, making
 the class \texttt{RcppGSL::matrix} look and feel like a pointer to a GSL
 matrix type.
 
 <<lang=cpp>>=
 	gsltype* data ;
-	operator gsltype*(){ return data ; }        
+	operator gsltype*(){ return data ; }
 	gsltype* operator->() const { return data; }
 	gsltype& operator*() const { return *data; }
 @
@@ -317,11 +328,11 @@ matrix type.
 \subsection{indexing}
 
 Indexing of GSL matrices is usually the task of the functions
-\texttt{gsl\_matrix\_get}, \texttt{gsl\_matrix\_int\_get}, ... and 
-\texttt{gsl\_matrix\_set}, \texttt{gsl\_matrix\_int\_set}, ... 
+\texttt{gsl\_matrix\_get}, \texttt{gsl\_matrix\_int\_get}, ... and
+\texttt{gsl\_matrix\_set}, \texttt{gsl\_matrix\_int\_set}, ...
 
 \pkg{RcppGSL} takes advantage of both operator overloading and templates
-to make indexing a GSL matrix much more convenient. 
+to make indexing a GSL matrix much more convenient.
 
 <<lang=cpp>>=
 // create a matrix of size 10x10
@@ -340,11 +351,14 @@ The \texttt{RcppGSL::matrix} type also defines :
 \item nrow : extract the number of rows
 \item ncol : extract the number of columns
 \item size : extract the number of elements
-\item free : release the memory 
+\item free : release the memory
 \end{itemize}
 
 
 \section{References}
+
+\bibliographystyle{abbrvnat}
+\bibliography{RcppGSL}
 
 \bibliographystyle{abbrvnat}
 \bibliography{RcppGSL}
