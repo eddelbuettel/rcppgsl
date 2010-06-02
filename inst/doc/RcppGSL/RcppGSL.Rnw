@@ -136,7 +136,6 @@ template specialization:
 
 <<lang=cpp>>=
 RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
-  int n = vec.size() ;
   int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
   vec.free() ;
   return res ;
@@ -163,7 +162,7 @@ RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
   // the RcppGSL::vector<int> class
   RcppGSL::vector<int> y = data["y"] ;
   double res = 0.0 ;
-  for( int i=0; i< x->size; i++){
+  for( size_t i=0; i< x->size; i++){
     res += x[i] * y[i] ;
   }
 
@@ -179,7 +178,7 @@ RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
 
 called from R :
 
-<<eval=FALSE>>=
+<<>>=
 data <- list( x = seq(0,1,length=10), y = 1:10 )
 .Call( "gsl_vector_sum_2", data )
 @

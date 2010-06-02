@@ -342,33 +342,32 @@ RCPP_FUNCTION_0( double,test_gsl_matrix_view_indexing ){
 }
 
 
-// // helping the vignette
-// RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
-//   int n = vec.size() ;
-//   int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
-//   vec.free() ;
-//   return res ;
-// }
-// 
-// RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
-//   // grab "x" as a gsl_vector through
-//   // the RcppGSL::vector<double> class
-//   RcppGSL::vector<double> x = data["x"] ;
-// 
-//   // grab "y" as a gsl_vector through
-//   // the RcppGSL::vector<int> class
-//   RcppGSL::vector<int> y = data["y"] ;
-//   double res = 0.0 ;
-//   for( int i=0; i< x->size; i++){
-//     res += x[i] * y[i] ;
-//   }
-// 
-//   // as usual with GSL, we need to explicitely free the
-//   // memory
-//   x.free() ;
-//   y.free() ;
-// 
-//   // return the result
-//   return res ;
-// }
+// helping the vignette
+RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
+  int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
+  vec.free() ;
+  return res ;
+}
+
+RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
+  // grab "x" as a gsl_vector through
+  // the RcppGSL::vector<double> class
+  RcppGSL::vector<double> x = data["x"] ;
+
+  // grab "y" as a gsl_vector through
+  // the RcppGSL::vector<int> class
+  RcppGSL::vector<int> y = data["y"] ;
+  double res = 0.0 ;
+  for( size_t i=0; i< x->size; i++){
+    res += x[i] * y[i] ;
+  }
+
+  // as usual with GSL, we need to explicitely free the
+  // memory
+  x.free() ;
+  y.free() ;
+
+  // return the result
+  return res ;
+}
 
