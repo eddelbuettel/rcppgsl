@@ -232,7 +232,7 @@ RCPP_FUNCTION_1( double, test_gsl_matrix_input, RcppGSL::matrix<double> mat){
 	
 	double res = 0.0 ;
 	for( int i=0; i<nr; i++){
-		res += gsl_matrix_get( mat, i, 0 ) ;
+		res += mat( i, 0 ) ;
 	}   
 	mat.free() ;
 	return res ;
