@@ -13,12 +13,8 @@
     urlcolor=link
 }
 
-\newcommand{\proglang}[1]{\textsf{#1}}
-\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
-
 \setlength{\oddsidemargin}{0pt}
 \setlength{\textwidth}{17cm} % uh-oh, I use letter :)
-\usepackage[authoryear,round,longnamesfirst]{natbib}
 
 \newcommand{\proglang}[1]{\textsf{#1}}
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
@@ -51,6 +47,8 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
   \citep{CRAN:Rcpp} which is itself a package that eases the interfaces
   between \proglang{R} and C++.
 }
+
+TODO: bibtex reference for GSL
 
 \section{Introduction}
 
@@ -356,9 +354,6 @@ The \texttt{RcppGSL::matrix} type also defines :
 
 
 \section{References}
-
-\bibliographystyle{abbrvnat}
-\bibliography{RcppGSL}
 
 \bibliographystyle{abbrvnat}
 \bibliography{RcppGSL}
