@@ -36,19 +36,19 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 
 \abstract{
   \noindent
-  The GNU Scientific Library (\pkg{GSL}) is a numerical library for
-  \proglang{C} and \proglang{C++} programmers. %It is free software under the GNU General Public License.
-  It provides a wide range of mathematical routines such as random number
-  generators, special functions and least-squares fitting.
-  There are over 1000 functions in total with an extensive test suite.
+  \shortcites{GSL} %% so that we get Galassi et instead of all names
+  The GNU Scientific Library, or \pkg{GSL}, is a collection of numer ical
+  routines for scientifc computing \citep{GSL}. It is particularly useful for
+  \proglang{C} and \proglang{C++} programs.  The \pkg{GSL} provides a wide
+  range of mathematical routines such as random number generators, special
+  functions and least-squares fitting.  There are over 1000 functions in
+  total with an extensive test suite.
 
   The \pkg{RcppGSL} package provides an easy-to-use interface between
   \pkg{GSL} data structures and \proglang{R} using concepts from \pkg{Rcpp}
   \citep{CRAN:Rcpp} which is itself a package that eases the interfaces
   between \proglang{R} and C++.
 }
-
-TODO: bibtex reference for GSL
 
 \section{Introduction}
 
