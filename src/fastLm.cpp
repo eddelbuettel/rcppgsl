@@ -54,7 +54,7 @@ extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
 											Rcpp::Named("stderr") = std_err,
 											Rcpp::Named("df") = n - k);
 
-		// free all the GSL vectors and matrices -- as these are really C data structure
+		// free all the GSL vectors and matrices -- as these are really C data structures
 		// we cannot take advantage of automatic memory management
 		coef.free() ;
 		cov.free();
