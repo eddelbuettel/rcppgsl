@@ -1,13 +1,13 @@
 
-# Process this file with autoconf to produce a configure script.
-#
-# Configure.in for RcppGSL
-#
-# Copyright (C) 2010 Romain Francois and Dirk Eddelbuettel
-# Licensed under GNU GPL 2 or later
+## Process this file with autoconf to produce a configure script.
+##
+## Configure.in for RcppGSL
+##
+## Copyright (C) 2010 Romain Francois and Dirk Eddelbuettel
+## Licensed under GNU GPL 2 or later
 
 # The version set here will propagate to other files from here
-AC_INIT(RcppGSL, 0.1.0)
+AC_INIT([RcppGSL], 0.1.0)
 
 # Checks for common programs using default macros
 AC_PROG_CC
