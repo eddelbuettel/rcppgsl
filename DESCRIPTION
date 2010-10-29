@@ -9,5 +9,6 @@ Description: Glue between Rcpp and the GNU GSL
 License: GPL (>=2)
 LazyLoad: yes
 Depends: Rcpp (>= 0.8.0)
+Suggests: RUnit
 LinkingTo: Rcpp
 SystemRequirements: GNU GSL, GNU make
