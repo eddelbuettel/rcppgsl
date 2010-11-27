@@ -143,7 +143,7 @@ template <> class vector<__T__>  {           	                                  
 public:                                      	                                   \
 	typedef __T__ type ;                     	                                   \
 	typedef __T__* pointer ;                 	                                   \
-	typedef gsl_vector##__SUFFIX__ gsltype ; 	                                   \
+	typedef gsl_vector gsltype ; 	                                   \
 	gsltype* data ;                            	                               \
 	class Proxy {                                                                \
 	public:                                                                      \
@@ -194,7 +194,7 @@ template <> class matrix<__T__>  {           	                                  
 public:                                      	                                   \
 	typedef __T__ type ;                     	                                   \
 	typedef __T__* pointer ;                 	                                   \
-	typedef gsl_matrix##__SUFFIX__ gsltype ; 	                                   \
+	typedef gsl_matrix gsltype ; 	                                   \
 	gsltype* data ;                          	                                   \
 	const static int RTYPE = ::Rcpp::traits::r_sexptype_traits<type>::rtype ;    \
 	class Proxy {                                                                \
