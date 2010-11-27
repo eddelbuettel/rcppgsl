@@ -12,9 +12,8 @@
     linkcolor=link,%
     urlcolor=link
 }
-
-\setlength{\oddsidemargin}{0pt}
-\setlength{\textwidth}{17cm} % uh-oh, I use letter :)
+\usepackage{vmargin}
+\setmargrb{0.75in}{0.75in}{0.75in}{0.75in}
 
 \newcommand{\proglang}[1]{\textsf{#1}}
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
@@ -28,21 +27,26 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 % closing $ needed here
 
 \author{Dirk Eddelbuettel \and Romain Fran\c{c}ois}
-\title{RcppGSL}
+\title{\pkg{RcppGSL}: Easier \pkg{GSL} use from \proglang{R} via \pkg{Rcpp}}
 \date{Version \Sexpr{rcppgsl.version} as of \Sexpr{prettyDate}}
 
 \begin{document}
 \maketitle
 
 \abstract{
+  \shortcites{GSL} %% so that we get Galassi et al instead of all names
   \noindent
-  \shortcites{GSL} %% so that we get Galassi et instead of all names
-  The GNU Scientific Library, or \pkg{GSL}, is a collection of numer ical
+  The GNU Scientific Library, or \pkg{GSL}, is a collection of numerical
   routines for scientifc computing \citep{GSL}. It is particularly useful for
-  \proglang{C} and \proglang{C++} programs.  The \pkg{GSL} provides a wide
-  range of mathematical routines such as random number generators, special
-  functions and least-squares fitting.  There are over 1000 functions in
-  total with an extensive test suite.
+  \proglang{C} and \proglang{C++} programs as it provides a standard
+  \proglang{C} interface to a wide range of mathematical routines such as
+  special functions, permutations, combinations, fast fourier transforms,
+  eigensystems, random numbers, quadrature, random distributions,
+  quasi-random sequences, Monte Carlo integration, N-tuples, differential
+  equations, simulated annealing, numerical differentiation, interpolation,
+  series acceleration, Chebyshev approximations, root-finding, discrete
+  Hankel transforms physical constants, basis splines and wavelets.  There
+  are over 1000 functions in total with an extensive test suite.
 
   The \pkg{RcppGSL} package provides an easy-to-use interface between
   \pkg{GSL} data structures and \proglang{R} using concepts from \pkg{Rcpp}
@@ -52,7 +56,65 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 
 \section{Introduction}
 
-TODO
+The GNU Scientific Library, or \pkg{GSL}, is a collection of numerical
+routines for scientifc computing \citep{GSL}. It is a rigourously developed
+and tested library providing support for a wide range of scientific or
+numerical tasks. Among the topics covered in the GSL are
+%% from the GSL manual
+complex numbers, roots of polynomials,
+special functions, vector and matrix data structures,
+permutations, combinations, sorting, BLAS support,
+linear algebra, fast fourier transforms, eigensystems,
+random numbers,	quadrature, random distributions, quasi-random sequences,
+Monte Carlo integration, N-tuples,
+differential equations,	simulated annealing,
+numerical differentiation, interpolation,
+series acceleration, Chebyshev approximations,
+root-finding, discrete Hankel transforms
+least-squares fitting,	minimization,
+physical constants, basis splines and wavelets.
+
+Support for \proglang{C} programming with the GSL is readily available: the GSL itself is written in \proglang{C}
+and provides a \proglang{C}-language Application Programming Interface
+(API). Access from \proglang{C++} is therefore possible, albeit not at the
+abstraction level that can be offered by dedicated \proglang{C++}
+implementations.\footnote{Several \proglang{C++} wrappers for the GSL have
+  been written over the years yet none reached a state of completion
+  comparable to the GSL itself. Three such wrapping library are
+  \url{http://cholm.home.cern.ch/cholm/misc/gslmm/},
+  \url{http://gslwrap.sourceforge.net/} and
+  \url{http://code.google.com/p/gslcpp/}.}
+
+The GSL is somewhat unique among numerical libraries. Its combination of
+broad coverage of scientific topics, serious implementation effort and the
+use of a FLOSS license have lead to a fairly wide usage of the library.  As a
+concrete example, we can consider the the CRAN repository network for the
+\proglang{R} language and environment \citep{R:Main}.  CRAN contains over a
+dozen packages interfacing the GSL: \pkg{copula}, \pkg{dynamo}, \pkg{gsl},
+\pkg{gstat}, \pkg{magnets}, \pkg{mvabund}, \pkg{QRMlib}, \pkg{RBrownie},
+\pkg{RDieHarder}, \pkg{RHmm}, \pkg{segclust}, \pkg{surveillance}, and
+\pkg{topicmodels}.  This is a clear indication that the GSL is popular among
+programmers using either the \proglang{C} or \proglang{C++} language for
+solving problems applied science.
+
+At the same time, the \pkg{Rcpp} package \citep{CRAN:Rcpp} offers a
+higher-level abstraction between \proglang{R} and underlying \proglang{C++}
+(or \proglang{C}) code.  \pkg{Rcpp} permits \proglang{R} objects like
+vectors, matrices, lists, functions, environments, $\ldots$, to be
+manipulated directly at the \proglang{C++} level, alleviates the needs for
+complicated and error-prone parameter passing and memory allocation. It also
+permits compact vectorised expressions similar to what can be written in
+\proglang{R} directly at the \proglang{C++} level.
+
+The \pkg{RcppGSL} package discussed here aims the help close the gap. It
+tries to offer access to GSL functions, in particular via the vector and
+matrix data structures used throughout the GSL, while staying closer to the
+`whole object model' familar to the \proglang{R} programmer.
+
+The rest of paper is organised as follows. The next section shows a
+motivating example of a fast linear model fit routine using \pkg{GSL} functions.
+The following section discusses support for \pkg{GSL} vector types, which is
+followed by a section on matrices.
 
 \section{Motivation: FastLm}
 
@@ -227,7 +289,7 @@ gsl vector & RcppGSL \\
 in \pkg{RcppGSL}.}
 \end{table}
 
-\section{ Vector Views}
+\subsection{ Vector Views}
 
 Several \pkg{GSL} algorithms return \pkg{GSL} vector views as result. \pkg{RcppGSL}
 defines the template class \texttt{RcppGSL::vector\_view} to handle
@@ -355,7 +417,7 @@ The \texttt{RcppGSL::matrix} type also defines :
 
 \section{References}
 
-\bibliographystyle{abbrvnat}
+\bibliographystyle{plainnat}
 \bibliography{RcppGSL}
 
 \end{document}

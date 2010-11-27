@@ -15,7 +15,7 @@ clean:
 
 RcppGSL.pdf: RcppGSL/RcppGSL.Rnw
 	cp -f RcppGSL/RcppGSL.Rnw .
-	Rscript -e "require(highlight); driver <- HighlightWeaveLatex(boxes = TRUE, bg = 'white' ); Sweave( 'RcppGSL.Rnw', driver = driver ); "
+	Rscript --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = TRUE, bg = 'white' ); Sweave( 'RcppGSL.Rnw', driver = driver ); "
 ifneq (,$(findstring edd,$(whoami)))
 	pdflatex RcppGSL
 else
@@ -24,9 +24,9 @@ endif
 	bibtex RcppGSL
 ifneq (,$(findstring edd,$(whoami)))
 	pdflatex RcppGSL
+	pdflatex RcppGSL
 else
 	Rscript -e "tools::texi2dvi( 'RcppGSL.tex', pdf = TRUE, clean = TRUE )"
 endif
-        # rm -fr RcppGSL.tex
-	rm -fr RcppGSL.bbl RcppGSL.blg RcppGSL.aux RcppGSL.out RcppGSL.log rm RcppGSL.Rnw
+        # rm -fr RcppGSL.tex RcppGSL.bbl RcppGSL.blg RcppGSL.aux RcppGSL.out RcppGSL.log 
 	cp RcppGSL/RcppGSL-fake.Rnw RcppGSL.Rnw
