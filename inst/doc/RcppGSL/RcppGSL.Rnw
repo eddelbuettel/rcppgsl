@@ -118,7 +118,71 @@ followed by a section on matrices.
 
 \section{Motivation: FastLm}
 
-TODO: Show FastLm() to show what this can be used for.
+Fitting linear models is a key building block of analysing data and
+modeling. \proglang{R} has a very complete and feature-rich function in
+\texttt{lm()} which can provide a model fit as we a number of diagnostic
+measure, either directly or via the corresponding \texttt{summary()} method
+for linear model fits. The \texttt{lm.fit()} function also provides a faster
+alternative (which is however recommend only for for advanced users) which
+provides estimates only and fewer statistics for inference.  This sometimes
+leads users request a routine which is both fast and featureful enough.  The
+\texttt{fastLm} routine shown here provides such an implementation. It uses
+the \pkg{GSL} for the least-squares fitting functions and therefore provides a nice
+example for \pkg{GSL} integration with \proglang{R}.
+
+<<lang=cpp,size=small>>=
+#include <RcppGSL.h>
+#include <gsl/gsl_multifit.h>
+#include <cmath>
+
+extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
+
+  try {
+        RcppGSL::vector<double> y = ys;     // create gsl data structures from SEXP
+        RcppGSL::matrix<double> X = Xs;
+
+        int n = X.nrow(), k = X.ncol();
+        double chisq;
+
+        RcppGSL::vector<double> coef(k);    // to hold the coefficient vector
+        RcppGSL::matrix<double> cov(k,k);     // and the covariance matrix
+
+        // the actual fit requires working memory we allocate and free
+        gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
+        gsl_multifit_linear (X, y, coef, cov, &chisq, work);
+        gsl_multifit_linear_free (work);
+
+        // extract the diagonal as a vector view
+        gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
+
+        // currently there is not a more direct interface in Rcpp::NumericVector
+        // that takes advantage of wrap, so we have to do it in two steps
+        Rcpp::NumericVector std_err ; std_err = diag;
+        std::transform( std_err.begin(), std_err.end(), std_err.begin(), sqrt);
+
+        Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef,
+                                            Rcpp::Named("stderr") = std_err,
+                                            Rcpp::Named("df") = n - k);
+
+        // free all the GSL vectors and matrices -- as these are really C data structures
+        // we cannot take advantage of automatic memory management
+        coef.free(); cov.free(); y.free(); X.free();
+
+        return res;  // return the result list to R
+
+  } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+  } catch(...) {
+        ::Rf_error( "c++ exception (unknown reason)" );
+  }
+  return R_NilValue; // -Wall
+}
+@
+
+We should note that \pkg{RcppArmadillo} \citep{CRAN:RcppArmadillo} implements
+a matching \texttt{fastLm} function using the Armadillo library by
+\cite{Sanderson:2010:Armadillo}, and can do so with more compact code due to
+\proglang{C++} features.
 
 \section{Vectors}
 
