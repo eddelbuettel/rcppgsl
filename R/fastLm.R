@@ -59,8 +59,26 @@ summary.fastLm <- function(object, ...) {
                  t.value = tval,
                  p.value = 2*pt(-abs(tval), df=object$df))
 
+    # why do I need this here?
+    rownames(TAB) <- names(object$coefficients)
+    colnames(TAB) <- c("Estimate", "StdErr", "t.value", "p.value")
+
+    ## cf src/stats/R/lm.R and case with no weights and an intercept
+    f <- object$fitted.values
+    r <- object$residuals
+    mss <- sum((f - mean(f))^2)
+    rss <- sum(r^2)
+
+    r.squared <- mss/(mss + rss)
+    df.int <- 1 		# case of intercept
+    n <- length(f)
+    rdf <- object$df
+    adj.r.squared <- 1 - (1 - r.squared) * ((n - df.int)/rdf)
+
     res <- list(call=object$call,
-                coefficients=TAB)
+                coefficients=TAB,
+                r.squared=r.squared,
+                adj.r.squared=adj.r.squared)
 
     class(res) <- "summary.fastLm"
     res
