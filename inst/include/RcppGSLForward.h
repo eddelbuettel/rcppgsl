@@ -117,6 +117,8 @@ _RCPPGSL_SPEC(gsl_complex_float        , _complex_float        , gsl_complex_flo
 _RCPPGSL_SPEC(gsl_complex_long_double  , _complex_long_double  , gsl_complex_long_double )
 
 #undef _RCPPGSL_SPEC
+#undef _RCPPGSL_SPEC_NOSUFFIX
+
 
 template <typename T> class vector_view {
 public:
@@ -179,7 +181,6 @@ template<> inline SEXP wrap( const gsl_matrix##__SUFFIX__& ) ;                \
 template<> inline SEXP wrap( const gsl_matrix##__SUFFIX__##_view& ) ;         \
 template<> inline SEXP wrap( const gsl_matrix##__SUFFIX__##_const_view& ) ;
 
-_RCPPGSL_WRAPDEF()
 _RCPPGSL_WRAPDEF(_int ) 
 _RCPPGSL_WRAPDEF(_float ) 
 _RCPPGSL_WRAPDEF(_long ) 
@@ -193,6 +194,13 @@ _RCPPGSL_WRAPDEF(_uchar )
 _RCPPGSL_WRAPDEF(_uint ) 
 _RCPPGSL_WRAPDEF(_ushort ) 
 _RCPPGSL_WRAPDEF(_ulong ) 
+
+template<> inline SEXP wrap( const gsl_vector& ) ;                
+template<> inline SEXP wrap( const gsl_vector_view& ) ;         
+template<> inline SEXP wrap( const gsl_vector_const_view& ) ;   
+template<> inline SEXP wrap( const gsl_matrix& ) ;                
+template<> inline SEXP wrap( const gsl_matrix_view& ) ;         
+template<> inline SEXP wrap( const gsl_matrix_const_view& ) ;
 
 	template <typename T> SEXP wrap( const ::RcppGSL::vector<T>& ) ;
 	template <typename T> SEXP wrap( const ::RcppGSL::matrix<T>& ) ;
