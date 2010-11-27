@@ -35,7 +35,6 @@ template <> SEXP wrap( const gsl_vector##SUFFIX##_const_view& x ){   \
    return wrap(x.vector) ;                                           \
 }
 
-RCPPGSL_VIEW()
 RCPPGSL_VIEW(_int)
 RCPPGSL_VIEW(_float)
 RCPPGSL_VIEW(_long)
@@ -50,6 +49,13 @@ RCPPGSL_VIEW(_uint)
 RCPPGSL_VIEW(_ushort)
 RCPPGSL_VIEW(_ulong)
 #undef RCPPGSL_VIEW
+
+template <> SEXP wrap( const gsl_vector_view& x){       
+	return wrap(x.vector) ;                                       
+}                                                                 
+template <> SEXP wrap( const gsl_vector_const_view& x ){
+   return wrap(x.vector) ;                                        
+}
 
 template <typename T> SEXP wrap( const ::RcppGSL::vector_view<T>& x){
 	return wrap( x.view.vector ) ;

@@ -131,7 +131,20 @@ inline void matrix<__T__>::import( SEXP x) throw(::Rcpp::not_compatible){   \
 	}                                                                       \
 }
 
-_RCPPGSL_DEF(double                   ,        )
+inline void matrix<double>::import( SEXP x) throw(::Rcpp::not_compatible) {
+	Rcpp::Matrix<RTYPE> mat( x );                                         
+	int nc = mat.ncol() ;                                                 
+	int nr = mat.nrow() ;                                                 
+	int i = 0, j = 0 ;                                                    
+	data = gsl_matrix_alloc( nr, nc ) ;                     
+	Rcpp::Matrix<RTYPE>::iterator it = mat.begin() ;                      
+	for( ; j<nc; j++){                                                    
+		for( i=0; i<nr; i++, it++){                                       
+			gsl_matrix_set( data, i, j, *it ) ;             
+		}                                                                 
+	}                                                                     
+}
+
 _RCPPGSL_DEF(int                      , _int   )
 _RCPPGSL_DEF(unsigned char            , _uchar )
 
