@@ -151,18 +151,17 @@ public:
 	typedef typename matrix_view_type<T>::type view_type ;
 	typedef typename matrix<T>::Proxy Proxy ;
 	
-	matrix_view( view_type view_ ) : view(view_), mat(&view_.matrix) {} 
+	matrix_view( view_type view_ ) : view(view_), matrix(&view_.matrix) {} 
 	inline operator view_type(){ return view; }
 	inline Proxy operator()(int row, int col){
-		return mat(row,col);
+		return matrix(row,col);
 	}
-	inline size_t nrow(){ return mat.nrow() ; }              
-	inline size_t ncol(){ return mat.ncol() ; }              
-	inline size_t size(){ return mat.size() ; }
+	inline size_t nrow(){ return matrix.nrow() ; }              
+	inline size_t ncol(){ return matrix.ncol() ; }              
+	inline size_t size(){ return matrix.size() ; }
 	
 	view_type view ;
-private:
-	MAT mat ;
+	MAT matrix ;
 } ;
 
 }
