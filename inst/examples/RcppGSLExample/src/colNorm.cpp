@@ -36,11 +36,10 @@ extern "C" SEXP colNorm(SEXP sM) {
 
 		for (int j = 0; j < k; j++) {
 			RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
-			RcppGSL::vector<double> col2( Rcpp::wrap(colview) ); // ugly !!
+			RcppGSL::vector<double> col2( colview.vector );
 			n[j] = gsl_blas_dnrm2(col2);
-			col2.free();		// even uglier !!
 		}
-		gsl_matrix_free (M);
+		M.free() ;
 		return n;							// return vector  
 
     } catch( std::exception &ex ) {

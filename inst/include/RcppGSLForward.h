@@ -130,18 +130,17 @@ public:
 	typedef typename vector_view_type<T>::type view_type ;
 	typedef typename vector<T>::Proxy Proxy ;
 	
-	vector_view( view_type view_ ) : view(view_), vec(&view_.vector) {} 
+	vector_view( view_type view_ ) : view(view_), vector(&view_.vector) {} 
 	inline operator view_type(){ return view ; }
 	inline Proxy operator[]( int i){ 
-		return vec[i] ;
+		return vector[i] ;
 	}
-	inline iterator begin(){ return vec.begin() ; }
-	inline iterator end(){ return vec.end() ; }
-	inline size_t size(){ return vec.size(); }
+	inline iterator begin(){ return vector.begin() ; }
+	inline iterator end(){ return vector.end() ; }
+	inline size_t size(){ return vector.size(); }
 	
 	view_type view ;
-private:
-	VEC vec ;
+	VEC vector ;
 } ;
 
 template <typename T> class matrix_view {
