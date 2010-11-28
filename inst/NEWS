@@ -1,0 +1,6 @@
+0.1.0   2010-11-28
+
+    o   Initial CRAN release with basic functionality for vectors and matrices
+
+    o   RcppGSL vignette provides an introduction and documentation about the
+        package

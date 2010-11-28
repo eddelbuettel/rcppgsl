@@ -1,11 +1,8 @@
 
-More STL-like interface for vectors:
+    o   [DONE] More STL-like interface for vectors:
 
-* RcppGSL::vector<>::operator[]
-
-* RcppGSL::vector<>::iterator
-
-* RcppGSL::vector<>::begin
-
-* RcppGSL::vector<>::end
+	   * RcppGSL::vector<>::operator[]
+	   * RcppGSL::vector<>::iterator
+	   * RcppGSL::vector<>::begin
+	   * RcppGSL::vector<>::end
 
