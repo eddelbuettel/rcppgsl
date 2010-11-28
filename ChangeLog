@@ -1,3 +1,10 @@
+2010-11-28  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/examples/RcppGSLExample/: Started as a simple example of using
+	RcppGSL in a user package
+
+	* NEWS: Added with initial notes towards a release
+
 2010-11-27  Romain Francois <romain@r-enthusiasts.com>
 
 	* include/include/*h: Updated to satisfy some grumblings from g++
