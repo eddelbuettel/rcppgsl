@@ -6,8 +6,6 @@
 
 	* R/fastLm.R: summary() now also computed R2 and adjR2
 
-	* inst/doc/RcppGSL/RcppGSL.Rnw: Adding some material to introcuction
-
 2010-05-25  Romain Francois <romain@r-enthusiasts.com>
 
 	* inst/include/RcppGSLForward.h : add indexing operator, stl iterator
