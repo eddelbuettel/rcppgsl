@@ -1,8 +1,0 @@
-## Emacs please make this a -*- mode: Makefile; -*-
-##
-## 
-PKG_CXXFLAGS = `gsl-config --cflags`
-##
-## Use the R_HOME indirection to support installations of multiple R version
-PKG_LIBS = `gsl-config --libs-without-cblas` `$(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()" ` 
-

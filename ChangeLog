@@ -1,7 +1,7 @@
 2010-11-28  Dirk Eddelbuettel  <edd@debian.org>
 
-	* inst/examples/RcppGSLExample/: Started as a simple example of using
-	RcppGSL in a user package
+	* inst/examples/RcppGSLExample/: Started as a means to provide a
+	simple yet complete example of using RcppGSL in a user package
 
 	* NEWS: Added with initial notes towards a release
 
