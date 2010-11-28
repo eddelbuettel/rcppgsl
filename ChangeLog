@@ -1,3 +1,9 @@
+2010-11-28  Romain Francois <romain@r-enthusiasts.com>
+
+    * inst/include/RcppGSLForward.h: vector_view<T> now exposes a public data
+    member of class vector<T> called vector. Similarly, matrix_view<T> exposes
+    a public data member of type matrix<T> called matrix.
+
 2010-11-28  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/examples/RcppGSLExample/: Started as a means to provide a
