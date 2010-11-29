@@ -30,7 +30,7 @@ colNorm(M)
 }
 \examples{
   ## see Section 8.4.13 of the GSL manual
-  M <- matrix(sin(0:9), nrow=10, ncol=1) %*% matrix(1, ncol=10) + matrix(1, nrow=10) %*% matrix(cos(0:9), ncol=10)
+  M <- outer(sin(0:9), rep(1,10), "*") + outer(rep(1, 10), cos(0:9), "*")
   print(colNorm(M))
 }
 

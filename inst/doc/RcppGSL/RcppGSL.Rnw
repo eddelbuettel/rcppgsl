@@ -426,6 +426,12 @@ to compatible \pkg{GSL} algorithms.
   \label{tab:mappingVectorViews}
 \end{table}
 
+The \texttt{getVector()} member function returns the underlying vector stored
+in the vector view class.  This enables use of vector views where \pkg{GSL}
+would expect a vector.
+
+
+
 \section{Matrices}
 
 The \pkg{GSL} also defines a set of matrix data types : \texttt{gsl\_matrix},
@@ -490,6 +496,12 @@ The \texttt{RcppGSL::matrix} type also defines the following member functions:
   \item[\texttt{free}] releases the memory
   \end{itemize}
 \end{quote}
+
+\subsection{Matrix views}
+
+Similar to the vector views discussed above, the \pkg{RcppGSL} also provides
+view variants of matrices.  Here, the \texttt{getMatrix()} member function
+returns the underlying matrix stored in the matrix view class.
 
 \section{Using \pkg{RcppGSL} in your package}
 
@@ -641,8 +653,7 @@ bodytxt='
 
 foo <- cxxfunction(signature(sM="numeric"), body=bodytxt, inc=inctxt, plugin="RcppGSL")
 
-M <- matrix(sin(0:9), nrow=10, ncol=1) %*% matrix(1, ncol=10) +
-     matrix(1, nrow=10) %*% matrix(cos(0:9), ncol=10)
+M <- outer(sin(0:9), rep(1,10), "*") + outer(rep(1, 10), cos(0:9), "*")
 print(foo(M))
 @
 
