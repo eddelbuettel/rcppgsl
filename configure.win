@@ -1,3 +1,11 @@
 #!/bin/sh
 
+## you need to define LIB_GSL as the directory containing GSL directories include/ and lib/
+gslinc=-I$(LIB_GSL)/include
+gsllib=-L$(LIB_GSL)/lib -lgsl -lgslcblas
+
+# Use sed to substitute the values in
+sed -e "s|\@GSL_CFLAGS\@|${gslinc}|" -e "s|\@GSL_LIBs\@|${gsllib}|" R/inline.R.in > R/inline.R
+
+
 
