@@ -138,9 +138,10 @@ public:
 	inline iterator begin(){ return vector_.begin() ; }
 	inline iterator end(){ return vector_.end() ; }
 	inline size_t size(){ return vector_.size(); }
-	
+	inline VEC & getVector() { return vector_; }
 	view_type view ;
-	VEC vector_ ;
+private:
+	VEC vector_;
 } ;
 
 template <typename T> class matrix_view {
@@ -159,8 +160,9 @@ public:
 	inline size_t nrow(){ return matrix_.nrow() ; }              
 	inline size_t ncol(){ return matrix_.ncol() ; }              
 	inline size_t size(){ return matrix_.size() ; }
-	
+	inline MAT & getMatrix() { return matrix_; }
 	view_type view ;
+private:
 	MAT matrix_ ;
 } ;
 

@@ -36,7 +36,7 @@ extern "C" SEXP colNorm(SEXP sM) {
 
 		for (int j = 0; j < k; j++) {
 			RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
-			n[j] = gsl_blas_dnrm2(colview.vector_ );
+			n[j] = gsl_blas_dnrm2(colview.getVector());
 		}
 		M.free() ;
 		return n;							// return vector  
