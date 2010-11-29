@@ -130,17 +130,17 @@ public:
 	typedef typename vector_view_type<T>::type view_type ;
 	typedef typename vector<T>::Proxy Proxy ;
 	
-	vector_view( view_type view_ ) : view(view_), vector(&view_.vector) {} 
+	vector_view( view_type view_ ) : view(view_), vector_(&view_.vector) {} 
 	inline operator view_type(){ return view ; }
 	inline Proxy operator[]( int i){ 
-		return vector[i] ;
+		return vector_[i] ;
 	}
-	inline iterator begin(){ return vector.begin() ; }
-	inline iterator end(){ return vector.end() ; }
-	inline size_t size(){ return vector.size(); }
+	inline iterator begin(){ return vector_.begin() ; }
+	inline iterator end(){ return vector_.end() ; }
+	inline size_t size(){ return vector_.size(); }
 	
 	view_type view ;
-	VEC vector ;
+	VEC vector_ ;
 } ;
 
 template <typename T> class matrix_view {
@@ -151,17 +151,17 @@ public:
 	typedef typename matrix_view_type<T>::type view_type ;
 	typedef typename matrix<T>::Proxy Proxy ;
 	
-	matrix_view( view_type view_ ) : view(view_), matrix(&view_.matrix) {} 
+	matrix_view( view_type view_ ) : view(view_), matrix_(&view_.matrix) {} 
 	inline operator view_type(){ return view; }
 	inline Proxy operator()(int row, int col){
-		return matrix(row,col);
+		return matrix_(row,col);
 	}
-	inline size_t nrow(){ return matrix.nrow() ; }              
-	inline size_t ncol(){ return matrix.ncol() ; }              
-	inline size_t size(){ return matrix.size() ; }
+	inline size_t nrow(){ return matrix_.nrow() ; }              
+	inline size_t ncol(){ return matrix_.ncol() ; }              
+	inline size_t size(){ return matrix_.size() ; }
 	
 	view_type view ;
-	MAT matrix ;
+	MAT matrix_ ;
 } ;
 
 }
