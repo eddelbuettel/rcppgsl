@@ -603,6 +603,49 @@ colNorm <- function(M) {
 }
 @
 
+\section{Using \pkg{RcppGSL} with \pkg{inline}}
+
+The \pkg{inline} \citep{CRAN:inline} is very helpful for prototyping code in
+\proglang{C}, \proglang{C++} or \proglang{Fortran} as it takes care of code
+compilation, linking and dynamic loading directly from \proglang{R}. It is
+being used extensively by \pkg{Rcpp}, for example in the numerous unit tests.
+
+The example below shows how \pkg{inline} can be deployed with
+\pkg{RcppGSL}. We implement the same column norm example, but this time as an
+\proglang{R} script which is compiled, linked and loaded on-the-fly. Compared
+to standard use of \pkg{inline}, we have to make sure to add a short section
+declaring which header files from \pkg{GSL} we need to use; the \pkg{RcppGSL}
+then communicates with \pkg{inline} to tell it about the location and names
+of libraries used to build code against \pkg{GSL}.
+
+<<lang=R,size=small>>=
+require(inline)
+
+inctxt='
+   #include <gsl/gsl_matrix.h>
+   #include <gsl/gsl_blas.h>
+'
+
+bodytxt='
+  RcppGSL::matrix<double> M = sM;     // create gsl data structures from SEXP
+  int k = M.ncol();
+  Rcpp::NumericVector n(k);           // to store results
+
+  for (int j = 0; j < k; j++) {
+    RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
+    n[j] = gsl_blas_dnrm2(colview.getVector());
+  }
+  M.free() ;
+  return n;                           // return vector
+'
+
+foo <- cxxfunction(signature(sM="numeric"), body=bodytxt, inc=inctxt, plugin="RcppGSL")
+
+M <- matrix(sin(0:9), nrow=10, ncol=1) %*% matrix(1, ncol=10) +
+     matrix(1, nrow=10) %*% matrix(cos(0:9), ncol=10)
+print(foo(M))
+@
+
 \section{Summary}
 
 The GNU Scientific Library (GSL) by \citet{GSL} offers a very comprehensive
