@@ -138,8 +138,10 @@ public:
 	inline iterator begin(){ return vector_.begin() ; }
 	inline iterator end(){ return vector_.end() ; }
 	inline size_t size(){ return vector_.size(); }
-	inline VEC & getVector() { return vector_; }
+	inline operator gsltype*(){ return vector_.data ; }
+	
 	view_type view ;
+	
 private:
 	VEC vector_;
 } ;
@@ -160,7 +162,7 @@ public:
 	inline size_t nrow(){ return matrix_.nrow() ; }              
 	inline size_t ncol(){ return matrix_.ncol() ; }              
 	inline size_t size(){ return matrix_.size() ; }
-	inline MAT & getMatrix() { return matrix_; }
+	inline operator gsltype*(){ return matrix_.data ; }
 	view_type view ;
 private:
 	MAT matrix_ ;

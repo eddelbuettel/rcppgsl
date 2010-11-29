@@ -19,6 +19,6 @@ inlineCxxPlugin <- Rcpp:::Rcpp.plugin.maker(
 	include.before = "#include <RcppGSL.h>",
 	#LinkingTo     = unique( c( package, "Rcpp", "RcppGSL" ) ),
 	#Depends       = unique( c( package, "Rcpp", "RcppGSL" ) ),
-	libs           = "-L/usr/lib -lgsl -lm $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)",
+	libs           = "-L/usr/local/lib -lgsl -lm $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)",
 	package        = "RcppGSL"
 )
