@@ -30,7 +30,10 @@ colNorm(M)
 }
 \examples{
   ## see Section 8.4.13 of the GSL manual
+  ## create M as a sum of two outer products
   M <- outer(sin(0:9), rep(1,10), "*") + outer(rep(1, 10), cos(0:9), "*")
   print(colNorm(M))
+  ## same result using just R
+  print(apply(M, 2, function(x) sqrt(sum(x^2))))
 }
 

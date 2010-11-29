@@ -507,10 +507,20 @@ returns the underlying matrix stored in the matrix view class.
 
 The \pkg{RcppGSL} package contains a complete example providing a single
 function \texttt{colNorm} which computes a norm for each column of a
-supplied. This example adapts a matrix example from the GSL manual as has
+supplied matrix. This example adapts a matrix example from the GSL manual that has
 been chose merely as a means to showing how to set up a package to use
-\pkg{RcppGSL}. Needless to say, we could compute such a matrix norm easily in
-\proglang{R} using existing facilities.
+\pkg{RcppGSL}.
+
+Needless to say, we could compute such a matrix norm easily in \proglang{R}
+using existing facilities. One such possibility is a simple
+\verb|apply(M, 2, function(x) sqrt(sum(x^2)))| as shown on the corresponding
+help page in the example package inside \pkg{RcppGSL}. One point in favour of
+using the \pkg{GSL} code is that it employs a BLAS function so on
+sufficiently large matrices, and with suitable BLAS libraries installed, this
+variant could be faster due to the optimised code in high-performance BLAS
+libraries and/or the inherent parallelism a multi-core BLAS variant which
+compute compute the vector norm in parallel.  On all `reasonable' matrix
+size, however, the performance difference should be neglible.
 
 \subsection{The \texttt{configure} script}
 
