@@ -491,6 +491,117 @@ The \texttt{RcppGSL::matrix} type also defines the following member functions:
   \end{itemize}
 \end{quote}
 
+\section{Using \pkg{RcppGSL} in your package}
+
+The \pkg{RcppGSL} package contains a complete example providing a single
+function \texttt{colNorm} which computes a norm for each column of a
+supplied. This example adapts a matrix example from the GSL manual as has
+been chose merely as a means to showing how to set up a package to use
+\pkg{RcppGSL}. Needless to say, we could compute such a matrix norm easily in
+\proglang{R} using existing facilities.
+
+\subsection{The \texttt{configure} script}
+
+Using \pkg{RcppGSL} means employing both the \pkg{GSL} and \proglang{R}. We
+may need to find the location of the \pkg{GSL} headers and library, and this
+done easily from a \texttt{configure} source script such as the following:
+
+<<lang=sh,size=small>>=
+AC_INIT([RcppGSLExample], 0.1.0)
+
+## Use gsl-config to find arguments for compiler and linker flags
+##
+## Check for non-standard programs: gsl-config(1)
+AC_PATH_PROG([GSL_CONFIG], [gsl-config])
+## If gsl-config was found, let's use it
+if test "${GSL_CONFIG}" != ""; then
+    # Use gsl-config for header and linker arguments (without BLAS which we get from R)
+    GSL_CFLAGS=`${GSL_CONFIG} --cflags`
+    GSL_LIBS=`${GSL_CONFIG} --libs-without-cblas`
+else
+    AC_MSG_ERROR([gsl-config not found, is GSL installed?])
+fi
+
+## Use Rscript to query Rcpp for compiler and linker flags
+## link flag providing libary as well as path to library, and optionally rpath
+RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
+
+# Now substitute these variables in src/Makevars.in to create src/Makevars
+AC_SUBST(GSL_CFLAGS)
+AC_SUBST(GSL_LIBS)
+AC_SUBST(RCPP_LDFLAGS)
+
+AC_OUTPUT(src/Makevars)
+@
+
+Such a source \texttt{configure.in} gets converted into a script
+\texttt{configure} by invoking the \texttt{autoconf} program.
+
+
+\subsection{The \texttt{src} directory}
+
+The \proglang{C++} source file takes the matrix supplied from \proglang{R}
+and applies the \pkg{GSL} function to each column.
+
+<<lang=cpp,size=small>>=
+#include <RcppGSL.h>
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_blas.h>
+
+extern "C" SEXP colNorm(SEXP sM) {
+
+  try {
+
+        RcppGSL::matrix<double> M = sM;     // create gsl data structures from SEXP
+        int k = M.ncol();
+        Rcpp::NumericVector n(k);           // to store results
+
+        for (int j = 0; j < k; j++) {
+            RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
+            n[j] = gsl_blas_dnrm2(colview.vector_ );
+        }
+        M.free() ;
+        return n;                           // return vector
+
+  } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+
+  } catch(...) {
+        ::Rf_error( "c++ exception (unknown reason)" );
+  }
+  return R_NilValue; // -Wall
+}
+@
+
+The \proglang{Makevars.in} file governs the compilation and uses the values
+supplied by \texttt{configure} during build-time:
+
+<<lang=sh,size=small>>=
+
+# set by configure
+GSL_CFLAGS = @GSL_CFLAGS@
+GSL_LIBS   = @GSL_LIBS@
+RCPP_LDFLAGS = @RCPP_LDFLAGS@
+
+# combine with standard arguments for R
+PKG_CPPFLAGS = $(GSL_CFLAGS)
+PKG_LIBS = $(GSL_LIBS) $(RCPP_LDFLAGS)
+@
+
+The variables surrounded by \@ will be filled by \texttt{configure} during
+package build-time.
+
+\subsection{The \texttt{R} directory}
+
+The \proglang{R} source is very simply: a single matrix is passed to \proglang{C++}:
+
+<<lang=R,size=small>>=
+
+colNorm <- function(M) {
+    stopifnot(is.matrix(M))
+    res <- .Call("colNorm", M, package="RcppGSLExample")
+}
+@
 
 \section{Summary}
 
