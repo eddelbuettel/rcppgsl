@@ -426,10 +426,9 @@ to compatible \pkg{GSL} algorithms.
   \label{tab:mappingVectorViews}
 \end{table}
 
-The \texttt{getVector()} member function returns the underlying vector stored
-in the vector view class.  This enables use of vector views where \pkg{GSL}
-would expect a vector.
-
+The vector view class also contains a conversion operator to automatically
+transform the data of the view object to a \pkg{GSL} vector object. This
+enables use of vector views where \pkg{GSL} would expect a vector.
 
 
 \section{Matrices}
@@ -500,8 +499,8 @@ The \texttt{RcppGSL::matrix} type also defines the following member functions:
 \subsection{Matrix views}
 
 Similar to the vector views discussed above, the \pkg{RcppGSL} also provides
-view variants of matrices.  Here, the \texttt{getMatrix()} member function
-returns the underlying matrix stored in the matrix view class.
+an implicit conversion operator which returns the underlying matrix stored in
+the matrix view class.
 
 \section{Using \pkg{RcppGSL} in your package}
 
@@ -580,7 +579,7 @@ extern "C" SEXP colNorm(SEXP sM) {
 
         for (int j = 0; j < k; j++) {
             RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
-            n[j] = gsl_blas_dnrm2(colview.vector_ );
+            n[j] = gsl_blas_dnrm2(colview);
         }
         M.free() ;
         return n;                           // return vector
@@ -655,7 +654,7 @@ bodytxt='
 
   for (int j = 0; j < k; j++) {
     RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
-    n[j] = gsl_blas_dnrm2(colview.getVector());
+    n[j] = gsl_blas_dnrm2(colview);
   }
   M.free() ;
   return n;                           // return vector
