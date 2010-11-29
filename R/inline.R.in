@@ -28,7 +28,8 @@ inlineCxxPlugin <- local({
                                          ##LinkingTo = unique( c( package, "Rcpp", "RcppGSL" ) ),
                                          ##Depends = unique( c( package, "Rcpp", "RcppGSL" ) ),
                                          libs = "@GSL_LIBS@ $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)",
-                                         package = "RcppGSL"
+                                         package = "RcppGSL", 
+                                         Makevars = "", Makevars.win = "" 
                                          )()
     settings$env$PKG_CPPFLAGS <- "@GSL_CFLAGS@"
     function(...) settings
