@@ -12,6 +12,8 @@ all: clean RcppGSL.pdf
 
 clean:
         # rm RcppGSL.pdf
+	rm -f RcppGSL.Rnw
+	cp RcppGSL/RcppGSL-fake.Rnw RcppGSL.Rnw
 
 RcppGSL.pdf: RcppGSL/RcppGSL.Rnw
 	cp -f RcppGSL/RcppGSL.Rnw .

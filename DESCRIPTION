@@ -22,7 +22,7 @@ Description: Rcpp integration for GNU GSL vectors and matrices
   eases the interfaces between R and C++.
 License: GPL (>=2)
 LazyLoad: yes
-Depends: Rcpp (>= 0.8.7)
-Suggests: RUnit
+Depends: Rcpp (>= 0.8.9)
+Suggests: RUnit, inline
 LinkingTo: Rcpp
 SystemRequirements: GNU GSL

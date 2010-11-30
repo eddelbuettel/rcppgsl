@@ -24,6 +24,8 @@ library( "RcppGSL" )
 options("width"=65)
 rcppgsl.version <- packageDescription( "RcppGSL" )$Version
 prettyDate <- format(Sys.Date(), "%B %e, %Y")
+require( inline )
+require( RcppGSL )
 @
 % closing $ needed here
 
@@ -296,8 +298,19 @@ RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
 
 The function can then simply be called from \proglang{R} :
 
-<<>>=
+<<results=hide,echo=FALSE>>=
+fx <- cxxfunction( signature( vec_ = "integer" ), '
+  RcppGSL::vector<int> vec = as< RcppGSL::vector<int> >(vec_) ;
+  int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
+  vec.free() ;  // we need to free vec after use
+  return wrap( res ) ;
+', plugin = "RcppGSL" )
+@
+<<eval=FALSE>>=
 .Call( "sum_gsl_vector_int", 1:10 )
+@
+<<echo=FALSE>>=
+fx(1:10)
 @
 
 A second example shows a simple function that grabs elements of an
@@ -329,9 +342,32 @@ called from \proglang{R} :
 
 <<>>=
 data <- list( x = seq(0,1,length=10), y = 1:10 )
+@
+<<eval=FALSE>>=
 .Call( "gsl_vector_sum_2", data )
 @
+<<results=hide, echo=FALSE>>=
+fx2 <- cxxfunction( signature( data_ = "list" ), '
+    List data(data_) ;
 
+  // grab "x" as a gsl_vector through the RcppGSL::vector<double> class
+  RcppGSL::vector<double> x = data["x"] ;
+
+  // grab "y" as a gsl_vector through the RcppGSL::vector<int> class
+  RcppGSL::vector<int> y = data["y"] ;
+  double res = 0.0 ;
+  for( size_t i=0; i< x->size; i++){
+    res += x[i] * y[i] ;
+  }
+
+  // as usual with GSL, we need to explicitely free the memory
+  x.free() ;
+  y.free() ;
+
+  // return the result
+  return wrap(res);
+', plugin = "RcppGSL" )
+@
 
 \subsection{Mapping}
 
