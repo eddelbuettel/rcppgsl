@@ -89,6 +89,7 @@ inlineCxxPlugin <- function(...) {
     settings <- plugin()
     settings$env$PKG_CPPFLAGS <- CFlags(FALSE)
     settings$configure <- readLines( system.file( "skeleton", "configure", package = "RcppGSL" ) )
+    settings$configure.win <- readLines( system.file( "skeleton", "configure.win", package = "RcppGSL" ) )
     settings$Makevars.in <- readLines( system.file( "skeleton", "Makevars.in", package = "RcppGSL" ) )
     settings
 }
