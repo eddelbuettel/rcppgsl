@@ -44,8 +44,8 @@ get_gsl_flags <- function(){
         td )
     setwd( td )
     
-    system( "autoconf" )
-    system( "sh configure" )
+    system( "autoconf", intern = TRUE )
+    system( "sh configure", intern = TRUE )
     
     txt <- readLines( "Makevars" )
     gsl_cflags <- sub( "^GSL_CFLAGS[[:space:]]*=[[:space:]]*", "" , grep( "^GSL_CFLAGS", txt, value = TRUE ) )
