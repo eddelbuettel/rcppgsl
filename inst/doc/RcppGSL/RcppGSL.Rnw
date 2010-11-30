@@ -555,13 +555,14 @@ sufficiently large matrices, and with suitable BLAS libraries installed, this
 variant could be faster due to the optimised code in high-performance BLAS
 libraries and/or the inherent parallelism a multi-core BLAS variant which
 compute compute the vector norm in parallel.  On all `reasonable' matrix
-size, however, the performance difference should be neglible.
+sizes, however, the performance difference should be neglible.
 
 \subsection{The \texttt{configure} script}
 
 Using \pkg{RcppGSL} means employing both the \pkg{GSL} and \proglang{R}. We
 may need to find the location of the \pkg{GSL} headers and library, and this
-done easily from a \texttt{configure} source script such as the following:
+done easily from a \texttt{configure} source script which \texttt{autoconf}
+generates from a \texttt{configure.in} source file such as the following:
 
 <<lang=sh,size=small>>=
 AC_INIT([RcppGSLExample], 0.1.0)
