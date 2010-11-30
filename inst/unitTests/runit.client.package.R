@@ -26,7 +26,7 @@ test.client.package <- function(){
 	file.copy( system.file( "examples", pkg, package = "RcppGSL" ) , td, recursive = TRUE)
 	Sys.chmod( file.path( td, "RcppGSLExample", "configure"), "0755")
 	setwd( td )
-	on.exit( { 
+	on.exit( {
 	    setwd( cwd)
 	    unlink( td, recursive = TRUE )
 	} )
@@ -38,6 +38,5 @@ test.client.package <- function(){
 	require( pkg, "templib", character.only = TRUE )
 	m <- matrix( 1:16, nc = 4 )
 	res <- colNorm( m )
-	#TODO [Dirk]: include an actual test
 	unlink( "templib", recursive = TRUE )
 }
