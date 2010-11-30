@@ -4,5 +4,5 @@ RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
 
 sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" src/Makevars.in |
     sed -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" |
-    sed -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" > src/Makevars
+    sed -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" > src/Makevars.win
 

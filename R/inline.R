@@ -84,7 +84,7 @@ inlineCxxPlugin <- function(...) {
     plugin <- Rcpp:::Rcpp.plugin.maker(
         include.before = "#include <RcppGSL.h>",
         libs = sprintf( "%s $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)", LdFlags(FALSE) ),
-        package = "RcppGSL", Makevars = NULL
+        package = "RcppGSL", Makevars = NULL, Makevars.win = NULL
     )
     settings <- plugin()
     settings$env$PKG_CPPFLAGS <- CFlags(FALSE)
