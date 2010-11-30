@@ -35,8 +35,6 @@ if test x"${RSCRIPT}" == x"yes" ; then
      if test -z "${R_HOME}"; then
          AC_MSG_ERROR([Could not determine R_HOME.])
      fi
-     ## Rcpp compile flag providing header directory containing Rcpp.h
-     RCPP_CXXFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::CxxFlags()'`
      ## link flag providing libary as well as path to library, and optionally rpath
      RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
 else
@@ -46,8 +44,6 @@ fi
 # Now substitute these variables in src/Makevars.in to create src/Makevars
 AC_SUBST(GSL_CFLAGS)
 AC_SUBST(GSL_LIBS)
-AC_SUBST(RCPP_CXXFLAGS)
-AC_SUBST(RCPP_LDFLAGS)
 
-AC_OUTPUT(src/Makevars)
+AC_OUTPUT(Makevars)
 
