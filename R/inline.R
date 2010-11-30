@@ -32,19 +32,10 @@ get_gsl_flags <- function(){
     gsl_cflags <- system( "gsl-config --cflags" , intern = TRUE )
     gsl_libs   <- system( "gsl-config --libs"   , intern = TRUE )
     
-    unlockBinding( "gsl_cflags", NAMESPACE )
-    unlockBinding( "gsl_libs", NAMESPACE )
-    unlockBinding( "know_flags", NAMESPACE )
-    
-    assign( "gsl_cflags", gsl_cflags, NAMESPACE )
-    assign( "gsl_libs", gsl_libs, NAMESPACE )
-    assign( "know_flags", TRUE, NAMESPACE )
-    
-    lockBinding( "gsl_cflags", NAMESPACE )
-    lockBinding( "gsl_libs", NAMESPACE )
-    lockBinding( "know_flags", NAMESPACE )
+    assignInNamespace( "gsl_cflags", gsl_cflags, NAMESPACE )
+    assignInNamespace( "gsl_libs", gsl_libs, NAMESPACE )
+    assignInNamespace( "know_flags", TRUE, NAMESPACE )
 }
-       
 
 LdFlags <- function( print = TRUE ){
     if( ! know_flags ) {
