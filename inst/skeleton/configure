@@ -4,7 +4,8 @@ GSL_CFLAGS=`${R_HOME}/bin/Rscript -e "RcppGSL:::CFlags()"`
 GSL_LIBS=`${R_HOME}/bin/Rscript -e "RcppGSL:::LdFlags()"`
 RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
 
-sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" src/Makevars.in |
-    sed -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" |
-    sed -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" > src/Makevars
+sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
+    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
+    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
+    src/Makevars.in > src/Makevars
 
