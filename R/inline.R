@@ -29,27 +29,8 @@ if(.Platform$OS.type=="windows") {
 }
 
 get_gsl_flags <- function(){
-    td <- tempfile()
-    here <- getwd()
-    dir.create( td ); on.exit( {
-        setwd( here )         
-        unlink( td, recursive = TRUE )
-    } )
-    
-    file.copy( 
-        system.file( "detective", "configure.in", package = "RcppGSL" ), 
-        td )
-    file.copy( 
-        system.file( "detective", "Makevars.in", package = "RcppGSL" ), 
-        td )
-    setwd( td )
-    
-    system( "autoconf", intern = TRUE )
-    system( "sh configure", intern = TRUE )
-    
-    txt <- readLines( "Makevars" )
-    gsl_cflags <- sub( "^GSL_CFLAGS[[:space:]]*=[[:space:]]*", "" , grep( "^GSL_CFLAGS", txt, value = TRUE ) )
-    gsl_libs   <- sub( "^GSL_LIBS[[:space:]]*=[[:space:]]*", "" , grep( "^GSL_LIBS", txt, value = TRUE ) )
+    gsl_cflags <- system( "gsl-config --cflags" )
+    gsl_libs   <- system( "gsl-config --libs" )
     
     unlockBinding( "gsl_cflags", NAMESPACE )
     unlockBinding( "gsl_libs", NAMESPACE )
@@ -62,7 +43,6 @@ get_gsl_flags <- function(){
     lockBinding( "gsl_cflags", NAMESPACE )
     lockBinding( "gsl_libs", NAMESPACE )
     lockBinding( "know_flags", NAMESPACE )
-       
 }
        
 
