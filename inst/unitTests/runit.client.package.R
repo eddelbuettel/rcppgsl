@@ -38,5 +38,7 @@ test.client.package <- function(){
 	require( pkg, "templib", character.only = TRUE )
 	m <- matrix( 1:16, nc = 4 )
 	res <- colNorm( m )
+    val <- apply(m, 2, function(x) sqrt(sum(x^2)))
 	unlink( "templib", recursive = TRUE )
+    checkEquals( res, val, msg = "colNorm in client package" )
 }
