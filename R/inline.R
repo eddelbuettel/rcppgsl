@@ -29,8 +29,8 @@ if(.Platform$OS.type=="windows") {
 }
 
 get_gsl_flags <- function(){
-    gsl_cflags <- system( "gsl-config --cflags" )
-    gsl_libs   <- system( "gsl-config --libs" )
+    gsl_cflags <- system( "gsl-config --cflags" , intern = TRUE )
+    gsl_libs   <- system( "gsl-config --libs"   , intern = TRUE )
     
     unlockBinding( "gsl_cflags", NAMESPACE )
     unlockBinding( "gsl_libs", NAMESPACE )
