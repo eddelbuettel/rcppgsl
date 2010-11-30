@@ -21,18 +21,18 @@ if(.Platform$OS.type=="windows") {
     LIB_GSL <- Sys.getenv("LIB_GSL")
     gsl_cflags <- sprintf( "-I%s/include", LIB_GSL )
     gsl_libs   <- sprintf( "-L%s/lib -lgsl -lgslcblas", LIB_GSL )
-    known_flags <- TRUE
+    know_flags <- TRUE
 } else {             
     gsl_cflags <- ""
     gsl_libs <- ""
-    known_flags <- FALSE    
+    know_flags <- FALSE    
 }
 
 get_gsl_flags <- function(){
     td <- tempfile()
     here <- getwd()
     dir.create( td ); on.exit( {
-        setwd( here )
+        setwd( here )         
         unlink( td, recursive = TRUE )
     } )
     
