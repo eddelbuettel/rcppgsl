@@ -66,28 +66,28 @@ get_gsl_flags <- function(){
 }
        
 
-LdFlags <- function(){
+LdFlags <- function( print = TRUE ){
     if( ! know_flags ) {
         get_gsl_flags()
     }
-    gsl_libs
+    if( print) cat( gsl_libs ) else gsl_libs
 }
 
-CFlags <- function(){
+CFlags <- function( print = TRUE){
     if( ! know_flags ) {
         get_gsl_flags()
     }
-    gsl_cflags
+    if( print ) cat( gsl_cflags ) else gsl_cflags
 }
 
 inlineCxxPlugin <- function(...) {
     plugin <- Rcpp:::Rcpp.plugin.maker(
         include.before = "#include <RcppGSL.h>",
-        libs = sprintf( "%s $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)", LdFlags() ),
+        libs = sprintf( "%s $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)", LdFlags(FALSE) ),
         package = "RcppGSL"
     )
     settings <- plugin()
-    settings$env$PKG_CPPFLAGS <- CFlags()
+    settings$env$PKG_CPPFLAGS <- CFlags(FALSE)
     settings
 }
 
