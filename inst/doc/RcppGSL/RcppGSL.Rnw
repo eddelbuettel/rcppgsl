@@ -602,8 +602,8 @@ Such a source \texttt{configure.in} gets converted into a script
 
 \subsubsection{Using functions provided by RcppGSL}
 
-\pkg{RcppGSL} provides R functions that allows one to retrieve the same 
-information. Therefore the configure script can also be written as: 
+\pkg{RcppGSL} provides R functions that allows one to retrieve the same
+information. Therefore the configure script can also be written as:
 
 <<lang=bash>>=
 #!/bin/sh
@@ -618,7 +618,7 @@ sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
     src/Makevars.in > src/Makevars
 @
 
-Similarly, the configure.win for windows can be written as: 
+Similarly, the configure.win for windows can be written as:
 
 <<lang=bash>>=
 GSL_CFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::CFlags()"`
@@ -626,7 +626,7 @@ GSL_LIBS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::LdFlags()"`
 RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
 
 sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
-    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" |
+    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
     -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
     src/Makevars.in > src/Makevars.win
 @
@@ -738,8 +738,8 @@ M <- outer(sin(0:9), rep(1,10), "*") + outer(rep(1, 10), cos(0:9), "*")
 print(foo(M))
 @
 
-The \texttt{RcppGSL} inline plugin supports creation of a package skeleton 
-based on the inline function. 
+The \texttt{RcppGSL} inline plugin supports creation of a package skeleton
+based on the inline function.
 
 <<eval=FALSE>>=
 package.skeleton( "mypackage", foo )
