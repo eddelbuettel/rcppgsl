@@ -562,6 +562,8 @@ sizes, however, the performance difference should be neglible.
 
 \subsection{The \texttt{configure} script}
 
+\subsubsection{Using autoconf}
+
 Using \pkg{RcppGSL} means employing both the \pkg{GSL} and \proglang{R}. We
 may need to find the location of the \pkg{GSL} headers and library, and this
 done easily from a \texttt{configure} source script which \texttt{autoconf}
@@ -598,6 +600,36 @@ AC_OUTPUT(src/Makevars)
 Such a source \texttt{configure.in} gets converted into a script
 \texttt{configure} by invoking the \texttt{autoconf} program.
 
+\subsubsection{Using functions provided by RcppGSL}
+
+\pkg{RcppGSL} provides R functions that allows one to retrieve the same 
+information. Therefore the configure script can also be written as: 
+
+<<lang=bash>>=
+#!/bin/sh
+
+GSL_CFLAGS=`${R_HOME}/bin/Rscript -e "RcppGSL:::CFlags()"`
+GSL_LIBS=`${R_HOME}/bin/Rscript -e "RcppGSL:::LdFlags()"`
+RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
+
+sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
+    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
+    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
+    src/Makevars.in > src/Makevars
+@
+
+Similarly, the configure.win for windows can be written as: 
+
+<<lang=bash>>=
+GSL_CFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::CFlags()"`
+GSL_LIBS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::LdFlags()"`
+RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
+
+sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
+    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" |
+    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
+    src/Makevars.in > src/Makevars.win
+@
 
 \subsection{The \texttt{src} directory}
 
