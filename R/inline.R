@@ -16,10 +16,17 @@
 ## along with RcppArmadillo.  If not, see <http://www.gnu.org/licenses/>.
 
 NAMESPACE <- environment()
-know_flags <- FALSE
-gsl_cflags <- ""
-gsl_libs   <- ""
-     
+
+if(.Platform$OS.type=="windows") {
+    LIB_GSL <- Sys.getenv("LIB_GSL")
+    gsl_cflags <- sprintf( "-I%s/include", LIB_GSL )
+    gsl_libs   <- sprintf( "-L%s/lib -lgsl -lgslcblas", LIB_GSL )
+    known_flags <- TRUE
+} else {             
+    gsl_cflags <- ""
+    gsl_libs <- ""
+    known_flags <- FALSE    
+}
 
 get_gsl_flags <- function(){
     td <- tempfile()
