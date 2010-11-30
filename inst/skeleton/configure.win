@@ -1,8 +1,6 @@
-#!/bin/sh
-
-GSL_CFLAGS=`${R_HOME}/bin/Rscript -e "RcppGSL:::CFlags()"`
-GSL_LIBS=`${R_HOME}/bin/Rscript -e "RcppGSL:::LdFlags()"`
-RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
+GSL_CFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::CFlags()"`
+GSL_LIBS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::LdFlags()"`
+RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
 
 sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" src/Makevars.in |
     sed -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" |
