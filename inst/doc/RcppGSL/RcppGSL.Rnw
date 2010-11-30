@@ -368,6 +368,9 @@ fx2 <- cxxfunction( signature( data_ = "list" ), '
   return wrap(res);
 ', plugin = "RcppGSL" )
 @
+<<echo=FALSE>>=
+fx2( data )
+@
 
 \subsection{Mapping}
 
@@ -701,6 +704,13 @@ foo <- cxxfunction(signature(sM="numeric"), body=bodytxt, inc=inctxt, plugin="Rc
 
 M <- outer(sin(0:9), rep(1,10), "*") + outer(rep(1, 10), cos(0:9), "*")
 print(foo(M))
+@
+
+The \texttt{RcppGSL} inline plugin supports creation of a package skeleton 
+based on the inline function. 
+
+<<eval=FALSE>>=
+package.skeleton( "mypackage", foo )
 @
 
 \section{Summary}
