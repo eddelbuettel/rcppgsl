@@ -11,8 +11,7 @@ whoami=$(shell whoami)
 all: clean RcppGSL.pdf
 
 clean:
-        # rm RcppGSL.pdf
-	rm -f RcppGSL.Rnw
+	rm -f RcppGSL.Rnw 
 	cp RcppGSL/RcppGSL-fake.Rnw RcppGSL.Rnw
 
 RcppGSL.pdf: RcppGSL/RcppGSL.Rnw
@@ -30,5 +29,5 @@ ifneq (,$(findstring edd,$(whoami)))
 else
 	Rscript -e "tools::texi2dvi( 'RcppGSL.tex', pdf = TRUE, clean = TRUE )"
 endif
-        # rm -fr RcppGSL.tex RcppGSL.bbl RcppGSL.blg RcppGSL.aux RcppGSL.out RcppGSL.log 
+	rm -fr RcppGSL.tex RcppGSL.bbl RcppGSL.blg RcppGSL.aux RcppGSL.out RcppGSL.log 
 	cp RcppGSL/RcppGSL-fake.Rnw RcppGSL.Rnw
