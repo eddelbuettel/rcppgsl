@@ -1,3 +1,7 @@
+2010-11-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Version 0.1.0 and initial release
+
 2010-11-29  Romain Francois <romain@r-enthusiasts.com>
 
 	* inst/include/RcppGSLForward.h: vector_view<T> now exposes a conversion

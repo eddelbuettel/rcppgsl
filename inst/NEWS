@@ -1,6 +1,8 @@
-0.1.0   2010-11-28
+0.1.0   2010-11-30
 
     o   Initial CRAN release with basic functionality for vectors and matrices
 
-    o   RcppGSL vignette provides an introduction and documentation about the
-        package
+    o   A vignette provides an introduction and documentation about the package
+
+    o   An example package RcppGSLExample provides a complete stanza for
+        creating your own package using RcppGSL (and the GSL and Rcpp)
