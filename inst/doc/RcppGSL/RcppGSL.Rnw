@@ -218,7 +218,7 @@ concludes the section.
 data, similar to \proglang{R} arrays. For example the \verb|gsl_vector| and \verb|gsl_vector_int|
 structs are defined as:
 
-<<lang=cpp>>=
+<<lang=cpp,size=small>>=
 typedef struct{
   size_t size;
   size_t stride;
@@ -239,7 +239,7 @@ gsl_vector_int;
 
 A typical use of the \verb|gsl_vector| struct is given below:
 
-<<lang=cpp>>=
+<<lang=cpp,size=small>>=
 int i;
 gsl_vector * v = gsl_vector_alloc (3);  // allocate a gsl_vector of size 3
 
@@ -261,7 +261,7 @@ gsl_vector_free (v);                    // free the memory
 \verb|gsl_vector| pointers taking advantage of C++ templates. Using this
 template type, the previous example now becomes:
 
-<<lang=cpp>>=
+<<lang=cpp,size=small>>=
 int i;
 RcppGSL::vector<double> v(3);           // allocate a gsl_vector of size 3
 
@@ -288,7 +288,7 @@ following example defines a \texttt{.Call} compatible function called
 \verb|sum_gsl_vector_int| that operates on a \verb|gsl_vector_int| through
 the \texttt{RcppGSL::vector<int>} template specialization:
 
-<<lang=cpp>>=
+<<lang=cpp,size=small>>=
 RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
   int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
   vec.free() ;  // we need to free vec after use
@@ -306,7 +306,7 @@ fx <- cxxfunction( signature( vec_ = "integer" ), '
   return wrap( res ) ;
 ', plugin = "RcppGSL" )
 @
-<<eval=FALSE>>=
+<<eval=FALSE,size=small>>=
 .Call( "sum_gsl_vector_int", 1:10 )
 @
 <<echo=FALSE>>=
@@ -317,7 +317,7 @@ A second example shows a simple function that grabs elements of an
 R list as \verb|gsl_vector| objects using implicit conversion mechanisms
 of \pkg{Rcpp}
 
-<<lang=cpp>>=
+<<lang=cpp,size=small>>=
 RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
   // grab "x" as a gsl_vector through the RcppGSL::vector<double> class
   RcppGSL::vector<double> x = data["x"] ;
@@ -340,7 +340,7 @@ RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
 
 called from \proglang{R} :
 
-<<>>=
+<<size=small>>=
 data <- list( x = seq(0,1,length=10), y = 1:10 )
 @
 <<eval=FALSE>>=
@@ -411,7 +411,7 @@ Several \pkg{GSL} algorithms return \pkg{GSL} vector views as their result
 type. \pkg{RcppGSL} defines the template class \texttt{RcppGSL::vector\_view}
 to handle vector views using \proglang{C++} syntax.
 
-<<lang=cpp>>=
+<<lang=cpp,size=small>>=
 extern "C" SEXP test_gsl_vector_view(){
   int n = 10 ;
   RcppGSL::vector<double> v(n) ;
@@ -481,7 +481,7 @@ template.
 
 The \texttt{RcppGSL::matrix} template exposes three constructors.
 
-<<lang=cpp>>=
+<<lang=cpp,size=small>>=
 // convert an R matrix to a GSL matrix
 matrix( SEXP x) throw(::Rcpp::not_compatible)
 
@@ -499,11 +499,11 @@ the associated \pkg{GSL} matrix type, as well as dereferencing operators, making
 the class \texttt{RcppGSL::matrix} look and feel like a pointer to a GSL
 matrix type.
 
-<<lang=cpp>>=
-  gsltype* data ;
-  operator gsltype*(){ return data ; }
-  gsltype* operator->() const { return data; }
-  gsltype& operator*() const { return *data; }
+<<lang=cpp,size=small>>=
+gsltype* data ;
+operator gsltype*(){ return data ; }
+gsltype* operator->() const { return data; }
+gsltype& operator*() const { return *data; }
 @
 
 \subsection{Indexing}
@@ -515,11 +515,11 @@ Indexing of \pkg{GSL} matrices is usually the task of the functions
 \pkg{RcppGSL} takes advantage of both operator overloading and templates
 to make indexing a \pkg{GSL} matrix much more convenient.
 
-<<lang=cpp>>=
+<<lang=cpp,size=small>>=
 RcppGSL::matrix<int> mat(10,10);        // create a matrix of size 10x10
 
 for( int i=0; i<10: i++) {              // fill the diagonal
-        mat(i,i) = i ;
+    mat(i,i) = i ;
 }
 @
 
@@ -605,7 +605,7 @@ Such a source \texttt{configure.in} gets converted into a script
 \pkg{RcppGSL} provides R functions that allows one to retrieve the same
 information. Therefore the configure script can also be written as:
 
-<<lang=bash>>=
+<<lang=bash,size=small>>=
 #!/bin/sh
 
 GSL_CFLAGS=`${R_HOME}/bin/Rscript -e "RcppGSL:::CFlags()"`
@@ -620,7 +620,7 @@ sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
 
 Similarly, the configure.win for windows can be written as:
 
-<<lang=bash>>=
+<<lang=bash,size=small>>=
 GSL_CFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::CFlags()"`
 GSL_LIBS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::LdFlags()"`
 RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
@@ -698,7 +698,7 @@ colNorm <- function(M) {
 
 \section{Using \pkg{RcppGSL} with \pkg{inline}}
 
-The \pkg{inline} \citep{CRAN:inline} is very helpful for prototyping code in
+The \pkg{inline} package \citep{CRAN:inline} is very helpful for prototyping code in
 \proglang{C}, \proglang{C++} or \proglang{Fortran} as it takes care of code
 compilation, linking and dynamic loading directly from \proglang{R}. It is
 being used extensively by \pkg{Rcpp}, for example in the numerous unit tests.
