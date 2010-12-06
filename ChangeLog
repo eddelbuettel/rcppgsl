@@ -1,3 +1,7 @@
+2010-12-06  Romain Francois <romain@r-enthusiasts.com>
+
+    * inst/doc/RcppGSL/RcppGSL.Rnw: cosmetics
+
 2010-11-30  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Version 0.1.0 and initial release

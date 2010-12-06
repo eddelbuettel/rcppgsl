@@ -16,7 +16,7 @@ clean:
 
 RcppGSL.pdf: RcppGSL/RcppGSL.Rnw
 	cp -f RcppGSL/RcppGSL.Rnw .
-	Rscript --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = TRUE, bg = 'white' ); Sweave( 'RcppGSL.Rnw', driver = driver ); "
+	Rscript --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = TRUE); Sweave( 'RcppGSL.Rnw', driver = driver ); "
 ifneq (,$(findstring edd,$(whoami)))
 	pdflatex RcppGSL
 else

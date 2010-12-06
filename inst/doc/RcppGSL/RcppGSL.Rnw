@@ -299,18 +299,16 @@ RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
 The function can then simply be called from \proglang{R} :
 
 <<results=hide,echo=FALSE>>=
-fx <- cxxfunction( signature( vec_ = "integer" ), '
+fx <- cxxfunction( 
+    list( sum_gsl_vector_int = signature( vec_ = "integer" ) ), 
+    c( sum_gsl_vector_int = '
   RcppGSL::vector<int> vec = as< RcppGSL::vector<int> >(vec_) ;
   int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
   vec.free() ;  // we need to free vec after use
   return wrap( res ) ;
-', plugin = "RcppGSL" )
-@
-<<eval=FALSE,size=small>>=
+' ), plugin = "RcppGSL" )
+<<size=small>>=
 .Call( "sum_gsl_vector_int", 1:10 )
-@
-<<echo=FALSE>>=
-fx(1:10)
 @
 
 A second example shows a simple function that grabs elements of an
@@ -340,14 +338,9 @@ RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
 
 called from \proglang{R} :
 
-<<size=small>>=
-data <- list( x = seq(0,1,length=10), y = 1:10 )
-@
-<<eval=FALSE>>=
-.Call( "gsl_vector_sum_2", data )
-@
 <<results=hide, echo=FALSE>>=
-fx2 <- cxxfunction( signature( data_ = "list" ), '
+fx2 <- cxxfunction( list( gsl_vector_sum_2 = signature( data_ = "list" ) ), 
+c( gsl_vector_sum_2 = '
     List data(data_) ;
 
   // grab "x" as a gsl_vector through the RcppGSL::vector<double> class
@@ -366,10 +359,11 @@ fx2 <- cxxfunction( signature( data_ = "list" ), '
 
   // return the result
   return wrap(res);
-', plugin = "RcppGSL" )
+' ), plugin = "RcppGSL" )
 @
-<<echo=FALSE>>=
-fx2( data )
+<<>>=
+data <- list( x = seq(0,1,length=10), y = 1:10 )
+.Call( "gsl_vector_sum_2", data )
 @
 
 \subsection{Mapping}
