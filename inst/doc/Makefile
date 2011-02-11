@@ -8,11 +8,19 @@
 ## on Ubuntu so for Dirk will insist on pdflatex and this variable helps
 whoami=$(shell whoami)
 
-all: clean RcppGSL.pdf
+all: clean RcppGSL-unitTests.pdf RcppGSL.pdf
 
 clean:
 	rm -f RcppGSL.Rnw 
 	cp RcppGSL/RcppGSL-fake.Rnw RcppGSL.Rnw
+
+
+RcppGSL-unitTests.pdf:
+	rm -fr unitTests-results/*
+	Rscript --vanilla unitTests/RcppGSL-unitTests.R
+	R CMD Sweave RcppGSL-unitTests.Rnw
+	Rscript --vanilla -e "tools::texi2dvi( 'RcppGSL-unitTests.tex', pdf = TRUE, clean = TRUE )"
+	rm -fr RcppGSL-unitTests.tex
 
 RcppGSL.pdf: RcppGSL/RcppGSL.Rnw
 	cp -f RcppGSL/RcppGSL.Rnw .
