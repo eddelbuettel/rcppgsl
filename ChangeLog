@@ -1,6 +1,12 @@
+2011-02-11  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/doc/RcppGSL/Makefile: Also create unitTest vignette
+	* inst/doc/RcppGSL/RcppGSL-unitTests.Rnw: idem
+	* inst/doc/RcppGSL/unitTests/RcppGSL-unitTests.R: idem
+
 2010-12-06  Romain Francois <romain@r-enthusiasts.com>
 
-    * inst/doc/RcppGSL/RcppGSL.Rnw: cosmetics
+	* inst/doc/RcppGSL/RcppGSL.Rnw: cosmetics
 
 2010-11-30  Dirk Eddelbuettel  <edd@debian.org>
 
