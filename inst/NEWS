@@ -1,3 +1,7 @@
+0.1.1   2011-xx-yy
+
+    o   inst/doc/Makefile now respects $R_HOME environment variable
+
 0.1.0   2010-11-30
 
     o   Initial CRAN release with basic functionality for vectors and matrices
