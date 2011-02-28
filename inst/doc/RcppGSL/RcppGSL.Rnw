@@ -40,7 +40,7 @@ require( RcppGSL )
   \shortcites{GSL} %% so that we get Galassi et al instead of all names
   \noindent
   The GNU Scientific Library, or \pkg{GSL}, is a collection of numerical
-  routines for scientifc computing \citep{GSL}. It is particularly useful for
+  routines for scientific computing \citep{GSL}. It is particularly useful for
   \proglang{C} and \proglang{C++} programs as it provides a standard
   \proglang{C} interface to a wide range of mathematical routines such as
   special functions, permutations, combinations, fast fourier transforms,
@@ -60,7 +60,7 @@ require( RcppGSL )
 \section{Introduction}
 
 The GNU Scientific Library, or \pkg{GSL}, is a collection of numerical
-routines for scientifc computing \citep{GSL}. It is a rigourously developed
+routines for scientific computing \citep{GSL}. It is a rigourously developed
 and tested library providing support for a wide range of scientific or
 numerical tasks. Among the topics covered in the GSL are
 %% from the GSL manual
@@ -299,8 +299,8 @@ RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
 The function can then simply be called from \proglang{R} :
 
 <<results=hide,echo=FALSE>>=
-fx <- cxxfunction( 
-    list( sum_gsl_vector_int = signature( vec_ = "integer" ) ), 
+fx <- cxxfunction(
+    list( sum_gsl_vector_int = signature( vec_ = "integer" ) ),
     c( sum_gsl_vector_int = '
   RcppGSL::vector<int> vec = as< RcppGSL::vector<int> >(vec_) ;
   int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
@@ -339,7 +339,7 @@ RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
 called from \proglang{R} :
 
 <<results=hide, echo=FALSE>>=
-fx2 <- cxxfunction( list( gsl_vector_sum_2 = signature( data_ = "list" ) ), 
+fx2 <- cxxfunction( list( gsl_vector_sum_2 = signature( data_ = "list" ) ),
 c( gsl_vector_sum_2 = '
     List data(data_) ;
 
@@ -726,7 +726,7 @@ bodytxt='
 '
 
 foo <- cxxfunction(
-    signature(sM="numeric"), 
+    signature(sM="numeric"),
     body=bodytxt, inc=inctxt, plugin="RcppGSL")
 
 ## see Section 8.4.13 of the GSL manual: create M as a sum of two outer products
