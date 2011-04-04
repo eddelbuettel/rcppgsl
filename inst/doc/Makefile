@@ -1,14 +1,14 @@
 
 ## There is an old bug in texidvi that makes it not swallow the ~
 ## marker used to denote whitespace. This is actually due to fixing
-## another bug they whereby you could not run texidvi on directory
-## names containing a tilde (as we happen to do for Debian builds of R
+## another bug whereby you could not run texidvi on directory names
+## containing a tilde (as we happen to do for Debian builds of R
 ## alpha/beta/rc releases). The 'tilde' bug will go away as it
 ## reportedly has been squashed upstream but I am still bitten by it
-## on Ubuntu so for Dirk will insist on pdflatex and this variable helps
+## on Ubuntu so for now Dirk will insist on pdflatex and this helps.
 whoami=$(shell whoami)
 
-all: clean RcppGSL-unitTests.pdf RcppGSL.pdf
+all: RcppGSL-unitTests.pdf RcppGSL.pdf
 
 clean:
 	rm -f RcppGSL.Rnw 
