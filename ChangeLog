@@ -1,3 +1,7 @@
+2011-04-05  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Version 0.1.1
+
 2011-04-04  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/doc/Makefile: Do not call clean in all target

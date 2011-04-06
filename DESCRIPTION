@@ -1,7 +1,7 @@
 Package: RcppGSL
 Type: Package
 Title: Rcpp integration for GNU GSL vectors and matrices
-Version: 0.1.0.1
+Version: 0.1.1
 Date: $Date$
 Author: Romain Francois and Dirk Eddelbuettel
 Maintainer: Dirk Eddelbuettel and Romain Francois <RomainAndDirk@r-enthusiasts.com>
@@ -20,7 +20,7 @@ Description: Rcpp integration for GNU GSL vectors and matrices
   The RcppGSL package provides an easy-to-use interface between GSL data
   structures and R using concepts from Rcpp which is itself a package that
   eases the interfaces between R and C++.
-License: GPL (>=2)
+License: GPL (>= 2)
 LazyLoad: yes
 Depends: Rcpp (>= 0.8.9)
 Suggests: RUnit, inline

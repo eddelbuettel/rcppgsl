@@ -1,6 +1,10 @@
-0.1.1   2011-xx-yy
+0.1.1   2011-04-05
 
-    o   inst/doc/Makefile now respects $R_HOME environment variable
+    o   Unit tests produce a summary vignette as for some of the other packages
+
+    o   The documentation Makefile now uses the $R_HOME environment variable
+
+    o   The documentation Makefile no longer calls clean in the all target
 
 0.1.0   2010-11-30
 
