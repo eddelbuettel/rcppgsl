@@ -89,7 +89,7 @@ print.summary.fastLm <- function(x, ...) {
     print(x$call)
     cat("\n")
 
-    printCoefmat(x$coefficients, P.value=TRUE, has.Pvalue=TRUE)
+    printCoefmat(x$coefficients, P.values=TRUE, has.Pvalue=TRUE)
 }
 
 fastLm.formula <- function(formula, data=list(), ...) {
