@@ -1,3 +1,8 @@
+2011-06-14  Douglas Bates <bates@stat.wisc.edu>
+
+	* R/fastLm.R, fastLm.Rd, src/fastLm.cpp: Change order of arguments in
+	fastLm.cpp and fastLm.R and documentation.
+
 2011-06-13  Dirk Eddelbuettel  <edd@debian.org>
 
 	* NAMESPACE: Properly export S3methods as such
