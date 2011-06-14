@@ -24,7 +24,7 @@
 #include <gsl/gsl_multifit.h>
 #include <cmath>
 
-extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
+extern "C" SEXP fastLm(SEXP Xs, SEXP ys) {
 
     try {
 	
@@ -51,8 +51,8 @@ extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
 		std::transform( std_err.begin(), std_err.end(), std_err.begin(), sqrt );
 
 		Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
-											Rcpp::Named("stderr") = std_err,
-											Rcpp::Named("df") = n - k);
+											Rcpp::Named("stderr")       = std_err,
+											Rcpp::Named("df.residual")  = n - k);
 
 		// free all the GSL vectors and matrices -- as these are really C data structures
 		// we cannot take advantage of automatic memory management

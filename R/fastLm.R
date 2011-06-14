@@ -17,25 +17,25 @@
 ## You should have received a copy of the GNU General Public License
 ## along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-fastLmPure <- function(y, X) {
+fastLmPure <- function(X, y) {
 
     stopifnot(is.matrix(X))
     stopifnot(nrow(y)==nrow(X))
 
-    res <- .Call("fastLm", y, X, package="RcppGSL")
+    res <- .Call("fastLm", X, y, package="RcppGSL")
 }
 
 fastLm <- function(x, ...) UseMethod("fastLm")
 
-fastLm.default <- function(x, y, ...) {
+fastLm.default <- function(X, y, ...) {
 
-    x <- as.matrix(x)
+    X <- as.matrix(X)
     y <- as.numeric(y)
 
-    res <- fastLmPure(y, x)
-    names(res$coefficients) <- colnames(x)
+    res <- fastLmPure(X, y)
+    names(res$coefficients) <- colnames(X)
 
-    res$fitted.values <- as.vector(x %*% res$coefficients)
+    res$fitted.values <- as.vector(X %*% res$coefficients)
     res$residuals <- y - res$fitted.values
     res$call <- match.call()
 
@@ -60,8 +60,8 @@ summary.fastLm <- function(object, ...) {
                  p.value = 2*pt(-abs(tval), df=object$df))
 
     # why do I need this here?
-    rownames(TAB) <- names(object$coefficients)
-    colnames(TAB) <- c("Estimate", "StdErr", "t.value", "p.value")
+#    rownames(TAB) <- names(object$coefficients)
+#    colnames(TAB) <- c("Estimate", "StdErr", "t.value", "p.value")
 
     ## cf src/stats/R/lm.R and case with no weights and an intercept
     f <- object$fitted.values
@@ -94,10 +94,10 @@ print.summary.fastLm <- function(x, ...) {
 
 fastLm.formula <- function(formula, data=list(), ...) {
     mf <- model.frame(formula=formula, data=data)
-    x <- model.matrix(attr(mf, "terms"), data=mf)
+    X <- model.matrix(attr(mf, "terms"), data=mf)
     y <- model.response(mf)
 
-    res <- fastLm.default(x, y, ...)
+    res <- fastLm.default(X, y, ...)
     res$call <- match.call()
     res$formula <- formula
     res

@@ -10,16 +10,15 @@
   function of the \code{GNU GSL} library.
 }
 \usage{
-fastLmPure(y, X)
+fastLmPure(X, y)
 
-fastLm(x, \dots)
-\method{fastLm}{default}(x, y, \dots)
+fastLm(X, \dots)
+\method{fastLm}{default}(X, y, \dots)
 \method{fastLm}{formula}(formula, data = list(), \dots)
 }
 \arguments{
   \item{y}{a vector containing the explained variable.}
-  \item{X}{a data.frame or matrix containing the explanatory variables.}
-  \item{x}{a numeric design matrix for the model.}
+  \item{X}{a model matrix.}
   \item{formula}{a symbolic description of the model to be fit.}
   \item{data}{an optional data frame containing the variables in the model.}
   \item{\ldots}{not used}
