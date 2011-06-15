@@ -19,7 +19,7 @@
 # along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
 test.fastLm <- function() {
-    data(trees)
+    data(trees, package="datasets")
     flm <- .Call("fastLm",
                  cbind(1, log(trees$Girth)),
                  log(trees$Volume),
@@ -33,7 +33,7 @@ test.fastLm <- function() {
 }
 
 test.fastLm.formula <- function() {
-    data(trees)
+    data(trees, package="datasets")
     flm <- fastLm(log(Volume) ~ log(Girth), data=trees)
     fit <- lm(log(Volume) ~ log(Girth), data=trees)
 
