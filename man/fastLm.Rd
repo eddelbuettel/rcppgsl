@@ -68,8 +68,7 @@ fastLm(X, \dots)
   Gerard Jungman.  RcppGSL is written by Romain Francois and Dirk Eddelbuettel.
 }
 \examples{
-  require(datasets)
-  data(trees)
+  data(trees, package="datasets")
 
   ## bare-bones direct interface
   flm <- fastLmPure( cbind(1, log(trees$Girth)), log(trees$Volume) )
