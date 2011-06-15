@@ -1,6 +1,7 @@
+
 ## fastLm.R: Rcpp/GSL implementation of lm()
 ##
-## Copyright (C)  2010 Dirk Eddelbuettel and Romain Francois
+## Copyright (C)  2010 - 2011 Dirk Eddelbuettel and Romain Francois
 ##
 ## This file is part of RcppGSL.
 ##
@@ -25,7 +26,7 @@ fastLmPure <- function(X, y) {
     res <- .Call("fastLm", X, y, package="RcppGSL")
 }
 
-fastLm <- function(x, ...) UseMethod("fastLm")
+fastLm <- function(X, ...) UseMethod("fastLm")
 
 fastLm.default <- function(X, y, ...) {
 

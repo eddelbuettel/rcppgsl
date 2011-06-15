@@ -1,7 +1,8 @@
 2011-06-14  Douglas Bates <bates@stat.wisc.edu>
 
-	* R/fastLm.R, fastLm.Rd, src/fastLm.cpp: Change order of arguments in
-	fastLm.cpp and fastLm.R and documentation.
+	* R/fastLm.R, man/fastLm.Rd, src/fastLm.cpp,
+	inst/unitTests/runit.fastLm.R: Change order of arguments in
+	fastLm.cpp, fastLm.R, unit test and documentation.
 
 2011-06-13  Dirk Eddelbuettel  <edd@debian.org>
 

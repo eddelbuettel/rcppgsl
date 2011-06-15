@@ -72,7 +72,7 @@ fastLm(X, \dots)
   data(trees)
 
   ## bare-bones direct interface
-  flm <- fastLmPure( log(trees$Volume),  cbind(1, log(trees$Girth)) )
+  flm <- fastLmPure( cbind(1, log(trees$Girth)), log(trees$Volume) )
   print(flm)
 
   ## standard R interface for formula or data returning object of class fastLm
