@@ -1,3 +1,13 @@
+2011-12-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/RcppGSLForward.h (RcppGSL): Commented-out long and
+	ulong declarations which currently clash with int64
+
+	* inst/include/RcppGSL_matrix.h (RcppGSL): Commented-out long and
+	ulong casts which currently clash with int64
+
+	* inst/unitTests/runit.gsl.R: Disable corresponding tests
+
 2011-06-14  Douglas Bates <bates@stat.wisc.edu>
 
 	* R/fastLm.R, man/fastLm.Rd, src/fastLm.cpp,

@@ -22,68 +22,68 @@
     require( inline )
     tests <- ".rcppgsl.tests"
     if( ! exists( tests, globalenv() ) ){
-        f <- list( 
-            test_gsl_vector_wrapper = list( 
+        f <- list(
+            test_gsl_vector_wrapper = list(
                 signature(),
                 '
     RcppGSL::vector<double> x_double( 10 );
 	RcppGSL::vector<float> x_float( 10 );
-	RcppGSL::vector<int> x_int( 10 ) ; 
-	RcppGSL::vector<long> x_long( 10 ) ; 
-	RcppGSL::vector<char> x_char( 10 ) ; 
+	RcppGSL::vector<int> x_int( 10 ) ;
+	//RcppGSL::vector<long> x_long( 10 ) ;
+	RcppGSL::vector<char> x_char( 10 ) ;
 	RcppGSL::vector<long double> x_long_double( 10 ) ;
-	RcppGSL::vector<short> x_short( 10 ) ; 
+	RcppGSL::vector<short> x_short( 10 ) ;
 	RcppGSL::vector<unsigned char> x_uchar( 10 ) ;
-	RcppGSL::vector<unsigned int> x_uint( 10 ) ; 
+	RcppGSL::vector<unsigned int> x_uint( 10 ) ;
 	RcppGSL::vector<unsigned short> x_ushort( 10 ) ;
-	RcppGSL::vector<unsigned long> x_ulong( 10 ) ;
-	RcppGSL::vector<gsl_complex> x_complex( 10 ) ; 
+	//RcppGSL::vector<unsigned long> x_ulong( 10 ) ;
+	RcppGSL::vector<gsl_complex> x_complex( 10 ) ;
 	RcppGSL::vector<gsl_complex_float> x_complex_float( 10 ) ;
 	RcppGSL::vector<gsl_complex_long_double> x_complex_long_double( 10 ) ;
-	
-	List res = List::create( 
-		_["gsl_vector"] = x_double, 
-		_["gsl_vector_float"] = x_float, 
-		_["gsl_vector_int"] = x_int, 
-		_["gsl_vector_long"] = x_long, 
-		_["gsl_vector_char"] = x_char, 
+
+	List res = List::create(
+		_["gsl_vector"] = x_double,
+		_["gsl_vector_float"] = x_float,
+		_["gsl_vector_int"] = x_int,
+		//_["gsl_vector_long"] = x_long,
+		_["gsl_vector_char"] = x_char,
 		_["gsl_vector_complex"] = x_complex,
-		_["gsl_vector_complex_float"] = x_complex_float, 
-		_["gsl_vector_complex_long_double"] = x_complex_long_double, 
-		_["gsl_vector_long_double"] = x_long_double, 
-		_["gsl_vector_short"] = x_short, 
-		_["gsl_vector_uchar"] = x_uchar, 
-		_["gsl_vector_uint"] = x_uint,                             
-		_["gsl_vector_ushort"] = x_ushort, 
-		_["gsl_vector_ulong"] = x_ulong
+		_["gsl_vector_complex_float"] = x_complex_float,
+		_["gsl_vector_complex_long_double"] = x_complex_long_double,
+		_["gsl_vector_long_double"] = x_long_double,
+		_["gsl_vector_short"] = x_short,
+		_["gsl_vector_uchar"] = x_uchar,
+		_["gsl_vector_uint"] = x_uint,
+		_["gsl_vector_ushort"] = x_ushort
+		//,_["gsl_vector_ulong"] = x_ulong
 		) ;
-	
+
 	x_double.free();
 	x_float.free();
-	x_int.free() ; 
-	x_long.free() ; 
-	x_char.free() ; 
+	x_int.free() ;
+	//x_long.free() ;
+	x_char.free() ;
 	x_long_double.free() ;
-	x_short.free() ; 
+	x_short.free() ;
 	x_uchar.free() ;
-	x_uint.free() ; 
+	x_uint.free() ;
 	x_ushort.free() ;
-	x_ulong.free() ;
-	x_complex.free() ; 
+	//x_ulong.free() ;
+	x_complex.free() ;
 	x_complex_float.free() ;
 	x_complex_long_double.free() ;
-	
+
 	return res ;
 
                 '
-            ), 
-            test_gsl_vector = list( 
-                signature(), 
+            ),
+            test_gsl_vector = list(
+                signature(),
                 '
 	gsl_vector * x_double = gsl_vector_calloc (10);
 	gsl_vector_float * x_float = gsl_vector_float_calloc(10) ;
 	gsl_vector_int * x_int  = gsl_vector_int_calloc(10) ;
-	gsl_vector_long * x_long  = gsl_vector_long_calloc(10) ;
+	//gsl_vector_long * x_long  = gsl_vector_long_calloc(10) ;
 	gsl_vector_char * x_char  = gsl_vector_char_calloc(10) ;
 	gsl_vector_complex * x_complex  = gsl_vector_complex_calloc(10) ;
 	gsl_vector_complex_float * x_complex_float  = gsl_vector_complex_float_calloc(10) ;
@@ -93,31 +93,31 @@
 	gsl_vector_uchar * x_uchar  = gsl_vector_uchar_calloc(10) ;
 	gsl_vector_uint * x_uint  = gsl_vector_uint_calloc(10) ;
 	gsl_vector_ushort * x_ushort  = gsl_vector_ushort_calloc(10) ;
-	gsl_vector_ulong * x_ulong  = gsl_vector_ulong_calloc(10) ;
-	
+	//gsl_vector_ulong * x_ulong  = gsl_vector_ulong_calloc(10) ;
+
 	/* create an R list containing copies of gsl data */
-	List res = List::create( 
-		_["gsl_vector"] = *x_double, 
-		_["gsl_vector_float"] = *x_float, 
-		_["gsl_vector_int"] = *x_int, 
-		_["gsl_vector_long"] = *x_long, 
-		_["gsl_vector_char"] = *x_char, 
+	List res = List::create(
+		_["gsl_vector"] = *x_double,
+		_["gsl_vector_float"] = *x_float,
+		_["gsl_vector_int"] = *x_int,
+		//_["gsl_vector_long"] = *x_long,
+		_["gsl_vector_char"] = *x_char,
 		_["gsl_vector_complex"] = *x_complex,
-		_["gsl_vector_complex_float"] = *x_complex_float, 
-		_["gsl_vector_complex_long_double"] = *x_complex_long_double, 
-		_["gsl_vector_long_double"] = *x_long_double, 
-		_["gsl_vector_short"] = *x_short, 
-		_["gsl_vector_uchar"] = *x_uchar, 
-		_["gsl_vector_uint"] = *x_uint, 
-		_["gsl_vector_ushort"] = *x_ushort, 
-		_["gsl_vector_ulong"] = *x_ulong
+		_["gsl_vector_complex_float"] = *x_complex_float,
+		_["gsl_vector_complex_long_double"] = *x_complex_long_double,
+		_["gsl_vector_long_double"] = *x_long_double,
+		_["gsl_vector_short"] = *x_short,
+		_["gsl_vector_uchar"] = *x_uchar,
+		_["gsl_vector_uint"] = *x_uint,
+		_["gsl_vector_ushort"] = *x_ushort
+		//,_["gsl_vector_ulong"] = *x_ulong
 		) ;
-	
+
 	/* cleanup gsl data */
 	gsl_vector_free(x_double);
 	gsl_vector_float_free( x_float);
 	gsl_vector_int_free( x_int );
-	gsl_vector_long_free( x_long );
+	//gsl_vector_long_free( x_long );
 	gsl_vector_char_free( x_char );
 	gsl_vector_complex_free( x_complex );
 	gsl_vector_complex_float_free( x_complex_float );
@@ -127,19 +127,19 @@
 	gsl_vector_uchar_free( x_uchar );
 	gsl_vector_uint_free( x_uint );
 	gsl_vector_ushort_free( x_ushort );
-	gsl_vector_ulong_free( x_ulong );
-	
+	//gsl_vector_ulong_free( x_ulong );
+
 	return res ;
-                
-                '
-            ), 
-            test_gsl_matrix = list( 
-                signature(), 
+
+                  '
+            ),
+            test_gsl_matrix = list(
+                signature(),
                 '
 	gsl_matrix * x_double                                   = gsl_matrix_alloc(5, 2);                      gsl_matrix_set_identity( x_double ) ;
 	gsl_matrix_float * x_float                              = gsl_matrix_float_alloc(5,2) ;                gsl_matrix_float_set_identity( x_float ) ;
 	gsl_matrix_int * x_int                                  = gsl_matrix_int_alloc(5,2) ;                  gsl_matrix_int_set_identity( x_int ) ;
-	gsl_matrix_long * x_long                                = gsl_matrix_long_alloc(5,2) ;                 gsl_matrix_long_set_identity( x_long ) ;
+	//gsl_matrix_long * x_long                                = gsl_matrix_long_alloc(5,2) ;                 gsl_matrix_long_set_identity( x_long ) ;
 	gsl_matrix_char * x_char                                = gsl_matrix_char_alloc(5,2) ;                 gsl_matrix_char_set_identity( x_char ) ;
 	gsl_matrix_complex * x_complex                          = gsl_matrix_complex_alloc(5,2) ;              gsl_matrix_complex_set_identity( x_complex ) ;
 	gsl_matrix_complex_float * x_complex_float              = gsl_matrix_complex_float_alloc(5,2) ;        gsl_matrix_complex_float_set_identity( x_complex_float ) ;
@@ -149,29 +149,29 @@
 	gsl_matrix_uchar * x_uchar                              = gsl_matrix_uchar_alloc(5,2) ;                gsl_matrix_uchar_set_identity( x_uchar ) ;
 	gsl_matrix_uint * x_uint                                = gsl_matrix_uint_alloc(5,2) ;                 gsl_matrix_uint_set_identity( x_uint) ;
 	gsl_matrix_ushort * x_ushort                            = gsl_matrix_ushort_alloc(5,2) ;               gsl_matrix_ushort_set_identity( x_ushort ) ;
-	gsl_matrix_ulong * x_ulong                              = gsl_matrix_ulong_alloc(5,2) ;                gsl_matrix_ulong_set_identity( x_ulong ) ;
-	
-	List res = List::create( 
-		_["gsl_matrix"] = *x_double , 
-		_["gsl_matrix_float"] = *x_float, 
-		_["gsl_matrix_int"] = *x_int, 
-		_["gsl_matrix_long"] = *x_long, 
-		_["gsl_matrix_char"] = *x_char, 
+	//gsl_matrix_ulong * x_ulong                              = gsl_matrix_ulong_alloc(5,2) ;                gsl_matrix_ulong_set_identity( x_ulong ) ;
+
+	List res = List::create(
+		_["gsl_matrix"] = *x_double ,
+		_["gsl_matrix_float"] = *x_float,
+		_["gsl_matrix_int"] = *x_int,
+		//_["gsl_matrix_long"] = *x_long,
+		_["gsl_matrix_char"] = *x_char,
 		_["gsl_matrix_complex"] = *x_complex,
-		_["gsl_matrix_complex_float"] = *x_complex_float, 
-		_["gsl_matrix_complex_long_double"] = *x_complex_long_double, 
-		_["gsl_matrix_long_double"] = *x_long_double, 
-		_["gsl_matrix_short"] = *x_short, 
-		_["gsl_matrix_uchar"] = *x_uchar, 
-		_["gsl_matrix_uint"] = *x_uint, 
-		_["gsl_matrix_ushort"] = *x_ushort, 
-		_["gsl_matrix_ulong"] = *x_ulong
+		_["gsl_matrix_complex_float"] = *x_complex_float,
+		_["gsl_matrix_complex_long_double"] = *x_complex_long_double,
+		_["gsl_matrix_long_double"] = *x_long_double,
+		_["gsl_matrix_short"] = *x_short,
+		_["gsl_matrix_uchar"] = *x_uchar,
+		_["gsl_matrix_uint"] = *x_uint,
+		_["gsl_matrix_ushort"] = *x_ushort
+		//,_["gsl_matrix_ulong"] = *x_ulong
 		) ;
-	
+
 	gsl_matrix_free( x_double );
 	gsl_matrix_float_free( x_float);
 	gsl_matrix_int_free( x_int );
-	gsl_matrix_long_free( x_long );
+	//gsl_matrix_long_free( x_long );
 	gsl_matrix_char_free( x_char );
 	gsl_matrix_complex_free( x_complex );
 	gsl_matrix_complex_float_free( x_complex_float );
@@ -181,34 +181,34 @@
 	gsl_matrix_uchar_free( x_uchar );
 	gsl_matrix_uint_free( x_uint );
 	gsl_matrix_ushort_free( x_ushort );
-	gsl_matrix_ulong_free( x_ulong );
-	
+	//gsl_matrix_ulong_free( x_ulong );
+
 	return res ;
-                
+
                 '
-            ), 
-            test_gsl_vector_view = list( 
-                signature(), 
+            ),
+            test_gsl_vector_view = list(
+                signature(),
                 '
 	int n = 10 ;
 	gsl_vector *v = gsl_vector_calloc (n);
 	for( int i=0 ; i<n; i++){
-		gsl_vector_set( v, i, i ) ;	
+		gsl_vector_set( v, i, i ) ;
 	}
 	gsl_vector_view v_even = gsl_vector_subvector_with_stride(v, 0, 2, n/2);
     gsl_vector_view v_odd  = gsl_vector_subvector_with_stride(v, 1, 2, n/2);
-    
-    List res = List::create( 
-    	_["even"] = v_even, 
+
+    List res = List::create(
+    	_["even"] = v_even,
     	_["odd" ] = v_odd
     	) ;
     gsl_vector_free(v);
-	
+
     return res ;
                 '
-            ), 
-            test_gsl_matrix_view = list( 
-                signature(), 
+            ),
+            test_gsl_matrix_view = list(
+                signature(),
                 '
 	int nrow = 4 ;
 	int ncol = 6 ;
@@ -220,19 +220,19 @@
 		}
 	}
 	gsl_matrix_view x = gsl_matrix_submatrix(m, 2, 2, 2, 2 ) ;
-	
-	List res = List::create( 
-		_["full"] = *m, 
+
+	List res = List::create(
+		_["full"] = *m,
 		_["view"] = x
 		) ;
 	gsl_matrix_free(m);
-	
+
 	return res ;
-                
+
                 '
-                ), 
-                test_gsl_vector_input = list( 
-                    signature( vec_ = "numeric" ), 
+                ),
+                test_gsl_vector_input = list(
+                    signature( vec_ = "numeric" ),
                     '
 	RcppGSL::vector<double> vec = as< RcppGSL::vector<double> >(vec_) ;
     int n = vec->size ;
@@ -242,37 +242,37 @@
 	}
 	vec.free() ;
 	return wrap( res ) ;
-                    
+
                     '
-                ), 
-                test_gsl_matrix_input = list( 
-                    signature( mat_ = "matrix" ), 
+                ),
+                test_gsl_matrix_input = list(
+                    signature( mat_ = "matrix" ),
                     '
     RcppGSL::matrix<double> mat = as< RcppGSL::matrix<double> >( mat_) ;
 	int nr = mat->size1 ;
-	
+
 	double res = 0.0 ;
 	for( int i=0; i<nr; i++){
 		res += mat( i, 0 ) ;
-	}   
+	}
 	mat.free() ;
 	return wrap(res) ;
                     '
-                ), 
-                test_gsl_vector_conv = list( 
-                    signature(), 
+                ),
+                test_gsl_vector_conv = list(
+                    signature(),
                     '
 	RcppGSL::vector<int> vec(10) ;
 	for( int i=0; i<10; i++){
-		gsl_vector_int_set( vec, i, i ) ;	
+		gsl_vector_int_set( vec, i, i ) ;
 	}
-	Rcpp::IntegerVector x ; 
+	Rcpp::IntegerVector x ;
 	x = vec ;
 	return x ;
                     '
-                ), 
-                test_gsl_vector_indexing = list( 
-                    signature( vec_ = "numeric" ), 
+                ),
+                test_gsl_vector_indexing = list(
+                    signature( vec_ = "numeric" ),
                     '
     RcppGSL::vector<double> vec = as< RcppGSL::vector<double> >(vec_) ;
 	for( size_t i=0; i< vec.size(); i++){
@@ -282,19 +282,19 @@
 	vec.free() ;
 	return res ;
                     '
-                ), 
-                test_gsl_vector_iterating = list( 
-                    signature( vec_ = "numeric" ), 
+                ),
+                test_gsl_vector_iterating = list(
+                    signature( vec_ = "numeric" ),
                     '
     RcppGSL::vector<double> vec = as< RcppGSL::vector<double> >(vec_) ;
-	double res= std::accumulate( vec.begin(), vec.end(), 0.0 ); 
+	double res= std::accumulate( vec.begin(), vec.end(), 0.0 );
 	vec.free() ;
 	return wrap( res ) ;
-                    
+
                     '
-                ), 
-                test_gsl_matrix_indexing = list( 
-                    signature( mat_ = "matrix" ), 
+                ),
+                test_gsl_matrix_indexing = list(
+                    signature( mat_ = "matrix" ),
                     '
     RcppGSL::matrix<double> mat= as< RcppGSL::matrix<double> >( mat_ ) ;
 	for( size_t i=0; i< mat.nrow(); i++){
@@ -306,30 +306,30 @@
 	mat.free() ;
 	return res ;
                     '
-                ), 
-                test_gsl_vector_view_wrapper = list( 
-                    signature(), 
+                ),
+                test_gsl_vector_view_wrapper = list(
+                    signature(),
                     '
 	int n = 10 ;
 	RcppGSL::vector<double> vec( 10 ) ;
 	for( int i=0 ; i<n; i++){
-		vec[i] = i ; 
+		vec[i] = i ;
 	}
 	RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(vec, 0, 2, n/2);
     RcppGSL::vector_view<double> v_odd  = gsl_vector_subvector_with_stride(vec, 1, 2, n/2);
-    
-    List res = List::create( 
-    	_["even"] = v_even, 
+
+    List res = List::create(
+    	_["even"] = v_even,
     	_["odd" ] = v_odd
     	) ;
     vec.free() ;
-    
+
     return res ;
-                    
-                    ' 
-                ), 
-                test_gsl_matrix_view_wrapper = list( 
-                    signature(), 
+
+                    '
+                ),
+                test_gsl_matrix_view_wrapper = list(
+                    signature(),
                     '
 	int nrow = 4 ;
 	int ncol = 6 ;
@@ -341,30 +341,30 @@
 		}
 	}
 	RcppGSL::matrix_view<double> x = gsl_matrix_submatrix(m, 2, 2, 2, 2 ) ;
-	
-	List res = List::create( 
-		_["full"] = m, 
+
+	List res = List::create(
+		_["full"] = m,
 		_["view"] = x
 		) ;
 	m.free() ;
-	
+
 	return res ;
-                    
+
                     '
-                ), 
-                test_gsl_vector_view_iterating = list( 
-                    signature( vec_ = "numeric" ), 
+                ),
+                test_gsl_vector_view_iterating = list(
+                    signature( vec_ = "numeric" ),
                     '
 	RcppGSL::vector<double> vec = as< RcppGSL::vector<double> >(vec_) ;
 	int n = vec.size() ;
 	RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(vec, 0, 2, n/2);
     double res = std::accumulate( v_even.begin(), v_even.end(), 0.0 );
     return wrap( res ) ;
-                    
+
                     '
-                ), 
-                test_gsl_matrix_view_indexing = list( 
-                    signature(), 
+                ),
+                test_gsl_matrix_view_indexing = list(
+                    signature(),
                     '
 	int nr = 10 ;
 	int nc = 10 ;
@@ -384,7 +384,7 @@
 	}
 	mat.free() ;
 	return wrap( res ) ;
-                    
+
                     '
                 )
         )
@@ -399,23 +399,23 @@
 test.gsl.vector.wrappers <- function(){
 	fx <- .rcppgsl.tests$test_gsl_vector_wrapper
 	res <- fx()
-	checkEquals( res, 
-		list( 
-			"gsl_vector" = numeric(10), 
-			"gsl_vector_float" = numeric(10), 
-			"gsl_vector_int" = integer(10), 
-			"gsl_vector_long" = numeric(10), 
-			"gsl_vector_char" = raw(10), 
-			"gsl_vector_complex" = complex(10), 
-			"gsl_vector_complex_float" = complex(10), 
-			"gsl_vector_complex_long_double" = complex(10), 
-			"gsl_vector_long_double" = numeric(10), 
-			"gsl_vector_short" = integer(10), 
-			"gsl_vector_uchar" = raw(10), 
-			"gsl_vector_uint" = integer(10), 
-			"gsl_vector_ushort" = integer(10), 
-			"gsl_vector_ulong" = numeric(10)
-		), 
+	checkEquals( res,
+		list(
+			"gsl_vector" = numeric(10),
+			"gsl_vector_float" = numeric(10),
+			"gsl_vector_int" = integer(10),
+			#"gsl_vector_long" = numeric(10),
+			"gsl_vector_char" = raw(10),
+			"gsl_vector_complex" = complex(10),
+			"gsl_vector_complex_float" = complex(10),
+			"gsl_vector_complex_long_double" = complex(10),
+			"gsl_vector_long_double" = numeric(10),
+			"gsl_vector_short" = integer(10),
+			"gsl_vector_uchar" = raw(10),
+			"gsl_vector_uint" = integer(10),
+			"gsl_vector_ushort" = integer(10)
+            #,"gsl_vector_ulong" = numeric(10)
+		),
 		msg = "wrap( gsl_vector )" )
 }
 
@@ -427,7 +427,7 @@ test.gsl.vector <- function(){
 			"gsl_vector" = numeric(10),
 			"gsl_vector_float" = numeric(10),
 			"gsl_vector_int" = integer(10),
-			"gsl_vector_long" = numeric(10),
+            #"gsl_vector_long" = numeric(10),
 			"gsl_vector_char" = raw(10),
 			"gsl_vector_complex" = complex(10),
 			"gsl_vector_complex_float" = complex(10),
@@ -436,8 +436,8 @@ test.gsl.vector <- function(){
 			"gsl_vector_short" = integer(10),
 			"gsl_vector_uchar" = raw(10),
 			"gsl_vector_uint" = integer(10),
-			"gsl_vector_ushort" = integer(10),
-			"gsl_vector_ulong" = numeric(10)
+			"gsl_vector_ushort" = integer(10)
+            #,"gsl_vector_ulong" = numeric(10)
 		),
 		msg = "wrap( gsl_vector )" )
 }
@@ -458,7 +458,7 @@ test.gsl.matrix <- function(){
 			"gsl_matrix"                     = helper( numeric ),
 			"gsl_matrix_float"               = helper( numeric ),
 			"gsl_matrix_int"                 = helper( integer ),
-			"gsl_matrix_long"                = helper( numeric ),
+            #"gsl_matrix_long"                = helper( numeric ),
 			"gsl_matrix_char"                = helper( raw ),
 			"gsl_matrix_complex"             = helper( complex ),
 			"gsl_matrix_complex_float"       = helper( complex ),
@@ -467,8 +467,8 @@ test.gsl.matrix <- function(){
 			"gsl_matrix_short"               = helper( integer ),
 			"gsl_matrix_uchar"               = helper( raw ),
 			"gsl_matrix_uint"                = helper( integer ),
-			"gsl_matrix_ushort"              = helper( integer ),
-			"gsl_matrix_ulong"               = helper( numeric )
+			"gsl_matrix_ushort"              = helper( integer )
+			#,"gsl_matrix_ulong"               = helper( numeric )
 		),
 		msg = "wrap( gsl_matrix )" )
 
@@ -480,7 +480,7 @@ test.gsl.vector.view <- function(){
 	checkEquals( res,
 		list( even = 2.0 * 0:4, odd = 2.0 * 0:4 + 1.0 ),
 		msg = "wrap( gsl.vector.view )" )
-	
+
 	 fx <- .rcppgsl.tests$test_gsl_vector_view_wrapper
 	 res <- fx()
 	 checkEquals( res,
@@ -492,13 +492,13 @@ test.gsl.matrix.view <- function(){
 	 fx <- .rcppgsl.tests$test_gsl_matrix_view
 	 res <- fx()
 	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view)" )
-	
+
 	 fx <- .rcppgsl.tests$test_gsl_matrix_view_wrapper
 	 res <- fx()
 	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view.wrapper)" )
-	
+
 }
-      
+
 test.gsl.vector.input.SEXP <- function(){
 	x <- rnorm( 10 )
 	 fx <- .rcppgsl.tests$test_gsl_vector_input

@@ -4,6 +4,8 @@
 
     o   Export and document S3 methods in NAMESPACE and manual page as such
 
+    o   Accomodate int64 package which Rcpp now depends upon
+
 0.1.1   2011-04-05
 
     o   Unit tests produce a summary vignette as for some of the other packages
