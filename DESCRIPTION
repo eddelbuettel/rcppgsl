@@ -7,7 +7,7 @@ Author: Romain Francois and Dirk Eddelbuettel
 Maintainer: Dirk Eddelbuettel and Romain Francois <RomainAndDirk@r-enthusiasts.com>
 Description: Rcpp integration for GNU GSL vectors and matrices
   The GNU Scientific Library (GSL) is a collection of numerical routines for
-  scientifc computing. It is particularly useful for C and C++ programs as it
+  scientific computing. It is particularly useful for C and C++ programs as it
   provides a standard C interface to a wide range of mathematical routines
   such as special functions, permutations, combinations, fast fourier
   transforms, eigensystems, random numbers, quadrature, random distributions,
