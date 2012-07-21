@@ -8,11 +8,7 @@
 ## on Ubuntu so for now Dirk will insist on pdflatex and this helps.
 whoami=$(shell whoami)
 
-all: RcppGSL-unitTests.pdf RcppGSL.pdf
-
-oldclean:
-	rm -f RcppGSL.Rnw 
-	cp RcppGSL/RcppGSL-fake.Rnw RcppGSL.Rnw
+all: RcppGSL-unitTests.pdf RcppGSL-intro.pdf
 
 clean:	
 	rm -f RcppGSL*.log RcppGSL*.aux RcppGSL*.out RcppGSL*.tex *.blg *.bbl *~
@@ -35,20 +31,20 @@ RcppGSL-unitTests.pdf:
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( 'RcppGSL-unitTests.tex', pdf = TRUE, clean = TRUE )"
 	rm -fr RcppGSL-unitTests.tex
 
-RcppGSL.pdf: RcppGSL/RcppGSL.Rnw
-	cp -f RcppGSL/RcppGSL.Rnw .
-	$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = TRUE); Sweave( 'RcppGSL.Rnw', driver = driver ); "
+RcppGSL-intro.pdf: RcppGSL/RcppGSL-intro.Rnw
+	cp -f RcppGSL/RcppGSL-intro.Rnw .
+	$(RSCRIPT) --vanilla -e "require(highlight); driver <- HighlightWeaveLatex(boxes = TRUE); Sweave( 'RcppGSL-intro.Rnw', driver = driver ); "
 ifneq (,$(findstring edd,$(whoami)))
-	pdflatex RcppGSL
+	pdflatex RcppGSL-intro
 else
-	$(RSCRIPT) -e "tools::texi2dvi( 'RcppGSL.tex', pdf = TRUE, clean = FALSE )"
+	$(RSCRIPT) -e "tools::texi2dvi( 'RcppGSL-intro.tex', pdf = TRUE, clean = FALSE )"
 endif
-	bibtex RcppGSL
+	bibtex RcppGSL-intro
 ifneq (,$(findstring edd,$(whoami)))
-	pdflatex RcppGSL
-	pdflatex RcppGSL
+	pdflatex RcppGSL-intro
+	pdflatex RcppGSL-intro
 else
-	$(RSCRIPT) -e "tools::texi2dvi( 'RcppGSL.tex', pdf = TRUE, clean = TRUE )"
+	$(RSCRIPT) -e "tools::texi2dvi( 'RcppGSL-intro.tex', pdf = TRUE, clean = TRUE )"
 endif
-	rm -fr RcppGSL.tex RcppGSL.bbl RcppGSL.blg RcppGSL.aux RcppGSL.out RcppGSL.log 
-	cp RcppGSL/RcppGSL-fake.Rnw RcppGSL.Rnw
+	rm -fr RcppGSL-intro.tex RcppGSL-intro.bbl RcppGSL-intro.blg RcppGSL-intro.aux RcppGSL-intro.out RcppGSL-intro.log 
+	cp RcppGSL/RcppGSL-fake.Rnw RcppGSL-intro.Rnw
