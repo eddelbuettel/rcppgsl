@@ -1,3 +1,13 @@
+2012-07-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/fastLm.R: expanded summary() display as in RcppArmadillo
+
+	* inst/NEWS.Rd: converted from ascii text to Rd format
+
+	* vignettes/*: moved from inst/doc/* per newer R Policy
+
+	* DESCRIPTION: changed Maintainer: to single person per CRAN Policy
+
 2011-12-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/unitTests/runTests.R: unit tests output 'fallback' directory

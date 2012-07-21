@@ -1,10 +1,10 @@
 Package: RcppGSL
 Type: Package
 Title: Rcpp integration for GNU GSL vectors and matrices
-Version: 0.1.1.3
+Version: 0.1.1.4
 Date: $Date$
 Author: Romain Francois and Dirk Eddelbuettel
-Maintainer: Dirk Eddelbuettel and Romain Francois <RomainAndDirk@r-enthusiasts.com>
+Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: Rcpp integration for GNU GSL vectors and matrices
   The GNU Scientific Library (GSL) is a collection of numerical routines for
   scientific computing. It is particularly useful for C and C++ programs as it
