@@ -12,5 +12,7 @@ rm -rf autom4te.cache inst/doc/*/auto
            */*~ *~ ; \
     rm -rf autom4te.cache)
 
-
+(cd vignettes && \
+    make clean && \
+    rm -rf auto unitTests-results/ )
 

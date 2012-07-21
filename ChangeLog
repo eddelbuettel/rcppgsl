@@ -2,9 +2,14 @@
 
 	* R/fastLm.R: expanded summary() display as in RcppArmadillo
 
+	* R/inline.R: Use assignInMyNamespace() as per current R Policy
+
 	* inst/NEWS.Rd: converted from ascii text to Rd format
 
 	* vignettes/*: moved from inst/doc/* per newer R Policy
+
+	* vignettes/: renamed main vignette to RcppGSL-intro to not clash
+	with the filename of the package reference manual RcppGSL.pdf
 
 	* DESCRIPTION: changed Maintainer: to single person per CRAN Policy
 

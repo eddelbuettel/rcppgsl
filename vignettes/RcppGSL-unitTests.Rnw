@@ -1,5 +1,8 @@
 \documentclass[10pt]{article}
 %\VignetteIndexEntry{RcppGSL-unitTests}
+%\VignetteKeywords{R,GSL,Rcpp,unit tests}
+%\VignettePackage{RcppGSL}
+
 \usepackage{vmargin}
 \setmargrb{0.75in}{0.75in}{0.75in}{0.75in}
 

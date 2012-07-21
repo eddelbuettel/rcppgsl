@@ -1,4 +1,4 @@
-## Copyright (C)       2010 Dirk Eddelbuettel and Romain Francois
+## Copyright (C) 2010 - 2012  Dirk Eddelbuettel and Romain Francois
 ##
 ## This file is part of RcppGSL.
 ##
@@ -15,26 +15,24 @@
 ## You should have received a copy of the GNU General Public License
 ## along with RcppArmadillo.  If not, see <http://www.gnu.org/licenses/>.
 
-NAMESPACE <- environment()
-
 if(.Platform$OS.type=="windows") {
     LIB_GSL <- Sys.getenv("LIB_GSL")
     gsl_cflags <- sprintf( "-I%s/include", LIB_GSL )
     gsl_libs   <- sprintf( "-L%s/lib -lgsl -lgslcblas", LIB_GSL )
     know_flags <- TRUE
-} else {             
+} else {
     gsl_cflags <- ""
     gsl_libs <- ""
-    know_flags <- FALSE    
+    know_flags <- FALSE
 }
 
 get_gsl_flags <- function(){
     gsl_cflags <- system( "gsl-config --cflags" , intern = TRUE )
     gsl_libs   <- system( "gsl-config --libs"   , intern = TRUE )
-    
-    assignInNamespace( "gsl_cflags", gsl_cflags, NAMESPACE )
-    assignInNamespace( "gsl_libs", gsl_libs, NAMESPACE )
-    assignInNamespace( "know_flags", TRUE, NAMESPACE )
+
+    assignInMyNamespace( "gsl_cflags", gsl_cflags )
+    assignInMyNamespace( "gsl_libs", gsl_libs )
+    assignInMyNamespace( "know_flags", TRUE )
 }
 
 LdFlags <- function( print = TRUE ){
