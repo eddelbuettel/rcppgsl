@@ -2,10 +2,11 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in version 0.1.2 (2012-xx-yy)}{
+\section{Changes in version 0.2.0 (2012-07-22)}{
   \itemize{
     \item{summary() for fastLm() now displays vastly more information}
     \item{fastLmPure() now uses same argument order as R's lm.fit()}
+    \item{Added more unit tests for fastLm() and related functions}
     \item{Export and document S3 methods in NAMESPACE and manual page as
       such}
     \item{Vignettes have been moved to the \code{vignettes/} directory}
