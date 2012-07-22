@@ -57,7 +57,7 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 
   The \pkg{RcppGSL} package provides an easy-to-use interface between
   \pkg{GSL} data structures and \proglang{R} using concepts from \pkg{Rcpp}
-  \citep{CRAN:Rcpp} which is itself a package that eases the interfaces
+  \citep{JSS:Rcpp,CRAN:Rcpp} which is itself a package that eases the interfaces
   between \proglang{R} and C++.
 }
 
@@ -104,7 +104,7 @@ dozen packages interfacing the GSL: \pkg{copula}, \pkg{dynamo}, \pkg{gsl},
 programmers using either the \proglang{C} or \proglang{C++} language for
 solving problems applied science.
 
-At the same time, the \pkg{Rcpp} package \citep{CRAN:Rcpp} offers a
+At the same time, the \pkg{Rcpp} package \citep{JSS:Rcpp,CRAN:Rcpp} offers a
 higher-level abstraction between \proglang{R} and underlying \proglang{C++}
 (or \proglang{C}) code.  \pkg{Rcpp} permits \proglang{R} objects like
 vectors, matrices, lists, functions, environments, $\ldots$, to be
