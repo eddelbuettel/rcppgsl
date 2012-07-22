@@ -15,38 +15,26 @@
 ## You should have received a copy of the GNU General Public License
 ## along with RcppArmadillo.  If not, see <http://www.gnu.org/licenses/>.
 
-if(.Platform$OS.type=="windows") {
-    LIB_GSL <- Sys.getenv("LIB_GSL")
-    gsl_cflags <- sprintf( "-I%s/include", LIB_GSL )
-    gsl_libs   <- sprintf( "-L%s/lib -lgsl -lgslcblas", LIB_GSL )
-    know_flags <- TRUE
-} else {
-    gsl_cflags <- ""
-    gsl_libs <- ""
-    know_flags <- FALSE
-}
+.onLoad <- function(libname, pkgname) {
 
-get_gsl_flags <- function(){
-    gsl_cflags <- system( "gsl-config --cflags" , intern = TRUE )
-    gsl_libs   <- system( "gsl-config --libs"   , intern = TRUE )
-
-    assignInMyNamespace( "gsl_cflags", gsl_cflags )
-    assignInMyNamespace( "gsl_libs", gsl_libs )
-    assignInMyNamespace( "know_flags", TRUE )
-}
-
-LdFlags <- function( print = TRUE ){
-    if( ! know_flags ) {
-        get_gsl_flags()
+    if (.Platform$OS.type=="windows") {
+        LIB_GSL <- Sys.getenv("LIB_GSL")
+        gsl_cflags <- sprintf( "-I%s/include", LIB_GSL )
+        gsl_libs   <- sprintf( "-L%s/lib -lgsl -lgslcblas", LIB_GSL )
+    } else {
+        gsl_cflags <- system( "gsl-config --cflags" , intern = TRUE )
+        gsl_libs   <- system( "gsl-config --libs"   , intern = TRUE )
     }
-    if( print) cat( gsl_libs ) else gsl_libs
+
+    assign( ".rcppgsl_cflags", gsl_cflags, envir=.GlobalEnv )
+    assign( ".rcppgsl_libs", gsl_libs, envir=.GlobalEnv )
 }
 
-CFlags <- function( print = TRUE){
-    if( ! know_flags ) {
-        get_gsl_flags()
-    }
-    if( print ) cat( gsl_cflags ) else gsl_cflags
+LdFlags <- function(print = TRUE) {
+    if (print) cat(.rcppgsl_libs) else .rcppgsl_libs }
+
+CFlags <- function(print = TRUE) {
+    if (print) cat(.rcppgsl_cflags) else .rcppgsl_cflags
 }
 
 inlineCxxPlugin <- function(...) {

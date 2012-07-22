@@ -6,13 +6,13 @@
   \itemize{
     \item{summary() for fastLm() now displays vastly more information}
     \item{fastLmPure() now uses same argument order as R's lm.fit()}
-    \item{inline support function now uses assignInMyNamespace}
     \item{Export and document S3 methods in NAMESPACE and manual page as
       such}
     \item{Vignettes have been moved to the \code{vignettes/} directory}
     \item{Main vignette renamed to \code{RcppGSL-intro.pdf} to use a
       filename different from the package reference manual}
     \item{NEWS file converted to .Rd format}
+    \item{inline support function no longer uses assignInNamespace}
   }
 }
 \section{Changes in version 0.1.1 (2011-04-05)}{

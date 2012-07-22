@@ -1,8 +1,14 @@
+2012-07-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/inline.R: Use two hidden global variables to store RcppGSL
+	compiler and linker flags instead of using assignInNamespace
+
+	* vignettes/RcppGSL/RcppGSL-intro.Rnw: Skip use of highlight for
+	C++ and shell snippets to sidestep build issues on 32bit OSs
+
 2012-07-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/fastLm.R: expanded summary() display as in RcppArmadillo
-
-	* R/inline.R: Use assignInMyNamespace() as per current R Policy
 
 	* inst/NEWS.Rd: converted from ascii text to Rd format
 
