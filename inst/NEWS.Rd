@@ -4,7 +4,7 @@
 
 \section{Changes in version 0.2.0 (2012-07-22)}{
   \itemize{
-    \item{summary() for fastLm() now displays vastly more information}
+    \item{summary() for fastLm() now displays more information}
     \item{fastLmPure() now uses same argument order as R's lm.fit()}
     \item{Added more unit tests for fastLm() and related functions}
     \item{Export and document S3 methods in NAMESPACE and manual page as
@@ -13,7 +13,8 @@
     \item{Main vignette renamed to \code{RcppGSL-intro.pdf} to use a
       filename different from the package reference manual}
     \item{NEWS file converted to .Rd format}
-    \item{inline support function no longer uses assignInNamespace}
+    \item{inline plugin support function no longer uses
+      assignInNamespace but deploys a small package-global enviornment}
   }
 }
 \section{Changes in version 0.1.1 (2011-04-05)}{

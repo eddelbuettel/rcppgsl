@@ -15,6 +15,8 @@
 ## You should have received a copy of the GNU General Public License
 ## along with RcppArmadillo.  If not, see <http://www.gnu.org/licenses/>.
 
+.pkgglobalenv <- new.env(parent=emptyenv())
+
 .onLoad <- function(libname, pkgname) {
 
     if (.Platform$OS.type=="windows") {
@@ -26,15 +28,16 @@
         gsl_libs   <- system( "gsl-config --libs"   , intern = TRUE )
     }
 
-    assign( ".rcppgsl_cflags", gsl_cflags, envir=.GlobalEnv )
-    assign( ".rcppgsl_libs", gsl_libs, envir=.GlobalEnv )
+    assign("gsl_cflags", gsl_cflags, envir=.pkgglobalenv)
+    assign("gsl_libs", gsl_libs, envir=.pkgglobalenv)
 }
 
 LdFlags <- function(print = TRUE) {
-    if (print) cat(.rcppgsl_libs) else .rcppgsl_libs }
+    if (print) cat(.pkgglobalenv$gsl_libs) else .pkgglobalenv$gsl_libs
+}
 
 CFlags <- function(print = TRUE) {
-    if (print) cat(.rcppgsl_cflags) else .rcppgsl_cflags
+    if (print) cat(.pkgglobalenv$gsl_cflags) else .pkgglobalenv$gsl_cflags
 }
 
 inlineCxxPlugin <- function(...) {

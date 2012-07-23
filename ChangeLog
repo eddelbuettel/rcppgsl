@@ -4,8 +4,8 @@
 
 	* inst/unitTests/runit.fastLm.R: expanded unit tests
 
-	* R/inline.R: Use two hidden global variables to store RcppGSL
-	compiler and linker flags instead of using assignInNamespace
+	* R/inline.R: Use two variables in a new package-global environment
+	to store RcppGSL compiler and linker flags
 
 	* vignettes/RcppGSL/RcppGSL-intro.Rnw: Skip use of highlight for
 	C++ and shell snippets to sidestep build issues on 32bit OSs
