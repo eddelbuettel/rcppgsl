@@ -1120,7 +1120,7 @@ package presented here, \proglang{R} users and programmers can now deploy
 algorithmns provided by the \pkg{GSL} with  greater ease.
 
 \bibliographystyle{plainnat}
-\bibliography{RcppGSL}
+\bibliography{\Sexpr{Rcpp:::bib()}}
 
 \end{document}
 
