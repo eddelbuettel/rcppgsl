@@ -1,3 +1,14 @@
+2012-11-11  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/examples/bSpline/bSpline.cpp: New example for B-spline fit
+	taken from GSL manual
+	* inst/examples/bSpline/bSpline.cpp: R wrapper and illustration
+
+2012-10-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/RcppGSL/RcppGSL-intro.Rnw: Switch to using Rcpp:::bib()
+	and the bibtex file shipped with Rcpp
+
 2012-07-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Version 0.2.0

@@ -2,6 +2,13 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 0.2.1 (2012-xx-yy)}{
+  \itemize{
+    \item Added new example based on B-splines example in GSL manual
+    illustrating simple GSL use via Rcpp attributes
+  }
+}
+
 \section{Changes in version 0.2.0 (2012-07-22)}{
   \itemize{
     \item{summary() for fastLm() now displays more information}
