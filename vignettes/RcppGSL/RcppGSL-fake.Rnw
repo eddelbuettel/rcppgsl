@@ -1,0 +1,11 @@
+\documentclass[10pt]{article}
+%\VignetteIndexEntry{RcppGSL}
+
+\usepackage{url}
+\usepackage[colorlinks]{hyperref}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\textwidth}{17cm} % uh-oh, I use letter :)
+
+\begin{document}
+\end{document}
+
