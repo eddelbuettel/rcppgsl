@@ -22,7 +22,7 @@ Description: Rcpp integration for GNU GSL vectors and matrices
   eases the interfaces between R and C++.
   .
   This package also serves as a prime example of how to build a package
-  that uses Rcpp to connect to anoother third-party library. The autoconf
+  that uses Rcpp to connect to another third-party library. The autoconf
   script, inline plugin and example package can all be used as a stanza to
   write a similar package against another library.
 License: GPL (>= 2)
