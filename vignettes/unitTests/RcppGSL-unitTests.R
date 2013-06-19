@@ -6,7 +6,7 @@ require( pkg, character.only = TRUE )
 require( inline )
 
 if( compareVersion( packageDescription( "inline" )[["Version"]], "0.3.4.4" ) < 0 ){
-    stop( "RcppClassic unit tests need at least the version 0.3.4.4 of inline" )
+    stop( "RcppGSL unit tests need at least the version 0.3.4.4 of inline" )
 }
 
 cppfunction <- function( ... ){
