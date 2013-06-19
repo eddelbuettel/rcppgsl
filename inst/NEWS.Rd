@@ -2,10 +2,13 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in version 0.2.1 (2012-xx-yy)}{
+\section{Changes in version 0.2.1 (2013-xx-yy)}{
   \itemize{
     \item Added new example based on B-splines example in GSL manual
     illustrating simple GSL use via Rcpp attributes
+    \item vignette production has been simplified, relying on version 0.4.2
+    of highlight which acts now as a vignette engine for this package 
+    vignette. 
   }
 }
 
