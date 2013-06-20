@@ -1,3 +1,12 @@
+2013-06-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/RcppGSL/RcppGSL-intro.Rnw: Some fixes
+
+2013-06-19  Romain Francois  <romain@r-enthusiasts.com>
+
+	* vignettes/RcppGSL/RcppGSL-intro.Rnw: Converted back to use with
+	package highlight (>= 0.4.2)
+
 2012-11-11  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/examples/bSpline/bSpline.cpp: New example for B-spline fit

@@ -2,6 +2,7 @@
 %\VignetteIndexEntry{RcppGSL}
 %\VignetteKeywords{R,GSL,Rcpp,data transfer}
 %\VignettePackage{RcppGSL}
+%\VignetteEngine{highlight::highlight}
 
 \usepackage{url,color}
 \usepackage[authoryear,round,longnamesfirst]{natbib}
@@ -137,109 +138,54 @@ leads users request a routine which is both fast and featureful enough.  The
 the \pkg{GSL} for the least-squares fitting functions and therefore provides a nice
 example for \pkg{GSL} integration with \proglang{R}.
 
-% < < fastLm,lang=cpp,size=small > > =
-% #include <RcppGSL.h>
-% #include <gsl/gsl_multifit.h>
-% #include <cmath>
+<<fastLm,lang=cpp,size=small>>=
+#include <RcppGSL.h>
+#include <gsl/gsl_multifit.h>
+#include <cmath>
 
-% extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
+extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
 
-%   try {
-%         RcppGSL::vector<double> y = ys;     // create gsl data structures from SEXP
-%         RcppGSL::matrix<double> X = Xs;
+  try {
+        RcppGSL::vector<double> y = ys;     // create gsl data structures from SEXP
+        RcppGSL::matrix<double> X = Xs;
 
-%         int n = X.nrow(), k = X.ncol();
-%         double chisq;
+        int n = X.nrow(), k = X.ncol();
+        double chisq;
 
-%         RcppGSL::vector<double> coef(k);    // to hold the coefficient vector
-%         RcppGSL::matrix<double> cov(k,k);   // and the covariance matrix
+        RcppGSL::vector<double> coef(k);    // to hold the coefficient vector
+        RcppGSL::matrix<double> cov(k,k);   // and the covariance matrix
 
-%         // the actual fit requires working memory we allocate and free
-%         gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
-%         gsl_multifit_linear (X, y, coef, cov, &chisq, work);
-%         gsl_multifit_linear_free (work);
+        // the actual fit requires working memory we allocate and free
+        gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
+        gsl_multifit_linear (X, y, coef, cov, &chisq, work);
+        gsl_multifit_linear_free (work);
 
-%         // extract the diagonal as a vector view
-%         gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
+        // extract the diagonal as a vector view
+        gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
 
-%         // currently there is not a more direct interface in Rcpp::NumericVector
-%         // that takes advantage of wrap, so we have to do it in two steps
-%         Rcpp::NumericVector std_err ; std_err = diag;
-%         std::transform( std_err.begin(), std_err.end(), std_err.begin(), sqrt);
+        // currently there is not a more direct interface in Rcpp::NumericVector
+        // that takes advantage of wrap, so we have to do it in two steps
+        Rcpp::NumericVector std_err ; std_err = diag;
+        std::transform( std_err.begin(), std_err.end(), std_err.begin(), sqrt);
 
-%         Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef,
-%                                             Rcpp::Named("stderr") = std_err,
-%                                             Rcpp::Named("df") = n - k);
+        Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef,
+                                            Rcpp::Named("stderr") = std_err,
+                                            Rcpp::Named("df") = n - k);
 
-%         // free all the GSL vectors and matrices -- as these are really C data structures
-%         // we cannot take advantage of automatic memory management
-%         coef.free(); cov.free(); y.free(); X.free();
+        // free all the GSL vectors and matrices -- as these are really C data structures
+        // we cannot take advantage of automatic memory management
+        coef.free(); cov.free(); y.free(); X.free();
 
-%         return res;  		// return the result list to R
+        return res;  		// return the result list to R
 
-%   } catch( std::exception &ex ) {
-%         forward_exception_to_r( ex );
-%   } catch(...) {
-%         ::Rf_error( "c++ exception (unknown reason)" );
-%   }
-%   return R_NilValue; // -Wall
-% }
-% @
-
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hldir{\#include\ \usebox{\hlsmallboxlessthan}RcppGSL.h\usebox{\hlsmallboxgreaterthan}}\hspace*{\fill}\\
-\hlstd{}\hldir{\#include\ \usebox{\hlsmallboxlessthan}gsl/gsl\textunderscore multifit.h\usebox{\hlsmallboxgreaterthan}}\hspace*{\fill}\\
-\hlstd{}\hldir{\#include\ \usebox{\hlsmallboxlessthan}cmath\usebox{\hlsmallboxgreaterthan}}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwc{extern\ }\hlstd{}\hlstr{"C"}\hlstd{\ SEXP\ }\hlkwd{fastLm}\hlstd{}\hlsym{(}\hlstd{SEXP\ ys}\hlsym{,\ }\hlstd{SEXP\ Xs}\hlsym{)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{}\hlkwa{try\ }\hlstd{}\hlsym{\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{y\ }\hlsym{=\ }\hlstd{ys}\hlsym{;}\hlstd{\ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ create\ gsl\ data\ structures\ from\ SEXP}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{matrix}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{X\ }\hlsym{=\ }\hlstd{Xs}\hlsym{;}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwb{int\ }\hlstd{n\ }\hlsym{=\ }\hlstd{X}\hlsym{.}\hlstd{}\hlkwd{nrow}\hlstd{}\hlsym{(),\ }\hlstd{k\ }\hlsym{=\ }\hlstd{X}\hlsym{.}\hlstd{}\hlkwd{ncol}\hlstd{}\hlsym{();}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwb{double\ }\hlstd{chisq}\hlsym{;}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{}\hlkwd{coef}\hlstd{}\hlsym{(}\hlstd{k}\hlsym{);}\hlstd{\ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ to\ hold\ the\ coefficient\ vector}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{matrix}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{}\hlkwd{cov}\hlstd{}\hlsym{(}\hlstd{k}\hlsym{,}\hlstd{k}\hlsym{);}\hlstd{\ \ \ }\hlsym{}\hlstd{}\hlslc{//\ and\ the\ covariance\ matrix}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlslc{//\ the\ actual\ fit\ requires\ working\ memory\ we\ allocate\ and\ free}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{gsl\textunderscore multifit\textunderscore linear\textunderscore workspace\ }\hlsym{{*}}\hlstd{work\ }\hlsym{=\ }\hlstd{}\hlkwd{gsl\textunderscore multifit\textunderscore linear\textunderscore alloc\ }\hlstd{}\hlsym{(}\hlstd{n}\hlsym{,\ }\hlstd{k}\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwd{gsl\textunderscore multifit\textunderscore linear\ }\hlstd{}\hlsym{(}\hlstd{X}\hlsym{,\ }\hlstd{y}\hlsym{,\ }\hlstd{coef}\hlsym{,\ }\hlstd{cov}\hlsym{,\ \&}\hlstd{chisq}\hlsym{,\ }\hlstd{work}\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwd{gsl\textunderscore multifit\textunderscore linear\textunderscore free\ }\hlstd{}\hlsym{(}\hlstd{work}\hlsym{);}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlslc{//\ extract\ the\ diagonal\ as\ a\ vector\ view}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{gsl\textunderscore vector\textunderscore view\ diag\ }\hlsym{=\ }\hlstd{}\hlkwd{gsl\textunderscore matrix\textunderscore diagonal}\hlstd{}\hlsym{(}\hlstd{cov}\hlsym{)\ ;}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlslc{//\ currently\ there\ is\ not\ a\ more\ direct\ interface\ in\ Rcpp::NumericVector}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlslc{//\ that\ takes\ advantage\ of\ wrap,\ so\ we\ have\ to\ do\ it\ in\ two\ steps}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{Rcpp}\hlsym{::}\hlstd{NumericVector\ std\textunderscore err\ }\hlsym{;\ }\hlstd{std\textunderscore err\ }\hlsym{=\ }\hlstd{diag}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{std}\hlsym{::}\hlstd{}\hlkwd{transform}\hlstd{}\hlsym{(\ }\hlstd{std\textunderscore err}\hlsym{.}\hlstd{}\hlkwd{begin}\hlstd{}\hlsym{(),\ }\hlstd{std\textunderscore err}\hlsym{.}\hlstd{}\hlkwd{end}\hlstd{}\hlsym{(),\ }\hlstd{std\textunderscore err}\hlsym{.}\hlstd{}\hlkwd{begin}\hlstd{}\hlsym{(),\ }\hlstd{sqrt}\hlsym{);}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{Rcpp}\hlsym{::}\hlstd{List\ res\ }\hlsym{=\ }\hlstd{Rcpp}\hlsym{::}\hlstd{List}\hlsym{::}\hlstd{}\hlkwd{create}\hlstd{}\hlsym{(}\hlstd{Rcpp}\hlsym{::}\hlstd{}\hlkwd{Named}\hlstd{}\hlsym{(}\hlstd{}\hlstr{"coefficients"}\hlstd{}\hlsym{)\ =\ }\hlstd{coef}\hlsym{,}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlstd{Rcpp}\hlsym{::}\hlstd{}\hlkwd{Named}\hlstd{}\hlsym{(}\hlstd{}\hlstr{"stderr"}\hlstd{}\hlsym{)\ =\ }\hlstd{std\textunderscore err}\hlsym{,}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlstd{Rcpp}\hlsym{::}\hlstd{}\hlkwd{Named}\hlstd{}\hlsym{(}\hlstd{}\hlstr{"df"}\hlstd{}\hlsym{)\ =\ }\hlstd{n\ }\hlsym{{-}\ }\hlstd{k}\hlsym{);}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlslc{//\ free\ all\ the\ GSL\ vectors\ and\ matrices\ {-}{-}\ as\ these\ are\ really\ C\ data\ structures}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlslc{//\ we\ cannot\ take\ advantage\ of\ automatic\ memory\ management}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{coef}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{();\ }\hlstd{cov}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{();\ }\hlstd{y}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{();\ }\hlstd{X}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{();}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwa{return\ }\hlstd{res}\hlsym{;}\hlstd{\ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ return\ the\ result\ list\ to\ R}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}\ }\hlstd{}\hlkwa{catch}\hlstd{}\hlsym{(\ }\hlstd{std}\hlsym{::}\hlstd{exception\ }\hlsym{\&}\hlstd{ex\ }\hlsym{)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwd{forward\textunderscore exception\textunderscore to\textunderscore r}\hlstd{}\hlsym{(\ }\hlstd{ex\ }\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}\ }\hlstd{}\hlkwa{catch}\hlstd{}\hlsym{(...)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlsym{::}\hlstd{}\hlkwd{Rf\textunderscore error}\hlstd{}\hlsym{(\ }\hlstd{}\hlstr{"c++\ exception\ (unknown\ reason)"}\hlstd{\ }\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwa{return\ }\hlstd{R\textunderscore NilValue}\hlsym{;\ }\hlstd{}\hlslc{//\ {-}Wall}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
+  } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+  } catch(...) {
+        ::Rf_error( "c++ exception (unknown reason)" );
+  }
+  return R_NilValue; // -Wall
+}
+@
 
 
 We first initialize a \textsl{RcppGSL} vector and matrix, each templated to
@@ -278,90 +224,43 @@ concludes the section.
 data, similar to \proglang{R} arrays. For example the \verb|gsl_vector| and \verb|gsl_vector_int|
 structs are defined as:
 
-% < < vector_int,lang=cpp,size=small > > =
-% typedef struct{
-%   size_t size;
-%   size_t stride;
-%   double * data;
-%   gsl_block * block;
-%   int owner;
-% } gsl_vector;
+<<vector_int,lang=cpp,size=small>>=
+typedef struct{
+  size_t size;
+  size_t stride;
+  double * data;
+  gsl_block * block;
+  int owner;
+} gsl_vector;
 
-% typedef struct {
-%   size_t size;
-%   size_t stride;
-%   int * data;
-%   gsl_block_int * block;
-%   int owner;
-% }
-% gsl_vector_int;
-% @
-
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hlkwc{typedef\ }\hlstd{}\hlkwb{struct}\hlstd{}\hlsym{\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{size\textunderscore t\ }\hlstd{size}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{size\textunderscore t\ }\hlstd{stride}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{double\ }\hlstd{}\hlsym{{*}\ }\hlstd{data}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{gsl\textunderscore block\ }\hlsym{{*}\ }\hlstd{block}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{int\ }\hlstd{owner}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}\ }\hlstd{gsl\textunderscore vector}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwc{typedef\ }\hlstd{}\hlkwb{struct\ }\hlstd{}\hlsym{\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{size\textunderscore t\ }\hlstd{size}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{size\textunderscore t\ }\hlstd{stride}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{int\ }\hlstd{}\hlsym{{*}\ }\hlstd{data}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{gsl\textunderscore block\textunderscore int\ }\hlsym{{*}\ }\hlstd{block}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{int\ }\hlstd{owner}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{gsl\textunderscore vector\textunderscore int}\hlsym{;}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
+typedef struct {
+  size_t size;
+  size_t stride;
+  int * data;
+  gsl_block_int * block;
+  int owner;
+}
+gsl_vector_int;
+@
 
 
 A typical use of the \verb|gsl_vector| struct is given below:
 
-% < <vector_free,lang=cpp,size=small> > =
-% int i;
-% gsl_vector * v = gsl_vector_alloc (3);  // allocate a gsl_vector of size 3
+<<vector_free,lang=cpp,size=small>>=
+int i;
+gsl_vector * v = gsl_vector_alloc (3);  // allocate a gsl_vector of size 3
 
-% for (i = 0; i < 3; i++) {               // fill the vector
-%   gsl_vector_set (v, i, 1.23 + i);
-% }
+for (i = 0; i < 3; i++) {               // fill the vector
+  gsl_vector_set (v, i, 1.23 + i);
+}
 
-% double sum = 0.0 ;                      // access elements
-% for (i = 0; i < 3; i++) {
-%   sum += gsl_vector_set( v, i ) ;
-% }
+double sum = 0.0 ;                      // access elements
+for (i = 0; i < 3; i++) {
+  sum += gsl_vector_set( v, i ) ;
+}
 
-% gsl_vector_free (v);                    // free the memory
-% @
-
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hlkwb{int\ }\hlstd{i}\hlsym{;}\hspace*{\fill}\\
-\hlstd{gsl\textunderscore vector\ }\hlsym{{*}\ }\hlstd{v\ }\hlsym{=\ }\hlstd{}\hlkwd{gsl\textunderscore vector\textunderscore alloc\ }\hlstd{}\hlsym{(}\hlstd{}\hlnum{3}\hlstd{}\hlsym{);}\hlstd{\ \ }\hlsym{}\hlstd{}\hlslc{//\ allocate\ a\ gsl\textunderscore vector\ of\ size\ 3}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwa{for\ }\hlstd{}\hlsym{(}\hlstd{i\ }\hlsym{=\ }\hlstd{}\hlnum{0}\hlstd{}\hlsym{;\ }\hlstd{i\ }\hlsym{\usebox{\hlsmallboxlessthan}\ }\hlstd{}\hlnum{3}\hlstd{}\hlsym{;\ }\hlstd{i}\hlsym{++)\ \usebox{\hlsmallboxopenbrace}}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ fill\ the\ vector}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwd{gsl\textunderscore vector\textunderscore set\ }\hlstd{}\hlsym{(}\hlstd{v}\hlsym{,\ }\hlstd{i}\hlsym{,\ }\hlstd{}\hlnum{1.23\ }\hlstd{}\hlsym{+\ }\hlstd{i}\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwb{double\ }\hlstd{sum\ }\hlsym{=\ }\hlstd{}\hlnum{0.0\ }\hlstd{}\hlsym{;}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ access\ elements}\hspace*{\fill}\\
-\hlstd{}\hlkwa{for\ }\hlstd{}\hlsym{(}\hlstd{i\ }\hlsym{=\ }\hlstd{}\hlnum{0}\hlstd{}\hlsym{;\ }\hlstd{i\ }\hlsym{\usebox{\hlsmallboxlessthan}\ }\hlstd{}\hlnum{3}\hlstd{}\hlsym{;\ }\hlstd{i}\hlsym{++)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{sum\ }\hlsym{+=\ }\hlstd{}\hlkwd{gsl\textunderscore vector\textunderscore set}\hlstd{}\hlsym{(\ }\hlstd{v}\hlsym{,\ }\hlstd{i\ }\hlsym{)\ ;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwd{gsl\textunderscore vector\textunderscore free\ }\hlstd{}\hlsym{(}\hlstd{v}\hlsym{);}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ free\ the\ memory}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
+gsl_vector_free (v);                    // free the memory
+@
 
 \subsection{RcppGSL::vector}
 
@@ -369,43 +268,22 @@ A typical use of the \verb|gsl_vector| struct is given below:
 \verb|gsl_vector| pointers taking advantage of C++ templates. Using this
 template type, the previous example now becomes:
 
-% < < vector_sum,lang=cpp,size=small > > =
-% int i;
-% RcppGSL::vector<double> v(3);           // allocate a gsl_vector of size 3
+<<vector_sum,lang=cpp,size=small>>=
+int i;
+RcppGSL::vector<double> v(3);           // allocate a gsl_vector of size 3
 
-% for (i = 0; i < 3; i++) {               // fill the vector
-%   v[i] = 1.23 + i ;
-% }
+for (i = 0; i < 3; i++) {               // fill the vector
+  v[i] = 1.23 + i ;
+}
 
-% double sum = 0.0 ;                      // access elements
-% for (i = 0; i < 3; i++) {
-%   sum += v[i] ;
-% }
+double sum = 0.0 ;                      // access elements
+for (i = 0; i < 3; i++) {
+  sum += v[i] ;
+}
 
-% v.free() ;                              // free the memory
-% @
+v.free() ;                              // free the memory
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hlkwb{int\ }\hlstd{i}\hlsym{;}\hspace*{\fill}\\
-\hlstd{RcppGSL}\hlsym{::}\hlstd{vector}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{}\hlkwd{v}\hlstd{}\hlsym{(}\hlstd{}\hlnum{3}\hlstd{}\hlsym{);}\hlstd{\ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ allocate\ a\ gsl\textunderscore vector\ of\ size\ 3}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwa{for\ }\hlstd{}\hlsym{(}\hlstd{i\ }\hlsym{=\ }\hlstd{}\hlnum{0}\hlstd{}\hlsym{;\ }\hlstd{i\ }\hlsym{\usebox{\hlsmallboxlessthan}\ }\hlstd{}\hlnum{3}\hlstd{}\hlsym{;\ }\hlstd{i}\hlsym{++)\ \usebox{\hlsmallboxopenbrace}}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ fill\ the\ vector}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{v}\hlsym{{[}}\hlstd{i}\hlsym{{]}\ =\ }\hlstd{}\hlnum{1.23\ }\hlstd{}\hlsym{+\ }\hlstd{i\ }\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwb{double\ }\hlstd{sum\ }\hlsym{=\ }\hlstd{}\hlnum{0.0\ }\hlstd{}\hlsym{;}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ access\ elements}\hspace*{\fill}\\
-\hlstd{}\hlkwa{for\ }\hlstd{}\hlsym{(}\hlstd{i\ }\hlsym{=\ }\hlstd{}\hlnum{0}\hlstd{}\hlsym{;\ }\hlstd{i\ }\hlsym{\usebox{\hlsmallboxlessthan}\ }\hlstd{}\hlnum{3}\hlstd{}\hlsym{;\ }\hlstd{i}\hlsym{++)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{sum\ }\hlsym{+=\ }\hlstd{v}\hlsym{{[}}\hlstd{i}\hlsym{{]}\ ;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-v}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{()\ ;}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ free\ the\ memory}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 The class \texttt{RcppGSL::vector<double>} is a smart pointer, that can be used
 anywhere where a raw pointer \verb|gsl_vector| can be used, such as the
@@ -418,27 +296,14 @@ following example defines a \texttt{.Call} compatible function called
 \verb|sum_gsl_vector_int| that operates on a \verb|gsl_vector_int| through
 the \texttt{RcppGSL::vector<int>} template specialization:
 
-% < <macro,lang=cpp,size=small > > =
-% RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
-%   int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
-%   vec.free() ;  // we need to free vec after use
-%   return res ;
-% }
-% @
+<<macro,lang=cpp,size=small>>=
+RCPP_FUNCTION_1( int, sum_gsl_vector_int, RcppGSL::vector<int> vec){
+  int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
+  vec.free() ;  // we need to free vec after use
+  return res ;
+}
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hlkwd{RCPP\textunderscore FUNCTION\textunderscore 1}\hlstd{}\hlsym{(\ }\hlstd{}\hlkwb{int}\hlstd{}\hlsym{,\ }\hlstd{sum\textunderscore gsl\textunderscore vector\textunderscore int}\hlsym{,\ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{int}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{vec}\hlsym{)\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{int\ }\hlstd{res\ }\hlsym{=\ }\hlstd{std}\hlsym{::}\hlstd{}\hlkwd{accumulate}\hlstd{}\hlsym{(\ }\hlstd{vec}\hlsym{.}\hlstd{}\hlkwd{begin}\hlstd{}\hlsym{(),\ }\hlstd{vec}\hlsym{.}\hlstd{}\hlkwd{end}\hlstd{}\hlsym{(),\ }\hlstd{}\hlnum{0\ }\hlstd{}\hlsym{)\ ;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{vec}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{()\ ;}\hlstd{\ \ }\hlsym{}\hlstd{}\hlslc{//\ we\ need\ to\ free\ vec\ after\ use}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwa{return\ }\hlstd{res\ }\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 
 The function can then simply be called from \proglang{R} :
@@ -460,53 +325,27 @@ A second example shows a simple function that grabs elements of an
 R list as \verb|gsl_vector| objects using implicit conversion mechanisms
 of \pkg{Rcpp}
 
-%< < example2,lang=cpp,size=small > > =
-% RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
-%   // grab "x" as a gsl_vector through the RcppGSL::vector<double> class
-%   RcppGSL::vector<double> x = data["x"] ;
+<<example2,lang=cpp,size=small>>=
+RCPP_FUNCTION_1( double, gsl_vector_sum_2, Rcpp::List data ){
+  // grab "x" as a gsl_vector through the RcppGSL::vector<double> class
+  RcppGSL::vector<double> x = data["x"] ;
 
-%   // grab "y" as a gsl_vector through the RcppGSL::vector<int> class
-%   RcppGSL::vector<int> y = data["y"] ;
-%   double res = 0.0 ;
-%   for( size_t i=0; i< x->size; i++){
-%     res += x[i] * y[i] ;
-%   }
+  // grab "y" as a gsl_vector through the RcppGSL::vector<int> class
+  RcppGSL::vector<int> y = data["y"] ;
+  double res = 0.0 ;
+  for( size_t i=0; i< x->size; i++){
+    res += x[i] * y[i] ;
+  }
 
-%   // as usual with GSL, we need to explicitely free the memory
-%   x.free() ;
-%   y.free() ;
+  // as usual with GSL, we need to explicitely free the memory
+  x.free() ;
+  y.free() ;
 
-%   // return the result
-%   return res ;
-% }
-% @
+  // return the result
+  return res ;
+}
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hlkwd{RCPP\textunderscore FUNCTION\textunderscore 1}\hlstd{}\hlsym{(\ }\hlstd{}\hlkwb{double}\hlstd{}\hlsym{,\ }\hlstd{gsl\textunderscore vector\textunderscore sum\textunderscore 2}\hlsym{,\ }\hlstd{Rcpp}\hlsym{::}\hlstd{List\ data\ }\hlsym{)\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlslc{//\ grab\ "x"\ as\ a\ gsl\textunderscore vector\ through\ the\ RcppGSL::vector\usebox{\hlsmallboxlessthan}double\usebox{\hlsmallboxgreaterthan}\ class}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{x\ }\hlsym{=\ }\hlstd{data}\hlsym{{[}}\hlstd{}\hlstr{"x"}\hlstd{}\hlsym{{]}\ ;}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{}\hlslc{//\ grab\ "y"\ as\ a\ gsl\textunderscore vector\ through\ the\ RcppGSL::vector\usebox{\hlsmallboxlessthan}int\usebox{\hlsmallboxgreaterthan}\ class}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{int}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{y\ }\hlsym{=\ }\hlstd{data}\hlsym{{[}}\hlstd{}\hlstr{"y"}\hlstd{}\hlsym{{]}\ ;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{double\ }\hlstd{res\ }\hlsym{=\ }\hlstd{}\hlnum{0.0\ }\hlstd{}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwa{for}\hlstd{}\hlsym{(\ }\hlstd{}\hlkwb{size\textunderscore t\ }\hlstd{i}\hlsym{=}\hlstd{}\hlnum{0}\hlstd{}\hlsym{;\ }\hlstd{i}\hlsym{\usebox{\hlsmallboxlessthan}\ }\hlstd{x}\hlsym{{-}\usebox{\hlsmallboxgreaterthan}}\hlstd{size}\hlsym{;\ }\hlstd{i}\hlsym{++)\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ }\hlstd{res\ }\hlsym{+=\ }\hlstd{x}\hlsym{{[}}\hlstd{i}\hlsym{{]}\ {*}\ }\hlstd{y}\hlsym{{[}}\hlstd{i}\hlsym{{]}\ ;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{}\hlslc{//\ as\ usual\ with\ GSL,\ we\ need\ to\ explicitely\ free\ the\ memory}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{x}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{()\ ;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{y}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{()\ ;}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{}\hlslc{//\ return\ the\ result}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwa{return\ }\hlstd{res\ }\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 called from \proglang{R} :
 
@@ -577,49 +416,24 @@ Several \pkg{GSL} algorithms return \pkg{GSL} vector views as their result
 type. \pkg{RcppGSL} defines the template class \texttt{RcppGSL::vector\_view}
 to handle vector views using \proglang{C++} syntax.
 
-% < < lang=cpp,size=small > > =
-% extern "C" SEXP test_gsl_vector_view(){
-%   int n = 10 ;
-%   RcppGSL::vector<double> v(n) ;
-%   for( int i=0 ; i<n; i++){
-%     v[i] = i ;
-%   }
-%   RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(v,0,2,n/2);
-%   RcppGSL::vector_view<double> v_odd  = gsl_vector_subvector_with_stride(v,1,2,n/2);
+<<lang=cpp,size=small>>=
+extern "C" SEXP test_gsl_vector_view(){
+  int n = 10 ;
+  RcppGSL::vector<double> v(n) ;
+  for( int i=0 ; i<n; i++){
+    v[i] = i ;
+  }
+  RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(v,0,2,n/2);
+  RcppGSL::vector_view<double> v_odd  = gsl_vector_subvector_with_stride(v,1,2,n/2);
 
-%   List res = List::create(
-%     _["even"] = v_even,
-%     _["odd" ] = v_odd
-%     ) ;
-%   v.free() ;  	// we only need to free v, the views do not own data
-%   return res ;
-% }
-% @
-
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hlkwc{extern\ }\hlstd{}\hlstr{"C"}\hlstd{\ SEXP\ }\hlkwd{test\textunderscore gsl\textunderscore vector\textunderscore view}\hlstd{}\hlsym{()\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwb{int\ }\hlstd{n\ }\hlsym{=\ }\hlstd{}\hlnum{10\ }\hlstd{}\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{}\hlkwd{v}\hlstd{}\hlsym{(}\hlstd{n}\hlsym{)\ ;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwa{for}\hlstd{}\hlsym{(\ }\hlstd{}\hlkwb{int\ }\hlstd{i}\hlsym{=}\hlstd{}\hlnum{0\ }\hlstd{}\hlsym{;\ }\hlstd{i}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{n}\hlsym{;\ }\hlstd{i}\hlsym{++)\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ }\hlstd{v}\hlsym{{[}}\hlstd{i}\hlsym{{]}\ =\ }\hlstd{i\ }\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector\textunderscore view}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{v\textunderscore even\ }\hlsym{=\ }\hlstd{}\hlkwd{gsl\textunderscore vector\textunderscore subvector\textunderscore with\textunderscore stride}\hlstd{}\hlsym{(}\hlstd{v}\hlsym{,}\hlstd{}\hlnum{0}\hlstd{}\hlsym{,}\hlstd{}\hlnum{2}\hlstd{}\hlsym{,}\hlstd{n}\hlsym{/}\hlstd{}\hlnum{2}\hlstd{}\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector\textunderscore view}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{v\textunderscore odd}\hlstd{\ \ }\hlstd{}\hlsym{=\ }\hlstd{}\hlkwd{gsl\textunderscore vector\textunderscore subvector\textunderscore with\textunderscore stride}\hlstd{}\hlsym{(}\hlstd{v}\hlsym{,}\hlstd{}\hlnum{1}\hlstd{}\hlsym{,}\hlstd{}\hlnum{2}\hlstd{}\hlsym{,}\hlstd{n}\hlsym{/}\hlstd{}\hlnum{2}\hlstd{}\hlsym{);}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{List\ res\ }\hlsym{=\ }\hlstd{List}\hlsym{::}\hlstd{}\hlkwd{create}\hlstd{}\hlsym{(}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ }\hlstd{\textunderscore }\hlsym{{[}}\hlstd{}\hlstr{"even"}\hlstd{}\hlsym{{]}\ =\ }\hlstd{v\textunderscore even}\hlsym{,}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ }\hlstd{\textunderscore }\hlsym{{[}}\hlstd{}\hlstr{"odd"}\hlstd{\ }\hlsym{{]}\ =\ }\hlstd{v\textunderscore odd\hspace*{\fill}\\
-}\hlstd{\ \ \ \ }\hlstd{}\hlsym{)\ ;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{v}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{()\ ;}\hlstd{\ \ \ }\hlsym{}\hlstd{}\hlslc{//\ we\ only\ need\ to\ free\ v,\ the\ views\ do\ not\ own\ data}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwa{return\ }\hlstd{res\ }\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
+  List res = List::create(
+    _["even"] = v_even,
+    _["odd" ] = v_odd
+    ) ;
+  v.free() ;  	// we only need to free v, the views do not own data
+  return res ;
+}
+@
 
 As with vectors, \proglang{C++} objects of type
 \texttt{RcppGSL::vector\_view} can be converted implicitly to their
@@ -672,33 +486,17 @@ template.
 
 The \texttt{RcppGSL::matrix} template exposes three constructors.
 
-% < < lang=cpp,size=small > > =
-% // convert an R matrix to a GSL matrix
-% matrix( SEXP x) throw(::Rcpp::not_compatible)
+<<lang=cpp,size=small>>=
+// convert an R matrix to a GSL matrix
+matrix( SEXP x) throw(::Rcpp::not_compatible)
 
-% // encapsulate a GSL matrix pointer
-% matrix( gsl_matrix* x)
+// encapsulate a GSL matrix pointer
+matrix( gsl_matrix* x)
 
-% // create a new matrix with the given number of rows and columns
-% matrix( int nrow, int ncol)
-% @
+// create a new matrix with the given number of rows and columns
+matrix( int nrow, int ncol)
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hlslc{//\ convert\ an\ R\ matrix\ to\ a\ GSL\ matrix}\hspace*{\fill}\\
-\hlstd{}\hlkwd{matrix}\hlstd{}\hlsym{(\ }\hlstd{SEXP\ x}\hlsym{)\ }\hlstd{}\hlkwa{throw}\hlstd{}\hlsym{(::}\hlstd{Rcpp}\hlsym{::}\hlstd{not\textunderscore compatible}\hlsym{)}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlslc{//\ encapsulate\ a\ GSL\ matrix\ pointer}\hspace*{\fill}\\
-\hlstd{}\hlkwd{matrix}\hlstd{}\hlsym{(\ }\hlstd{gsl\textunderscore matrix}\hlsym{{*}\ }\hlstd{x}\hlsym{)}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlslc{//\ create\ a\ new\ matrix\ with\ the\ given\ number\ of\ rows\ and\ columns}\hspace*{\fill}\\
-\hlstd{}\hlkwd{matrix}\hlstd{}\hlsym{(\ }\hlstd{}\hlkwb{int\ }\hlstd{nrow}\hlsym{,\ }\hlstd{}\hlkwb{int\ }\hlstd{ncol}\hlsym{)}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 
 \subsection{Implicit conversion}
@@ -708,25 +506,13 @@ the associated \pkg{GSL} matrix type, as well as dereferencing operators, making
 the class \texttt{RcppGSL::matrix} look and feel like a pointer to a GSL
 matrix type.
 
-% < < lang=cpp,size=small > > =
-% gsltype* data ;
-% operator gsltype*(){ return data ; }
-% gsltype* operator->() const { return data; }
-% gsltype& operator*() const { return *data; }
-% @
+<<lang=cpp,size=small>>=
+gsltype* data ;
+operator gsltype*(){ return data ; }
+gsltype* operator->() const { return data; }
+gsltype& operator*() const { return *data; }
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{gsltype}\hlsym{{*}\ }\hlstd{data\ }\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlkwc{operator\ }\hlstd{gsltype}\hlsym{{*}()\usebox{\hlsmallboxopenbrace}\ }\hlstd{}\hlkwa{return\ }\hlstd{data\ }\hlsym{;\ \usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{gsltype}\hlsym{{*}\ }\hlstd{}\hlkwc{operator}\hlstd{}\hlsym{{-}\usebox{\hlsmallboxgreaterthan}()\ }\hlstd{}\hlkwb{const\ }\hlstd{}\hlsym{\usebox{\hlsmallboxopenbrace}\ }\hlstd{}\hlkwa{return\ }\hlstd{data}\hlsym{;\ \usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{gsltype}\hlsym{\&\ }\hlstd{}\hlkwc{operator}\hlstd{}\hlsym{{*}()\ }\hlstd{}\hlkwb{const\ }\hlstd{}\hlsym{\usebox{\hlsmallboxopenbrace}\ }\hlstd{}\hlkwa{return\ }\hlstd{}\hlsym{{*}}\hlstd{data}\hlsym{;\ \usebox{\hlsmallboxclosebrace}}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 \subsection{Indexing}
 
@@ -737,27 +523,14 @@ Indexing of \pkg{GSL} matrices is usually the task of the functions
 \pkg{RcppGSL} takes advantage of both operator overloading and templates
 to make indexing a \pkg{GSL} matrix much more convenient.
 
-% < < lang=cpp,size=small > > =
-% RcppGSL::matrix<int> mat(10,10);        // create a matrix of size 10x10
+<<lang=cpp,size=small>>=
+RcppGSL::matrix<int> mat(10,10);        // create a matrix of size 10x10
 
-% for( int i=0; i<10: i++) {              // fill the diagonal
-%     mat(i,i) = i ;
-% }
-% @
+for( int i=0; i<10: i++) {              // fill the diagonal
+    mat(i,i) = i ;
+}
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{RcppGSL}\hlsym{::}\hlstd{matrix}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{int}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{}\hlkwd{mat}\hlstd{}\hlsym{(}\hlstd{}\hlnum{10}\hlstd{}\hlsym{,}\hlstd{}\hlnum{10}\hlstd{}\hlsym{);}\hlstd{\ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ create\ a\ matrix\ of\ size\ 10x10}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwa{for}\hlstd{}\hlsym{(\ }\hlstd{}\hlkwb{int\ }\hlstd{i}\hlsym{=}\hlstd{}\hlnum{0}\hlstd{}\hlsym{;\ }\hlstd{i}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlnum{10}\hlstd{}\hlsym{:\ }\hlstd{i}\hlsym{++)\ \usebox{\hlsmallboxopenbrace}}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ fill\ the\ diagonal}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ }\hlstd{}\hlkwd{mat}\hlstd{}\hlsym{(}\hlstd{i}\hlsym{,}\hlstd{i}\hlsym{)\ =\ }\hlstd{i\ }\hlsym{;}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 \subsection{Methods}
 
@@ -805,67 +578,34 @@ may need to find the location of the \pkg{GSL} headers and library, and this
 done easily from a \texttt{configure} source script which \texttt{autoconf}
 generates from a \texttt{configure.in} source file such as the following:
 
-% < < lang=sh,size=small > > =
-% AC_INIT([RcppGSLExample], 0.1.0)
+<<lang=sh,size=small>>=
+AC_INIT([RcppGSLExample], 0.1.0)
 
-% ## Use gsl-config to find arguments for compiler and linker flags
-% ##
-% ## Check for non-standard programs: gsl-config(1)
-% AC_PATH_PROG([GSL_CONFIG], [gsl-config])
-% ## If gsl-config was found, let's use it
-% if test "${GSL_CONFIG}" != ""; then
-%     # Use gsl-config for header and linker arguments (without BLAS which we get from R)
-%     GSL_CFLAGS=`${GSL_CONFIG} --cflags`
-%     GSL_LIBS=`${GSL_CONFIG} --libs-without-cblas`
-% else
-%     AC_MSG_ERROR([gsl-config not found, is GSL installed?])
-% fi
+## Use gsl-config to find arguments for compiler and linker flags
+##
+## Check for non-standard programs: gsl-config(1)
+AC_PATH_PROG([GSL_CONFIG], [gsl-config])
+## If gsl-config was found, let's use it
+if test "${GSL_CONFIG}" != ""; then
+    # Use gsl-config for header and linker arguments (without BLAS which we get from R)
+    GSL_CFLAGS=`${GSL_CONFIG} --cflags`
+    GSL_LIBS=`${GSL_CONFIG} --libs-without-cblas`
+else
+    AC_MSG_ERROR([gsl-config not found, is GSL installed?])
+fi
 
-% ## Use Rscript to query Rcpp for compiler and linker flags
-% ## link flag providing libary as well as path to library, and optionally rpath
-% RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
+## Use Rscript to query Rcpp for compiler and linker flags
+## link flag providing libary as well as path to library, and optionally rpath
+RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
 
-% # Now substitute these variables in src/Makevars.in to create src/Makevars
-% AC_SUBST(GSL_CFLAGS)
-% AC_SUBST(GSL_LIBS)
-% AC_SUBST(RCPP_LDFLAGS)
+# Now substitute these variables in src/Makevars.in to create src/Makevars
+AC_SUBST(GSL_CFLAGS)
+AC_SUBST(GSL_LIBS)
+AC_SUBST(RCPP_LDFLAGS)
 
-% AC_OUTPUT(src/Makevars)
-% @
+AC_OUTPUT(src/Makevars)
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{AC\textunderscore INIT}\hlsym{({[}}\hlstd{RcppGSLExample}\hlsym{{]},\ }\hlstd{}\hlnum{0.1.0}\hlstd{}\hlsym{)}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlslc{\#\#\ Use\ gsl{-}config\ to\ find\ arguments\ for\ compiler\ and\ linker\ flags}\hspace*{\fill}\\
-\hlstd{}\hlslc{\#\#}\hspace*{\fill}\\
-\hlstd{}\hlslc{\#\#\ Check\ for\ non{-}standard\ programs:\ gsl{-}config(1)}\hspace*{\fill}\\
-\hlstd{AC\textunderscore PATH\textunderscore PROG}\hlsym{({[}}\hlstd{GSL\textunderscore CONFIG}\hlsym{{]},\ {[}}\hlstd{gsl}\hlsym{{-}}\hlstd{config}\hlsym{{]})}\hspace*{\fill}\\
-\hlstd{}\hlslc{\#\#\ If\ gsl{-}config\ was\ found,\ let's\ use\ it}\hspace*{\fill}\\
-\hlstd{}\hlkwa{if\ }\hlstd{}\hlkwb{test\ }\hlstd{}\hlstr{"\$\usebox{\hlsmallboxopenbrace}GSL\textunderscore CONFIG\usebox{\hlsmallboxclosebrace}"}\hlstd{\ }\hlsym{!=\ }\hlstd{}\hlstr{""}\hlstd{}\hlsym{;\ }\hlstd{}\hlkwa{then}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ }\hlstd{}\hlslc{\#\ Use\ gsl{-}config\ for\ header\ and\ linker\ arguments\ (without\ BLAS\ which\ we\ get\ from\ R)}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ }\hlstd{GSL\textunderscore CFLAGS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}GSL\textunderscore CONFIG\usebox{\hlsmallboxclosebrace}\ {-}{-}cflags`}\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ }\hlstd{GSL\textunderscore LIBS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}GSL\textunderscore CONFIG\usebox{\hlsmallboxclosebrace}\ {-}{-}libs{-}without{-}cblas`}\hlstd{}\hspace*{\fill}\\
-\hlkwa{else}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ }\hlstd{AC\textunderscore MSG\textunderscore ERROR}\hlsym{({[}}\hlstd{gsl}\hlsym{{-}}\hlstd{config\ not\ found}\hlsym{,\ }\hlstd{is\ GSL\ installed?}\hlsym{{]})}\hspace*{\fill}\\
-\hlstd{}\hlkwa{fi}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlslc{\#\#\ Use\ Rscript\ to\ query\ Rcpp\ for\ compiler\ and\ linker\ flags}\hspace*{\fill}\\
-\hlstd{}\hlslc{\#\#\ link\ flag\ providing\ libary\ as\ well\ as\ path\ to\ library,\ and\ optionally\ rpath}\hspace*{\fill}\\
-\hlstd{RCPP\textunderscore LDFLAGS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}R\textunderscore HOME\usebox{\hlsmallboxclosebrace}/bin/Rscript\ {-}e\ 'Rcpp:::LdFlags()'`}\hlstd{}\hspace*{\fill}\\
-\hspace*{\fill}\\
-\hlslc{\#\ Now\ substitute\ these\ variables\ in\ src/Makevars.in\ to\ create\ src/Makevars}\hspace*{\fill}\\
-\hlstd{AC\textunderscore SUBST}\hlsym{(}\hlstd{GSL\textunderscore CFLAGS}\hlsym{)}\hspace*{\fill}\\
-\hlstd{AC\textunderscore SUBST}\hlsym{(}\hlstd{GSL\textunderscore LIBS}\hlsym{)}\hspace*{\fill}\\
-\hlstd{AC\textunderscore SUBST}\hlsym{(}\hlstd{RCPP\textunderscore LDFLAGS}\hlsym{)}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-AC\textunderscore OUTPUT}\hlsym{(}\hlstd{src}\hlsym{/}\hlstd{Makevars}\hlsym{)}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 
 Such a source \texttt{configure.in} gets converted into a script
@@ -876,171 +616,85 @@ Such a source \texttt{configure.in} gets converted into a script
 \pkg{RcppGSL} provides R functions that allows one to retrieve the same
 information. Therefore the configure script can also be written as:
 
-% < < lang=bash,size=small > > =
-% #!/bin/sh
+<<lang=bash,size=small>>=
+#!/bin/sh
 
-% GSL_CFLAGS=`${R_HOME}/bin/Rscript -e "RcppGSL:::CFlags()"`
-% GSL_LIBS=`${R_HOME}/bin/Rscript -e "RcppGSL:::LdFlags()"`
-% RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
+GSL_CFLAGS=`${R_HOME}/bin/Rscript -e "RcppGSL:::CFlags()"`
+GSL_LIBS=`${R_HOME}/bin/Rscript -e "RcppGSL:::LdFlags()"`
+RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
 
-% sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
-%     -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
-%     -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
-%     src/Makevars.in > src/Makevars
-% @
+sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
+    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
+    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
+    src/Makevars.in > src/Makevars
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hlslc{\#!/bin/sh}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-GSL\textunderscore CFLAGS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}R\textunderscore HOME\usebox{\hlsmallboxclosebrace}/bin/Rscript\ {-}e\ "RcppGSL:::CFlags()"`}\hlstd{\hspace*{\fill}\\
-GSL\textunderscore LIBS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}R\textunderscore HOME\usebox{\hlsmallboxclosebrace}/bin/Rscript\ {-}e\ "RcppGSL:::LdFlags()"`}\hlstd{\hspace*{\fill}\\
-RCPP\textunderscore LDFLAGS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}R\textunderscore HOME\usebox{\hlsmallboxclosebrace}/bin/Rscript\ {-}e\ "Rcpp:::LdFlags()"`}\hlstd{}\hspace*{\fill}\\
-\hspace*{\fill}\\
-\hlkwc{sed\ }\hlstd{}\hlsym{{-}}\hlstd{e\ }\hlstr{"s\textbar @GSL\textunderscore LIBS@\textbar \$\usebox{\hlsmallboxopenbrace}GSL\textunderscore LIBS\usebox{\hlsmallboxclosebrace}\textbar "}\hlstd{\ $\backslash$\hspace*{\fill}\\
-}\hlstd{\ \ \ \ }\hlstd{}\hlsym{{-}}\hlstd{e\ }\hlstr{"s\textbar @GSL\textunderscore CFLAGS@\textbar \$\usebox{\hlsmallboxopenbrace}GSL\textunderscore CFLAGS\usebox{\hlsmallboxclosebrace}\textbar "}\hlstd{\ $\backslash$\hspace*{\fill}\\
-}\hlstd{\ \ \ \ }\hlstd{}\hlsym{{-}}\hlstd{e\ }\hlstr{"s\textbar @RCPP\textunderscore LDFLAGS@\textbar \$\usebox{\hlsmallboxopenbrace}RCPP\textunderscore LDFLAGS\usebox{\hlsmallboxclosebrace}\textbar "}\hlstd{\ $\backslash$\hspace*{\fill}\\
-}\hlstd{\ \ \ \ }\hlstd{src}\hlsym{/}\hlstd{Makevars.}\hlkwa{in\ }\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{src}\hlsym{/}\hlstd{Makevars}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 Similarly, the configure.win for windows can be written as:
 
-% < < lang=bash,size=small > > =
-% GSL_CFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::CFlags()"`
-% GSL_LIBS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::LdFlags()"`
-% RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
+<<lang=bash,size=small>>=
+GSL_CFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::CFlags()"`
+GSL_LIBS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::LdFlags()"`
+RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
 
-% sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
-%     -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
-%     -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
-%     src/Makevars.in > src/Makevars.win
-% @
+sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
+    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
+    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
+    src/Makevars.in > src/Makevars.win
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{GSL\textunderscore CFLAGS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}R\textunderscore HOME\usebox{\hlsmallboxclosebrace}/bin\$\usebox{\hlsmallboxopenbrace}R\textunderscore ARCH\textunderscore BIN\usebox{\hlsmallboxclosebrace}/Rscript.exe\ {-}e\ "RcppGSL:::CFlags()"`}\hlstd{\hspace*{\fill}\\
-GSL\textunderscore LIBS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}R\textunderscore HOME\usebox{\hlsmallboxclosebrace}/bin\$\usebox{\hlsmallboxopenbrace}R\textunderscore ARCH\textunderscore BIN\usebox{\hlsmallboxclosebrace}/Rscript.exe\ {-}e\ "RcppGSL:::LdFlags()"`}\hlstd{\hspace*{\fill}\\
-RCPP\textunderscore LDFLAGS}\hlsym{=}\hlstd{}\hlstr{`\$\usebox{\hlsmallboxopenbrace}R\textunderscore HOME\usebox{\hlsmallboxclosebrace}/bin\$\usebox{\hlsmallboxopenbrace}R\textunderscore ARCH\textunderscore BIN\usebox{\hlsmallboxclosebrace}/Rscript.exe\ {-}e\ "Rcpp:::LdFlags()"`}\hlstd{}\hspace*{\fill}\\
-\hspace*{\fill}\\
-\hlkwc{sed\ }\hlstd{}\hlsym{{-}}\hlstd{e\ }\hlstr{"s\textbar @GSL\textunderscore LIBS@\textbar \$\usebox{\hlsmallboxopenbrace}GSL\textunderscore LIBS\usebox{\hlsmallboxclosebrace}\textbar "}\hlstd{\ $\backslash$\hspace*{\fill}\\
-}\hlstd{\ \ \ \ }\hlstd{}\hlsym{{-}}\hlstd{e\ }\hlstr{"s\textbar @GSL\textunderscore CFLAGS@\textbar \$\usebox{\hlsmallboxopenbrace}GSL\textunderscore CFLAGS\usebox{\hlsmallboxclosebrace}\textbar "}\hlstd{\ $\backslash$\hspace*{\fill}\\
-}\hlstd{\ \ \ \ }\hlstd{}\hlsym{{-}}\hlstd{e\ }\hlstr{"s\textbar @RCPP\textunderscore LDFLAGS@\textbar \$\usebox{\hlsmallboxopenbrace}RCPP\textunderscore LDFLAGS\usebox{\hlsmallboxclosebrace}\textbar "}\hlstd{\ $\backslash$\hspace*{\fill}\\
-}\hlstd{\ \ \ \ }\hlstd{src}\hlsym{/}\hlstd{Makevars.}\hlkwa{in\ }\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{src}\hlsym{/}\hlstd{Makevars.win}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 \subsection{The \texttt{src} directory}
 
 The \proglang{C++} source file takes the matrix supplied from \proglang{R}
 and applies the \pkg{GSL} function to each column.
 
-% < < lang=cpp,size=small > > =
-% #include <RcppGSL.h>
-% #include <gsl/gsl_matrix.h>
-% #include <gsl/gsl_blas.h>
+<<lang=cpp,size=small>>=
+#include <RcppGSL.h>
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_blas.h>
 
-% extern "C" SEXP colNorm(SEXP sM) {
+extern "C" SEXP colNorm(SEXP sM) {
 
-%   try {
+  try {
 
-%         RcppGSL::matrix<double> M = sM;     // create gsl data structures from SEXP
-%         int k = M.ncol();
-%         Rcpp::NumericVector n(k);           // to store results
+        RcppGSL::matrix<double> M = sM;     // create gsl data structures from SEXP
+        int k = M.ncol();
+        Rcpp::NumericVector n(k);           // to store results
 
-%         for (int j = 0; j < k; j++) {
-%             RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
-%             n[j] = gsl_blas_dnrm2(colview);
-%         }
-%         M.free() ;
-%         return n;                           // return vector
+        for (int j = 0; j < k; j++) {
+            RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
+            n[j] = gsl_blas_dnrm2(colview);
+        }
+        M.free() ;
+        return n;                           // return vector
 
-%   } catch( std::exception &ex ) {
-%         forward_exception_to_r( ex );
+  } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
 
-%   } catch(...) {
-%         ::Rf_error( "c++ exception (unknown reason)" );
-%   }
-%   return R_NilValue; // -Wall
-% }
-% @
+  } catch(...) {
+        ::Rf_error( "c++ exception (unknown reason)" );
+  }
+  return R_NilValue; // -Wall
+}
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hldir{\#include\ \usebox{\hlsmallboxlessthan}RcppGSL.h\usebox{\hlsmallboxgreaterthan}}\hspace*{\fill}\\
-\hlstd{}\hldir{\#include\ \usebox{\hlsmallboxlessthan}gsl/gsl\textunderscore matrix.h\usebox{\hlsmallboxgreaterthan}}\hspace*{\fill}\\
-\hlstd{}\hldir{\#include\ \usebox{\hlsmallboxlessthan}gsl/gsl\textunderscore blas.h\usebox{\hlsmallboxgreaterthan}}\hspace*{\fill}\\
-\hlstd{}\hspace*{\fill}\\
-\hlkwc{extern\ }\hlstd{}\hlstr{"C"}\hlstd{\ SEXP\ }\hlkwd{colNorm}\hlstd{}\hlsym{(}\hlstd{SEXP\ sM}\hlsym{)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{}\hlkwa{try\ }\hlstd{}\hlsym{\usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{matrix}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{M\ }\hlsym{=\ }\hlstd{sM}\hlsym{;}\hlstd{\ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ create\ gsl\ data\ structures\ from\ SEXP}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwb{int\ }\hlstd{k\ }\hlsym{=\ }\hlstd{M}\hlsym{.}\hlstd{}\hlkwd{ncol}\hlstd{}\hlsym{();}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{Rcpp}\hlsym{::}\hlstd{NumericVector\ }\hlkwd{n}\hlstd{}\hlsym{(}\hlstd{k}\hlsym{);}\hlstd{\ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ to\ store\ results}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwa{for\ }\hlstd{}\hlsym{(}\hlstd{}\hlkwb{int\ }\hlstd{j\ }\hlsym{=\ }\hlstd{}\hlnum{0}\hlstd{}\hlsym{;\ }\hlstd{j\ }\hlsym{\usebox{\hlsmallboxlessthan}\ }\hlstd{k}\hlsym{;\ }\hlstd{j}\hlsym{++)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ }\hlstd{RcppGSL}\hlsym{::}\hlstd{vector\textunderscore view}\hlsym{\usebox{\hlsmallboxlessthan}}\hlstd{}\hlkwb{double}\hlstd{}\hlsym{\usebox{\hlsmallboxgreaterthan}\ }\hlstd{colview\ }\hlsym{=\ }\hlstd{}\hlkwd{gsl\textunderscore matrix\textunderscore column\ }\hlstd{}\hlsym{(}\hlstd{M}\hlsym{,\ }\hlstd{j}\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ }\hlstd{n}\hlsym{{[}}\hlstd{j}\hlsym{{]}\ =\ }\hlstd{}\hlkwd{gsl\textunderscore blas\textunderscore dnrm2}\hlstd{}\hlsym{(}\hlstd{colview}\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{M}\hlsym{.}\hlstd{}\hlkwd{free}\hlstd{}\hlsym{()\ ;}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwa{return\ }\hlstd{n}\hlsym{;}\hlstd{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\hlsym{}\hlstd{}\hlslc{//\ return\ vector}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}\ }\hlstd{}\hlkwa{catch}\hlstd{}\hlsym{(\ }\hlstd{std}\hlsym{::}\hlstd{exception\ }\hlsym{\&}\hlstd{ex\ }\hlsym{)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlkwd{forward\textunderscore exception\textunderscore to\textunderscore r}\hlstd{}\hlsym{(\ }\hlstd{ex\ }\hlsym{);}\hspace*{\fill}\\
-\hlstd{\hspace*{\fill}\\
-}\hlstd{\ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}\ }\hlstd{}\hlkwa{catch}\hlstd{}\hlsym{(...)\ \usebox{\hlsmallboxopenbrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ \ \ \ \ \ \ }\hlstd{}\hlsym{::}\hlstd{}\hlkwd{Rf\textunderscore error}\hlstd{}\hlsym{(\ }\hlstd{}\hlstr{"c++\ exception\ (unknown\ reason)"}\hlstd{\ }\hlsym{);}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hspace*{\fill}\\
-\hlstd{}\hlstd{\ \ }\hlstd{}\hlkwa{return\ }\hlstd{R\textunderscore NilValue}\hlsym{;\ }\hlstd{}\hlslc{//\ {-}Wall}\hspace*{\fill}\\
-\hlstd{}\hlsym{\usebox{\hlsmallboxclosebrace}}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 The \proglang{Makevars.in} file governs the compilation and uses the values
 supplied by \texttt{configure} during build-time:
 
-% < < lang=sh,size=small > > =
+<<lang=sh,size=small>>=
 
-% # set by configure
-% GSL_CFLAGS = @GSL_CFLAGS@
-% GSL_LIBS   = @GSL_LIBS@
-% RCPP_LDFLAGS = @RCPP_LDFLAGS@
+# set by configure
+GSL_CFLAGS = @GSL_CFLAGS@
+GSL_LIBS   = @GSL_LIBS@
+RCPP_LDFLAGS = @RCPP_LDFLAGS@
 
-% # combine with standard arguments for R
-% PKG_CPPFLAGS = $(GSL_CFLAGS)
-% PKG_LIBS = $(GSL_LIBS) $(RCPP_LDFLAGS)
-% @
+# combine with standard arguments for R
+PKG_CPPFLAGS = $(GSL_CFLAGS)
+PKG_LIBS = $(GSL_LIBS) $(RCPP_LDFLAGS)
+@
 
-\begin{small}
-\begin{Hchunk}
-\noindent
-\ttfamily
-\hlstd{}\hspace*{\fill}\\
-\hlslc{\#\ set\ by\ configure}\hspace*{\fill}\\
-\hlstd{GSL\textunderscore CFLAGS\ }\hlsym{=\ }\hlstd{@GSL\textunderscore CFLAGS@\hspace*{\fill}\\
-GSL\textunderscore LIBS}\hlstd{\ \ \ }\hlstd{}\hlsym{=\ }\hlstd{@GSL\textunderscore LIBS@\hspace*{\fill}\\
-RCPP\textunderscore LDFLAGS\ }\hlsym{=\ }\hlstd{@RCPP\textunderscore LDFLAGS@}\hspace*{\fill}\\
-\hspace*{\fill}\\
-\hlslc{\#\ combine\ with\ standard\ arguments\ for\ R}\hspace*{\fill}\\
-\hlstd{PKG\textunderscore CPPFLAGS\ }\hlsym{=\ }\hlstd{\$}\hlsym{(}\hlstd{GSL\textunderscore CFLAGS}\hlsym{)}\hspace*{\fill}\\
-\hlstd{PKG\textunderscore LIBS\ }\hlsym{=\ }\hlstd{\$}\hlsym{(}\hlstd{GSL\textunderscore LIBS}\hlsym{)\ }\hlstd{\$}\hlsym{(}\hlstd{RCPP\textunderscore LDFLAGS}\hlsym{)}\hlstd{}\hspace*{\fill}\\
-\mbox{}
-\normalfont
-\end{Hchunk}\vspace{1em}
-\end{small}
 
 The variables surrounded by \@ will be filled by \texttt{configure} during
 package build-time.

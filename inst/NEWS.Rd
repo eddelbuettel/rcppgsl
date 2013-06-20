@@ -6,9 +6,9 @@
   \itemize{
     \item Added new example based on B-splines example in GSL manual
     illustrating simple GSL use via Rcpp attributes
-    \item vignette production has been simplified, relying on version 0.4.2
-    of highlight which acts now as a vignette engine for this package 
-    vignette. 
+    \item Vignette compilation has been reverted to using \pkg{highlight} 
+    since version 0.4.2 or greater can be used as a vignette engine
+    (with R 3.0.* or later). 
   }
 }
 
