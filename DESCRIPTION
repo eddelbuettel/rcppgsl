@@ -31,3 +31,4 @@ Depends: Rcpp (>= 0.10.3)
 Suggests: RUnit, inline
 LinkingTo: Rcpp
 SystemRequirements: GNU GSL
+VignetteBuilder: highlight
