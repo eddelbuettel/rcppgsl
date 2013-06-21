@@ -10,7 +10,7 @@
 \RequirePackage[T1]{fontenc}
 
 <<echo=FALSE,print=FALSE>>=
-require( RcppGSL )
+require(RcppGSL)
 prettyVersion <- packageDescription("RcppGSL")$Version
 prettyDate <- format(Sys.Date(), "%B %e, %Y")
 @
@@ -19,16 +19,47 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 \author{Dirk Eddelbuettel \and Romain Fran\c{c}ois}
 \title{\texttt{RcppGSL}: Unit testing results}
 \date{\texttt{RcppGSL} version \Sexpr{prettyVersion} as of \Sexpr{prettyDate}}
+
 \begin{document}
 \maketitle
 
+
+<<unitTesting,echo=FALSE,print=FALSE>>=
+library(inline)
+library(RUnit)
+
+pkg <- "RcppGSL"
+cppfunction <- function(...) cxxfunction(..., plugin=pkg)
+
+if (file.exists("unitTests-results")) unlink("unitTests-results", recursive = TRUE)
+dir.create("unitTests-results")
+
+path <- system.file("unitTests", package=pkg)
+
+testSuite <- defineTestSuite(name=paste(pkg, "unit testing"), dirs=path)
+tests <- runTestSuite(testSuite, verbose=FALSE)
+err <- getErrors(tests)
+
+if (err$nFail > 0) stop(sprintf("unit test problems: %d failures", err$nFail))
+if (err$nErr > 0) stop( sprintf("unit test problems: %d errors", err$nErr))
+
+printHTMLProtocol(tests, fileName= sprintf("unitTests-results/%s-unitTests.html", pkg))
+printTextProtocol(tests, fileName= sprintf("unitTests-results/%s-unitTests.txt" , pkg))
+
+if (file.exists("/tmp")) {
+    invisible(file.copy(sprintf("unitTests-results/%s-unitTests.txt", pkg), "/tmp", overwrite=TRUE))
+    invisible(file.copy(sprintf("unitTests-results/%s-unitTests.html", pkg), "/tmp", overwrite=TRUE))
+}
+@
+
+
 \begin{verbatim}
-<<echo=F,results=tex>>=
+<<importResults,echo=FALSE,results=tex>>=
 results <- "unitTests-results/RcppGSL-unitTests.txt"
-if( file.exists( results ) ){
-	writeLines( readLines( results ) )
+if (file.exists(results)) {
+    writeLines(readLines(results))
 } else{
-	writeLines( "unit test results not available" )
+    writeLines( "unit test results not available" )
 }
 @
 \end{verbatim}

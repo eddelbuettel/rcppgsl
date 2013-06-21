@@ -9,6 +9,10 @@
     \item Vignette compilation has been reverted to using \pkg{highlight} 
     since version 0.4.2 or greater can be used as a vignette engine
     (with R 3.0.* or later). 
+    \item Vignette compilation is now being done by \code{R CMD build}
+    as R 3.0.0 supports different vignette engines, so the vignette
+    build process has been simplified. A convenience helper script has
+    also been added for command-line builds.
   }
 }
 

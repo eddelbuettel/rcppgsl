@@ -1,3 +1,10 @@
+2013-06-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/buildVignette.R: Added simple helper script to build
+	the vignette(s) on the command-line (which requires highlight)
+
+	* cleanup: Take some tasks that the vignette/Makefile had
+
 2013-06-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* vignettes/RcppGSL/RcppGSL-intro.Rnw: Some fixes

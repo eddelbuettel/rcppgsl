@@ -1,11 +1,767 @@
 \documentclass[10pt]{article}
 %\VignetteIndexEntry{RcppGSL}
+%\VignetteKeywords{R,GSL,Rcpp,data transfer}
+%\VignettePackage{RcppGSL}
+%\VignetteEngine{highlight::highlight}
 
-\usepackage{url}
+\usepackage{url,color}
+\usepackage[authoryear,round,longnamesfirst]{natbib}
 \usepackage[colorlinks]{hyperref}
-\setlength{\oddsidemargin}{0pt}
-\setlength{\textwidth}{17cm} % uh-oh, I use letter :)
+\definecolor{link}{rgb}{0,0,0.3}	%% next few lines courtesy of RJournal.sty
+\hypersetup{
+    colorlinks,%
+    citecolor=link,%
+    filecolor=link,%
+    linkcolor=link,%
+    urlcolor=link
+}
+\usepackage{vmargin}
+\setmargrb{0.75in}{0.75in}{0.75in}{0.75in}
+\usepackage{booktabs}           % fancier \hrule
+
+\newcommand{\proglang}[1]{\textsf{#1}}
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+
+\RequirePackage{ae,mathpple}    % ae as a default font pkg works with Sweave
+\RequirePackage[T1]{fontenc}
+
+<<setup,echo=FALSE,print=FALSE>>=
+require(inline)
+library(RcppGSL)
+options("width"=65)
+rcppgsl.version <- packageDescription( "RcppGSL" )$Version
+prettyDate <- format(Sys.Date(), "%B %e, %Y")
+@
+% closing $ needed here
+
+\author{Dirk Eddelbuettel \and Romain Fran\c{c}ois}
+\title{\pkg{RcppGSL}: Easier \pkg{GSL} use from \proglang{R} via \pkg{Rcpp}}
+\date{Version \Sexpr{rcppgsl.version} as of \Sexpr{prettyDate}}
 
 \begin{document}
+\maketitle
+
+\abstract{
+  \shortcites{GSL} %% so that we get Galassi et al instead of all names
+  \noindent
+  The GNU Scientific Library, or \pkg{GSL}, is a collection of numerical
+  routines for scientific computing \citep{GSL}. It is particularly useful for
+  \proglang{C} and \proglang{C++} programs as it provides a standard
+  \proglang{C} interface to a wide range of mathematical routines such as
+  special functions, permutations, combinations, fast fourier transforms,
+  eigensystems, random numbers, quadrature, random distributions,
+  quasi-random sequences, Monte Carlo integration, N-tuples, differential
+  equations, simulated annealing, numerical differentiation, interpolation,
+  series acceleration, Chebyshev approximations, root-finding, discrete
+  Hankel transforms physical constants, basis splines and wavelets.  There
+  are over 1000 functions in total with an extensive test suite.
+
+  The \pkg{RcppGSL} package provides an easy-to-use interface between
+  \pkg{GSL} data structures and \proglang{R} using concepts from \pkg{Rcpp}
+  \citep{JSS:Rcpp,CRAN:Rcpp} which is itself a package that eases the interfaces
+  between \proglang{R} and C++.
+}
+
+\section{Introduction}
+
+The GNU Scientific Library, or \pkg{GSL}, is a collection of numerical
+routines for scientific computing \citep{GSL}. It is a rigourously developed
+and tested library providing support for a wide range of scientific or
+numerical tasks. Among the topics covered in the GSL are
+%% from the GSL manual
+complex numbers, roots of polynomials,
+special functions, vector and matrix data structures,
+permutations, combinations, sorting, BLAS support,
+linear algebra, fast fourier transforms, eigensystems,
+random numbers,	quadrature, random distributions, quasi-random sequences,
+Monte Carlo integration, N-tuples,
+differential equations,	simulated annealing,
+numerical differentiation, interpolation,
+series acceleration, Chebyshev approximations,
+root-finding, discrete Hankel transforms
+least-squares fitting,	minimization,
+physical constants, basis splines and wavelets.
+
+Support for \proglang{C} programming with the GSL is readily available: the GSL itself is written in \proglang{C}
+and provides a \proglang{C}-language Application Programming Interface
+(API). Access from \proglang{C++} is therefore possible, albeit not at the
+abstraction level that can be offered by dedicated \proglang{C++}
+implementations.\footnote{Several \proglang{C++} wrappers for the GSL have
+  been written over the years yet none reached a state of completion
+  comparable to the GSL itself. Three such wrapping library are
+  \url{http://cholm.home.cern.ch/cholm/misc/gslmm/},
+  \url{http://gslwrap.sourceforge.net/} and
+  \url{http://code.google.com/p/gslcpp/}.}
+
+The GSL is somewhat unique among numerical libraries. Its combination of
+broad coverage of scientific topics, serious implementation effort and the
+use of a FLOSS license have lead to a fairly wide usage of the library.  As a
+concrete example, we can consider the the CRAN repository network for the
+\proglang{R} language and environment \citep{R:Main}.  CRAN contains over a
+dozen packages interfacing the GSL: \pkg{copula}, \pkg{dynamo}, \pkg{gsl},
+\pkg{gstat}, \pkg{magnets}, \pkg{mvabund}, \pkg{QRMlib}, \pkg{RBrownie},
+\pkg{RDieHarder}, \pkg{RHmm}, \pkg{segclust}, \pkg{surveillance}, and
+\pkg{topicmodels}.  This is a clear indication that the GSL is popular among
+programmers using either the \proglang{C} or \proglang{C++} language for
+solving problems applied science.
+
+At the same time, the \pkg{Rcpp} package \citep{JSS:Rcpp,CRAN:Rcpp} offers a
+higher-level abstraction between \proglang{R} and underlying \proglang{C++}
+(or \proglang{C}) code.  \pkg{Rcpp} permits \proglang{R} objects like
+vectors, matrices, lists, functions, environments, $\ldots$, to be
+manipulated directly at the \proglang{C++} level, alleviates the needs for
+complicated and error-prone parameter passing and memory allocation. It also
+permits compact vectorised expressions similar to what can be written in
+\proglang{R} directly at the \proglang{C++} level.
+
+The \pkg{RcppGSL} package discussed here aims the help close the gap. It
+tries to offer access to GSL functions, in particular via the vector and
+matrix data structures used throughout the GSL, while staying closer to the
+`whole object model' familar to the \proglang{R} programmer.
+
+The rest of paper is organised as follows. The next section shows a
+motivating example of a fast linear model fit routine using \pkg{GSL} functions.
+The following section discusses support for \pkg{GSL} vector types, which is
+followed by a section on matrices.
+
+\section{Motivation: FastLm}
+
+Fitting linear models is a key building block of analysing data and
+modeling. \proglang{R} has a very complete and feature-rich function in
+\texttt{lm()} which can provide a model fit as we a number of diagnostic
+measure, either directly or via the corresponding \texttt{summary()} method
+for linear model fits. The \texttt{lm.fit()} function also provides a faster
+alternative (which is however recommend only for for advanced users) which
+provides estimates only and fewer statistics for inference.  This sometimes
+leads users request a routine which is both fast and featureful enough.  The
+\texttt{fastLm} routine shown here provides such an implementation. It uses
+the \pkg{GSL} for the least-squares fitting functions and therefore provides a nice
+example for \pkg{GSL} integration with \proglang{R}.
+
+<<fastLm,lang=cpp,size=small>>=
+#include <RcppGSL.h>
+#include <gsl/gsl_multifit.h>
+#include <cmath>
+
+extern "C" SEXP fastLm(SEXP ys, SEXP Xs) {
+
+  try {
+        RcppGSL::vector<double> y = ys;     // create gsl data structures from SEXP
+        RcppGSL::matrix<double> X = Xs;
+
+        int n = X.nrow(), k = X.ncol();
+        double chisq;
+
+        RcppGSL::vector<double> coef(k);    // to hold the coefficient vector
+        RcppGSL::matrix<double> cov(k,k);   // and the covariance matrix
+
+        // the actual fit requires working memory we allocate and free
+        gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
+        gsl_multifit_linear (X, y, coef, cov, &chisq, work);
+        gsl_multifit_linear_free (work);
+
+        // extract the diagonal as a vector view
+        gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
+
+        // currently there is not a more direct interface in Rcpp::NumericVector
+        // that takes advantage of wrap, so we have to do it in two steps
+        Rcpp::NumericVector std_err ; std_err = diag;
+        std::transform( std_err.begin(), std_err.end(), std_err.begin(), sqrt);
+
+        Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef,
+                                            Rcpp::Named("stderr") = std_err,
+                                            Rcpp::Named("df") = n - k);
+
+        // free all the GSL vectors and matrices -- as these are really C data structures
+        // we cannot take advantage of automatic memory management
+        coef.free(); cov.free(); y.free(); X.free();
+
+        return res;  		// return the result list to R
+
+  } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+  } catch(...) {
+        ::Rf_error( "c++ exception (unknown reason)" );
+  }
+  return R_NilValue; // -Wall
+}
+@
+
+We first initialize a \textsl{RcppGSL} vector and matrix, each templated to
+the standard numeric type \texttt{double} (and the GSL supports other types
+ranging from lower precision floating point to signed and unsigned integers
+as well as complex numbers).  We the reserve another vector and matrix to
+hold the resulting coefficient estimates as well as the estimate of the
+covariance matrix. Next, we allocate workspace using a GSL routine, fit the
+linear model and free the workspace.  The next step involves extracting the
+diagonal element from the covariance matrix. We then employ a so-called
+iterator---a common \proglang{C++} idiom from the Standard Template Library
+(STL)---to iterate over the vector of diagonal and transforming it by
+applying the square root function to compute our standard error of the
+estimate. Finally we create a named list with the return value before we free
+temporary memory allocation (a step that has to be done because the
+underlying objects are really \proglang{C} objects conforming to the
+\pkg{GSL} interface and hence without the automatic memory management we
+could have with \proglang{C++} vector or matrix structures as used through
+the \pkg{Rcpp} package) and return the result to \proglang{R}.
+
+We should note that \pkg{RcppArmadillo} \citep{CRAN:RcppArmadillo} implements
+a matching \texttt{fastLm} function using the Armadillo library by
+\cite{Sanderson:2010:Armadillo}, and can do so with more compact code due to
+\proglang{C++} features.
+
+\section{Vectors}
+
+This section details the different vector represenations, starting with their
+definition inside the \pkg{GSL}. We then discuss our layering before showing
+how the two types map. A discussion of read-only `vector view' classes
+concludes the section.
+
+\subsection{\pkg{GSL} Vectors}
+
+\pkg{GSL} defines various vector types to manipulate one-dimensionnal
+data, similar to \proglang{R} arrays. For example the \verb|gsl_vector| and \verb|gsl_vector_int|
+structs are defined as:
+
+<<vector_int,lang=cpp,size=small>>=
+typedef struct{
+  size_t size;
+  size_t stride;
+  double * data;
+  gsl_block * block;
+  int owner;
+} gsl_vector;
+
+typedef struct {
+  size_t size;
+  size_t stride;
+  int * data;
+  gsl_block_int * block;
+  int owner;
+}
+gsl_vector_int;
+@
+
+A typical use of the \verb|gsl_vector| struct is given below:
+
+<<vector_free,lang=cpp,size=small>>=
+int i;
+gsl_vector * v = gsl_vector_alloc (3);  // allocate a gsl_vector of size 3
+
+for (i = 0; i < 3; i++) {               // fill the vector
+  gsl_vector_set (v, i, 1.23 + i);
+}
+
+double sum = 0.0 ;                      // access elements
+for (i = 0; i < 3; i++) {
+  sum += gsl_vector_set( v, i ) ;
+}
+
+gsl_vector_free (v);                    // free the memory
+@
+
+\subsection{RcppGSL::vector}
+
+\pkg{RcppGSL} defines the template \texttt{RcppGSL::vector<T>} to manipulate
+\verb|gsl_vector| pointers taking advantage of C++ templates. Using this
+template type, the previous example now becomes:
+
+<<vector_sum,lang=cpp,size=small>>=
+int i;
+RcppGSL::vector<double> v(3);           // allocate a gsl_vector of size 3
+
+for (i = 0; i < 3; i++) {               // fill the vector
+  v[i] = 1.23 + i ;
+}
+
+double sum = 0.0 ;                      // access elements
+for (i = 0; i < 3; i++) {
+  sum += v[i] ;
+}
+
+v.free() ;                              // free the memory
+@
+
+The class \texttt{RcppGSL::vector<double>} is a smart pointer, that can be used
+anywhere where a raw pointer \verb|gsl_vector| can be used, such as the
+\verb|gsl_vector_set| and \verb|gsl_vector_get| functions above.
+
+Beyond the convenience of a nicer syntax for allocation and release of
+memory, the \texttt{RcppGSL::vector} template faciliates interchange of
+\pkg{GSL} vectors with \pkg{Rcpp} objects, and hence \pkg{R} objects. The
+following example defines a \texttt{.Call} compatible function called
+\verb|sum_gsl_vector_int| that operates on a \verb|gsl_vector_int| through
+the \texttt{RcppGSL::vector<int>} template specialization:
+
+<<macro,lang=cpp,size=small>>=
+// [[Rcpp::export]]
+int sum_gsl_vector_int( RcppGSL::vector<int> vec){
+  int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
+  vec.free() ;  // we need to free vec after use
+  return res ;
+}
+@
+p
+The function can then simply be called from \proglang{R} :
+
+<<inlineex1,results=hide,echo=FALSE>>=
+fx <- cxxfunction(
+    list( sum_gsl_vector_int = signature( vec_ = "integer" ) ),
+    c( sum_gsl_vector_int = '
+  RcppGSL::vector<int> vec = as< RcppGSL::vector<int> >(vec_) ;
+  int res = std::accumulate( vec.begin(), vec.end(), 0 ) ;
+  vec.free() ;  // we need to free vec after use
+  return wrap( res ) ;
+' ), plugin = "RcppGSL" )
+<<callinlineex1,size=small>>=
+.Call( "sum_gsl_vector_int", 1:10 )
+@
+
+A second example shows a simple function that grabs elements of an
+R list as \verb|gsl_vector| objects using implicit conversion mechanisms
+of \pkg{Rcpp}
+
+<< example2,lang=cpp,size=small>>=
+// [[Rcpp::export]]
+double gsl_vector_sum_2( Rcpp::List data ){
+  // grab "x" as a gsl_vector through the RcppGSL::vector<double> class
+  RcppGSL::vector<double> x = data["x"] ;
+
+  // grab "y" as a gsl_vector through the RcppGSL::vector<int> class
+  RcppGSL::vector<int> y = data["y"] ;
+  double res = 0.0 ;
+  for( size_t i=0; i< x->size; i++){
+    res += x[i] * y[i] ;
+  }
+
+  // as usual with GSL, we need to explicitely free the memory
+  x.free() ;
+  y.free() ;
+
+  // return the result
+  return res ;
+}
+@
+
+called from \proglang{R} :
+
+<<inlinexex2,results=hide, echo=FALSE>>=
+fx2 <- cxxfunction( list( gsl_vector_sum_2 = signature( data_ = "list" ) ),
+c( gsl_vector_sum_2 = '
+    List data(data_) ;
+
+  // grab "x" as a gsl_vector through the RcppGSL::vector<double> class
+  RcppGSL::vector<double> x = data["x"] ;
+
+  // grab "y" as a gsl_vector through the RcppGSL::vector<int> class
+  RcppGSL::vector<int> y = data["y"] ;
+  double res = 0.0 ;
+  for( size_t i=0; i< x->size; i++){
+    res += x[i] * y[i] ;
+  }
+
+  // as usual with GSL, we need to explicitely free the memory
+  x.free() ;
+  y.free() ;
+
+  // return the result
+  return wrap(res);
+' ), plugin = "RcppGSL" )
+@
+<<callinlineex2>>=
+data <- list( x = seq(0,1,length=10), y = 1:10 )
+.Call( "gsl_vector_sum_2", data )
+@
+
+\subsection{Mapping}
+
+Table~\ref{tab:mappingVectors} shows the mapping between types defined by the
+\pkg{GSL} and their corresponding types in the \pkg{RcppGSL} package.
+
+\begin{table}[htb]
+  \centering
+  \begin{small}
+    \begin{tabular}{ll}
+      \toprule
+      gsl vector & RcppGSL \\
+      \midrule
+      \texttt{gsl\_vector} & \texttt{RcppGSL::vector<double>} \\
+      \texttt{gsl\_vector\_int} & 	\texttt{RcppGSL::vector<int>} \\
+      \texttt{gsl\_vector\_float} & 	\texttt{RcppGSL::vector<float>} \\
+      \texttt{gsl\_vector\_long} & 	\texttt{RcppGSL::vector<long>} \\
+      \texttt{gsl\_vector\_char} & 	\texttt{RcppGSL::vector<char>} \\
+      \texttt{gsl\_vector\_complex} & 	\texttt{RcppGSL::vector<gsl\_complex>} \\
+      \texttt{gsl\_vector\_complex\_float} & \texttt{RcppGSL::vector<gsl\_complex\_float>} \\
+      \texttt{gsl\_vector\_complex\_long\_double} & 	\texttt{RcppGSL::vector<gsl\_complex\_long\_double>} \\
+      \texttt{gsl\_vector\_long\_double} & 	\texttt{RcppGSL::vector<long double>} \\
+      \texttt{gsl\_vector\_short} & 	\texttt{RcppGSL::vector<short>} \\
+      \texttt{gsl\_vector\_uchar} & 	\texttt{RcppGSL::vector<unsigned char>} \\
+      \texttt{gsl\_vector\_uint} & 	\texttt{RcppGSL::vector<unsigned int>} \\
+      \texttt{gsl\_vector\_ushort} & 	\texttt{RcppGSL::vector<insigned short>} \\
+      \texttt{gsl\_vector\_ulong} & 	\texttt{RcppGSL::vector<unsigned long>} \\
+      \bottomrule
+    \end{tabular}
+  \end{small}
+  \caption{Correspondance between \pkg{GSL} vector types and templates defined in \pkg{RcppGSL}.}
+  \label{tab:mappingVectors}
+\end{table}
+
+\subsection{ Vector Views}
+
+Several \pkg{GSL} algorithms return \pkg{GSL} vector views as their result
+type. \pkg{RcppGSL} defines the template class \texttt{RcppGSL::vector\_view}
+to handle vector views using \proglang{C++} syntax.
+
+<<lang=cpp,size=small>>=
+// [[Rcpp::export]]
+Rcpp::List test_gsl_vector_view(){
+  int n = 10 ;
+  RcppGSL::vector<double> v(n) ;
+  for( int i=0 ; i<n; i++){
+    v[i] = i ;
+  }
+  RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(v,0,2,n/2);
+  RcppGSL::vector_view<double> v_odd  = gsl_vector_subvector_with_stride(v,1,2,n/2);
+
+  List res = List::create(
+    _["even"] = v_even,
+    _["odd" ] = v_odd
+    ) ;
+  v.free() ;  	// we only need to free v, the views do not own data
+  return res ;
+}
+@
+
+As with vectors, \proglang{C++} objects of type
+\texttt{RcppGSL::vector\_view} can be converted implicitly to their
+associated \pkg{GSL} view type. Table~\ref{tab:mappingVectorViews} displays
+the pairwise correspondance so that the \proglang{C++} objects can be passed
+to compatible \pkg{GSL} algorithms.
+
+\begin{table}[htb]
+  \centering
+  \begin{small}
+    \begin{tabular}{ll}
+      \toprule
+      gsl vector views & RcppGSL \\
+      \midrule
+      \texttt{gsl\_vector\_view} & \texttt{RcppGSL::vector\_view<double>} \\
+      \texttt{gsl\_vector\_view\_int} & 	\texttt{RcppGSL::vector\_view<int>} \\
+      \texttt{gsl\_vector\_view\_float} & 	\texttt{RcppGSL::vector\_view<float>} \\
+      \texttt{gsl\_vector\_view\_long} & 	\texttt{RcppGSL::vector\_view<long>} \\
+      \texttt{gsl\_vector\_view\_char} & 	\texttt{RcppGSL::vector\_view<char>} \\
+      \texttt{gsl\_vector\_view\_complex} & 	\texttt{RcppGSL::vector\_view<gsl\_complex>} \\
+      \texttt{gsl\_vector\_view\_complex\_float} & \texttt{RcppGSL::vector\_view<gsl\_complex\_float>} \\
+      \texttt{gsl\_vector\_view\_complex\_long\_double} & 	\texttt{RcppGSL::vector\_view<gsl\_complex\_long\_double>} \\
+      \texttt{gsl\_vector\_view\_long\_double} & 	\texttt{RcppGSL::vector\_view<long double>} \\
+      \texttt{gsl\_vector\_view\_short} & 	\texttt{RcppGSL::vector\_view<short>} \\
+      \texttt{gsl\_vector\_view\_uchar} & 	\texttt{RcppGSL::vector\_view<unsigned char>} \\
+      \texttt{gsl\_vector\_view\_uint} & 	\texttt{RcppGSL::vector\_view<unsigned int>} \\
+      \texttt{gsl\_vector\_view\_ushort} & 	\texttt{RcppGSL::vector\_view<insigned short>} \\
+      \texttt{gsl\_vector\_view\_ulong} & 	\texttt{RcppGSL::vector\_view<unsigned long>} \\
+      \bottomrule
+    \end{tabular}
+  \end{small}
+  \caption{Correspondance between \pkg{GSL} vector view types and templates defined
+    in \pkg{RcppGSL}.}
+  \label{tab:mappingVectorViews}
+\end{table}
+
+The vector view class also contains a conversion operator to automatically
+transform the data of the view object to a \pkg{GSL} vector object. This
+enables use of vector views where \pkg{GSL} would expect a vector.
+
+
+\section{Matrices}
+
+The \pkg{GSL} also defines a set of matrix data types : \texttt{gsl\_matrix},
+\texttt{gsl\_matrix\_int} etc ... for which \pkg{RcppGSL} defines a corresponding
+convenience \proglang{C++} wrapper generated by the \texttt{RcppGSL::matrix}
+template.
+
+\subsection{Creating matrices}
+
+The \texttt{RcppGSL::matrix} template exposes three constructors.
+
+<<lang=cpp,size=small>>=
+// convert an R matrix to a GSL matrix
+matrix( SEXP x) throw(::Rcpp::not_compatible)
+
+// encapsulate a GSL matrix pointer
+matrix( gsl_matrix* x)
+
+// create a new matrix with the given number of rows and columns
+matrix( int nrow, int ncol)
+@
+
+\subsection{Implicit conversion}
+
+\texttt{RcppGSL::matrix} defines implicit conversion to a pointer to
+the associated \pkg{GSL} matrix type, as well as dereferencing operators, making
+the class \texttt{RcppGSL::matrix} look and feel like a pointer to a GSL
+matrix type.
+
+<<lang=cpp,size=small>>=
+gsltype* data ;
+operator gsltype*(){ return data ; }
+gsltype* operator->() const { return data; }
+gsltype& operator*() const { return *data; }
+@
+
+\subsection{Indexing}
+
+Indexing of \pkg{GSL} matrices is usually the task of the functions
+\texttt{gsl\_matrix\_get}, \texttt{gsl\_matrix\_int\_get}, ... and
+\texttt{gsl\_matrix\_set}, \texttt{gsl\_matrix\_int\_set}, ...
+
+\pkg{RcppGSL} takes advantage of both operator overloading and templates
+to make indexing a \pkg{GSL} matrix much more convenient.
+
+<<lang=cpp,size=small>>=
+RcppGSL::matrix<int> mat(10,10);        // create a matrix of size 10x10
+
+for( int i=0; i<10: i++) {              // fill the diagonal
+    mat(i,i) = i ;
+}
+@
+
+\subsection{Methods}
+
+The \texttt{RcppGSL::matrix} type also defines the following member functions:
+\begin{quote}
+  \begin{itemize}
+  \item[\texttt{nrow}] extracts the number of rows
+  \item[\texttt{ncol}] extract the number of columns
+  \item[\texttt{size}] extracts the number of elements
+  \item[\texttt{free}] releases the memory
+  \end{itemize}
+\end{quote}
+
+\subsection{Matrix views}
+
+Similar to the vector views discussed above, the \pkg{RcppGSL} also provides
+an implicit conversion operator which returns the underlying matrix stored in
+the matrix view class.
+
+\section{Using \pkg{RcppGSL} in your package}
+
+The \pkg{RcppGSL} package contains a complete example providing a single
+function \texttt{colNorm} which computes a norm for each column of a
+supplied matrix. This example adapts a matrix example from the GSL manual that has
+been chose merely as a means to showing how to set up a package to use
+\pkg{RcppGSL}.
+
+Needless to say, we could compute such a matrix norm easily in \proglang{R}
+using existing facilities. One such possibility is a simple
+\verb|apply(M, 2, function(x) sqrt(sum(x^2)))| as shown on the corresponding
+help page in the example package inside \pkg{RcppGSL}. One point in favour of
+using the \pkg{GSL} code is that it employs a BLAS function so on
+sufficiently large matrices, and with suitable BLAS libraries installed, this
+variant could be faster due to the optimised code in high-performance BLAS
+libraries and/or the inherent parallelism a multi-core BLAS variant which
+compute compute the vector norm in parallel.  On all `reasonable' matrix
+sizes, however, the performance difference should be neglible.
+
+\subsection{The \texttt{configure} script}
+
+\subsubsection{Using autoconf}
+
+Using \pkg{RcppGSL} means employing both the \pkg{GSL} and \proglang{R}. We
+may need to find the location of the \pkg{GSL} headers and library, and this
+done easily from a \texttt{configure} source script which \texttt{autoconf}
+generates from a \texttt{configure.in} source file such as the following:
+
+<<lang=sh,size=small>>=
+AC_INIT([RcppGSLExample], 0.1.0)
+
+## Use gsl-config to find arguments for compiler and linker flags
+##
+## Check for non-standard programs: gsl-config(1)
+AC_PATH_PROG([GSL_CONFIG], [gsl-config])
+## If gsl-config was found, let's use it
+if test "${GSL_CONFIG}" != ""; then
+    # Use gsl-config for header and linker arguments (without BLAS which we get from R)
+    GSL_CFLAGS=`${GSL_CONFIG} --cflags`
+    GSL_LIBS=`${GSL_CONFIG} --libs-without-cblas`
+else
+    AC_MSG_ERROR([gsl-config not found, is GSL installed?])
+fi
+
+## Use Rscript to query Rcpp for compiler and linker flags
+## link flag providing libary as well as path to library, and optionally rpath
+RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
+
+# Now substitute these variables in src/Makevars.in to create src/Makevars
+AC_SUBST(GSL_CFLAGS)
+AC_SUBST(GSL_LIBS)
+AC_SUBST(RCPP_LDFLAGS)
+
+AC_OUTPUT(src/Makevars)
+@
+
+Such a source \texttt{configure.in} gets converted into a script
+\texttt{configure} by invoking the \texttt{autoconf} program.
+
+\subsubsection{Using functions provided by RcppGSL}
+
+\pkg{RcppGSL} provides R functions that allows one to retrieve the same
+information. Therefore the configure script can also be written as:
+
+<<lang=bash,size=small>>=
+#!/bin/sh
+
+GSL_CFLAGS=`${R_HOME}/bin/Rscript -e "RcppGSL:::CFlags()"`
+GSL_LIBS=`${R_HOME}/bin/Rscript -e "RcppGSL:::LdFlags()"`
+RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
+
+sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
+    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
+    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
+    src/Makevars.in > src/Makevars
+@
+
+Similarly, the configure.win for windows can be written as:
+
+<<lang=sh,size=small>>=
+GSL_CFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::CFlags()"`
+GSL_LIBS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::LdFlags()"`
+RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
+
+sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
+    -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
+    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
+    src/Makevars.in > src/Makevars.win
+@
+
+\subsection{The \texttt{src} directory}
+
+The \proglang{C++} source file takes the matrix supplied from \proglang{R}
+and applies the \pkg{GSL} function to each column.
+
+<<lang=cpp,size=small>>=
+#include <RcppGSL.h>
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_blas.h>
+
+extern "C" SEXP colNorm(SEXP sM) {
+
+  try {
+
+        RcppGSL::matrix<double> M = sM;     // create gsl data structures from SEXP
+        int k = M.ncol();
+        Rcpp::NumericVector n(k);           // to store results
+
+        for (int j = 0; j < k; j++) {
+            RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
+            n[j] = gsl_blas_dnrm2(colview);
+        }
+        M.free() ;
+        return n;                           // return vector
+
+  } catch( std::exception &ex ) {
+        forward_exception_to_r( ex );
+
+  } catch(...) {
+        ::Rf_error( "c++ exception (unknown reason)" );
+  }
+  return R_NilValue; // -Wall
+}
+@
+
+The \proglang{Makevars.in} file governs the compilation and uses the values
+supplied by \texttt{configure} during build-time:
+
+<<lang=sh,size=small>>=
+
+# set by configure
+GSL_CFLAGS = @GSL_CFLAGS@
+GSL_LIBS   = @GSL_LIBS@
+RCPP_LDFLAGS = @RCPP_LDFLAGS@
+
+# combine with standard arguments for R
+PKG_CPPFLAGS = $(GSL_CFLAGS)
+PKG_LIBS = $(GSL_LIBS) $(RCPP_LDFLAGS)
+@
+
+The variables surrounded by \@ will be filled by \texttt{configure} during
+package build-time.
+
+\subsection{The \texttt{R} directory}
+
+The \proglang{R} source is very simply: a single matrix is passed to \proglang{C++}:
+
+<<size=small>>=
+colNorm <- function(M) {
+    stopifnot(is.matrix(M))
+    res <- .Call("colNorm", M, package="RcppGSLExample")
+}
+@
+
+\section{Using \pkg{RcppGSL} with \pkg{inline}}
+
+The \pkg{inline} package \citep{CRAN:inline} is very helpful for prototyping code in
+\proglang{C}, \proglang{C++} or \proglang{Fortran} as it takes care of code
+compilation, linking and dynamic loading directly from \proglang{R}. It is
+being used extensively by \pkg{Rcpp}, for example in the numerous unit tests.
+
+The example below shows how \pkg{inline} can be deployed with
+\pkg{RcppGSL}. We implement the same column norm example, but this time as an
+\proglang{R} script which is compiled, linked and loaded on-the-fly. Compared
+to standard use of \pkg{inline}, we have to make sure to add a short section
+declaring which header files from \pkg{GSL} we need to use; the \pkg{RcppGSL}
+then communicates with \pkg{inline} to tell it about the location and names
+of libraries used to build code against \pkg{GSL}.
+
+<<>>=
+require(inline)
+
+inctxt='
+   #include <gsl/gsl_matrix.h>
+   #include <gsl/gsl_blas.h>
+'
+
+bodytxt='
+  RcppGSL::matrix<double> M = sM;     // create gsl data structures from SEXP
+  int k = M.ncol();
+  Rcpp::NumericVector n(k);           // to store results
+
+  for (int j = 0; j < k; j++) {
+    RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
+    n[j] = gsl_blas_dnrm2(colview);
+  }
+  M.free() ;
+  return n;                           // return vector
+'
+
+foo <- cxxfunction(
+    signature(sM="numeric"),
+    body=bodytxt, inc=inctxt, plugin="RcppGSL")
+
+## see Section 8.4.13 of the GSL manual: create M as a sum of two outer products
+M <- outer(sin(0:9), rep(1,10), "*") + outer(rep(1, 10), cos(0:9), "*")
+foo(M)
+@
+
+The \texttt{RcppGSL} inline plugin supports creation of a package skeleton
+based on the inline function.
+
+<<eval=FALSE>>=
+package.skeleton( "mypackage", foo )
+@
+
+\section{Summary}
+
+The GNU Scientific Library (GSL) by \citet{GSL} offers a very comprehensive
+collection of rigorously developed and tested functions for applied
+scientific computing under a common Open Source license. This has lead to
+widespread deployment of \pkg{GSL} among a number of disciplines.
+
+Using the automatic wrapping and converters offered by the \pkg{RcppGSL}
+package presented here, \proglang{R} users and programmers can now deploy
+algorithmns provided by the \pkg{GSL} with  greater ease.
+
+\bibliographystyle{plainnat}
+\bibliography{\Sexpr{Rcpp:::bib()}}
+
 \end{document}
 
