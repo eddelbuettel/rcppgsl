@@ -2,7 +2,7 @@
 //
 // fastLm.cpp: Rcpp and GSL based implementation of lm
 //
-// Copyright (C)  2010 Dirk Eddelbuettel and Romain Francois
+// Copyright (C)  2010 - 2013  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of RcppGSL.
 //
@@ -41,14 +41,11 @@ extern "C" SEXP fastLm(SEXP Xs, SEXP ys) {
 		gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
 		gsl_multifit_linear (X, y, coef, cov, &chisq, work);
 		gsl_multifit_linear_free (work);
-     
-		// extract the diagonal as a vector view
-		gsl_vector_view diag = gsl_matrix_diagonal(cov) ;
-          
-		// currently there is not a more direct interface in Rcpp::NumericVector
-		// that takes advantage of wrap, so we have to do it in two steps
-		Rcpp::NumericVector std_err ; std_err = diag;
-		std::transform( std_err.begin(), std_err.end(), std_err.begin(), sqrt );
+
+		// assign diagonal to a vector, then take square roots to get std.error
+		Rcpp::NumericVector std_err;
+		std_err = gsl_matrix_diagonal(cov); // need two step decl. and assignment
+		std_err = sqrt(std_err);    		// sqrt() is an Rcpp sugar function
 
 		Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
 											Rcpp::Named("stderr")       = std_err,

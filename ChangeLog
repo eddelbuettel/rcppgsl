@@ -5,6 +5,8 @@
 
 	* cleanup: Take some tasks that the vignette/Makefile had
 
+	* src/fastLm.cpp: Minor improvement in computing std.error of est.
+
 2013-06-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* vignettes/RcppGSL/RcppGSL-intro.Rnw: Some fixes
