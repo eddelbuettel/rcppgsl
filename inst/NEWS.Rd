@@ -13,6 +13,8 @@
     as R 3.0.0 supports different vignette engines, so the vignette
     build process has been simplified. A convenience helper script has
     also been added for command-line builds.
+    \item Unit tests now use \code{sourceCpp()} instead of
+    \code{cxxfunction()} from the \pkg{inline} package
   }
 }
 
