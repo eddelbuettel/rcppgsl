@@ -58,9 +58,8 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 
   The \pkg{RcppGSL} package provides an easy-to-use interface between
   \pkg{GSL} data structures and \proglang{R} using concepts from \pkg{Rcpp}
-  \citep{JSS:Rcpp,CRAN:Rcpp} which is itself a package that eases the interfaces
-  between \proglang{R} and C++.
-}
+  \citep{JSS:Rcpp,CRAN:Rcpp,Eddelbuettel:2013:Rcpp} which is itself a package
+  that eases the interfaces between \proglang{R} and C++.  }
 
 \section{Introduction}
 
@@ -748,6 +747,63 @@ based on the inline function.
 <<eval=FALSE>>=
 package.skeleton( "mypackage", foo )
 @
+
+\section{Using \pkg{RcppGSL} with Rcpp Attributes}
+
+\textsl{Rcpp Attributes} \citep{CRAN:Rcpp:Attributes} builds on the features
+of the \pkg{inline} package described in previous section, and streamline the
+compilation, loading and linking process even further.  It leverages the
+existing plugins for \pkg{inline}. This section illustrates how the example
+from the previous section can be written using \textsl{Rcpp Attributes}.
+
+
+<<colNormAttr,lang=cpp,size=small>>=
+
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_blas.h>
+
+#include <RcppGSL.h>
+
+// declare a dependency on the RcppGSL package; also activates plugin
+//
+// [[Rcpp::depends(RcppGSL)]]
+
+// declare the function to be 'exported' to R
+//
+// [[Rcpp::export]]
+Rcpp::NumericVector foo(Rcpp::NumericMatrix sM) {
+    RcppGSL::matrix<double> M = Rcpp::as<RcppGSL::matrix<double> >(sM);
+    int k = M.ncol();
+    Rcpp::NumericVector n(k);           // to store results
+
+    for (int j = 0; j < k; j++) {
+	RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
+	n[j] = gsl_blas_dnrm2(colview);
+    }
+    M.free() ;
+    return n;                           // return vector
+}
+
+/*** R
+## see Section 8.4.13 of the GSL manual:
+## create M as a sum of two outer products
+M <- outer(sin(0:9), rep(1,10), "*") +
+     outer(rep(1, 10), cos(0:9), "*")
+foo(M)
+*/
+@
+
+With the code above stored in a file, say, ``gslNorm.cpp'' one can simply
+call \texttt{sourceCpp()} to have the wrapper code added, and all of the
+compilation, linking and loading done --- including the execution of the
+short \proglang{R} segment at the end:
+
+<<eval=FALSE>>=
+sourceCpp("gslNorm.cpp")
+@
+
+See the vignette ``Rcpp-attributes'' \citep{CRAN:Rcpp:Attributes} of the
+\pkg{Rcpp} package \citep{CRAN:Rcpp} for details.
 
 \section{Summary}
 

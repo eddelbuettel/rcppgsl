@@ -6,7 +6,10 @@
 
  	* vignettes/RcppGSL-unitTests.Rnw: Minor tweaking
 
-	* vignettes/buildVignette.R: Default to all .Rnw files in directory
+	* vignettes/RcppGSL-intro.Rnw: Added section on attributes
+
+	* vignettes/buildVignette.R: Default to all .Rnw files in directory,
+	also set boxes option to TRUE
 
 2013-06-21  Dirk Eddelbuettel  <edd@debian.org>
 
