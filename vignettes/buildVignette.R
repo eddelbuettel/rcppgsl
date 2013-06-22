@@ -1,15 +1,10 @@
 #!/usr/bin/Rscript
 
-args <- commandArgs(TRUE)
-if (length(args) == 0) {
-    cat("No argument given, using 'RcppGSL-intro.Rnw'\n")
-    srcfile <- "RcppGSL-intro.Rnw"
-} else {
-    srcfile <- args[1]
-}
+## use given argument(s) as target files, or else default to .Rnw files in directory
+files <- if (length(commandArgs(TRUE)) == 0) dir(pattern="*.Rnw") else commandArgs(TRUE)
 
-texfile <- gsub(".Rnw", ".tex", srcfile)
-
-Sweave(srcfile, driver=highlight::HighlightWeaveLatex())
-tools::texi2pdf(texfile)
-
+## convert all files from Rnw to pdf using the highlight driver
+invisible(sapply(files, function(srcfile) {
+    Sweave(srcfile, driver=highlight::HighlightWeaveLatex())
+    tools::texi2pdf(gsub(".Rnw", ".tex", srcfile))
+}))

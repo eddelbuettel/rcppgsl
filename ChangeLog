@@ -1,8 +1,12 @@
 2013-06-22  Dirk Eddelbuettel  <edd@debian.org>
 
-	* inst/unitTests/runit.gsl.R: Rewritten to use sourceCpp() 
+	* inst/unitTests/runit.gsl.R: Rewritten to use sourceCpp()
 
 	* inst/unitTests/cpp/gsl.cpp: New C++ file with unit tests
+
+ 	* vignettes/RcppGSL-unitTests.Rnw: Minor tweaking
+
+	* vignettes/buildVignette.R: Default to all .Rnw files in directory
 
 2013-06-21  Dirk Eddelbuettel  <edd@debian.org>
 
