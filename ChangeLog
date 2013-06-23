@@ -1,3 +1,8 @@
+2013-06-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/unitTests/runit.gsl.R: Corrections to new unitTest scheme
+	* inst/unitTests/cpp/gsl.cpp: Idem
+
 2013-06-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/unitTests/runit.gsl.R: Rewritten to use sourceCpp()

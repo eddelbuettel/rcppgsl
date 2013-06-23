@@ -1,7 +1,7 @@
 #!/usr/bin/r -t
 #                        Emacs make this -*- mode: R; tab-width: 4 -*-
 #
-# Copyright (C) 2010	Romain Francois and Dirk Eddelbuettel
+# Copyright (C) 2010 - 2013  Romain Francois and Dirk Eddelbuettel
 #
 # This file is part of RcppGSL.
 #
@@ -18,8 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-.setUp <- function(){
-    if (!exists("pathRcppTests")) pathRcppTests <- getwd()
+.setUp <- function() {
+    if (!exists("pathRcppTests"))
+        pathRcppTests <- system.file("unitTests", package="RcppGSL")
     sourceCpp(file.path(pathRcppTests, "cpp/gsl.cpp"))
 }
 
@@ -117,7 +118,7 @@ test.gsl.matrix.view <- function(){
     res <- fx()
 	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view)" )
 
-    fx <- .rcppgsl.tests$test_gsl_matrix_view_wrapper
+    fx <- test_gsl_matrix_view_wrapper
     res <- fx()
 	checkEquals( res$full[3:4, 3:4], res$view, msg = "wrap(gsl.matrix.view.wrapper)" )
 }
@@ -153,6 +154,13 @@ test.gsl.RcppGSL.vector.iterating <- function(){
     fx <- test_gsl_vector_iterating
     res <- fx(x)
 	checkEquals( res, sum(x) )
+}
+
+test.gsl.RcppGSL.vector.iterator.transform <- function() {
+	x   <-  seq(0.5, 10.5)
+    fx <- test_gsl_vector_iterator_transform
+    res <- fx(x)
+	checkEquals(res, sqrt(x))
 }
 
 test.gsl.RcppGSL.matrix.indexing <- function(){

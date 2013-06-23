@@ -19,8 +19,11 @@
 // You should have received a copy of the GNU General Public License
 // along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <Rcpp.h>
+#include <RcppGSL.h>
+
 using namespace Rcpp;
+
+// [[Rcpp::depends(RcppGSL)]]
 
 // [[Rcpp::export]]
 List test_gsl_vector_wrapper() {
@@ -155,7 +158,7 @@ List test_gsl_matrix() {
     gsl_matrix_ushort * x_ushort                            = gsl_matrix_ushort_alloc(5,2);
     gsl_matrix_ushort_set_identity( x_ushort );
     //gsl_matrix_ulong * x_ulong                            = gsl_matrix_ulong_alloc(5,2);
-    gsl_matrix_ulong_set_identity( x_ulong );
+    //gsl_matrix_ulong_set_identity( x_ulong );
 
     List res = List::create(_["gsl_matrix"] = *x_double ,
 			    _["gsl_matrix_float"] = *x_float,
@@ -237,7 +240,7 @@ double test_gsl_vector_input(NumericVector vec_) {
 	res += gsl_vector_get( vec, i );
     }
     vec.free();
-    return wrap( res );
+    return res;
 }
 
 // [[Rcpp::export]]
@@ -250,7 +253,7 @@ double test_gsl_matrix_input(NumericMatrix mat_) {
 	res += mat( i, 0 );
     }
     mat.free();
-    return wrap(res);
+    return res;
 }
 
 // [[Rcpp::export]]
@@ -280,11 +283,20 @@ double test_gsl_vector_iterating(NumericVector vec_) {
     RcppGSL::vector<double> vec = as< RcppGSL::vector<double> >(vec_);
     double res= std::accumulate( vec.begin(), vec.end(), 0.0 );
     vec.free();
-    return wrap( res );
+    return res;
 }
 
 // [[Rcpp::export]]
-List test_gsl_matrix_indexing(NumericMatrix mat_) {
+NumericVector test_gsl_vector_iterator_transform(NumericVector vec_) {
+    RcppGSL::vector<double> vec = as< RcppGSL::vector<double> >(vec_);
+    NumericVector res(vec.size());
+    std::transform(vec.begin(), vec.end(), res.begin(), ::sqrt);
+    vec.free();
+    return res;
+}
+
+// [[Rcpp::export]]
+NumericMatrix test_gsl_matrix_indexing(NumericMatrix mat_) {
     RcppGSL::matrix<double> mat= as< RcppGSL::matrix<double> >( mat_ );
     for( size_t i=0; i< mat.nrow(); i++){
 	for( size_t j=0; j< mat.ncol(); j++){
@@ -339,11 +351,11 @@ double test_gsl_vector_view_iterating(NumericVector vec_) {
     int n = vec.size();
     RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(vec, 0, 2, n/2);
     double res = std::accumulate( v_even.begin(), v_even.end(), 0.0 );
-    return wrap( res );
+    return res;
 }
 
 // [[Rcpp::export]]
-List test_gsl_matrix_view_indexing() {
+double test_gsl_matrix_view_indexing() {
     int nr = 10;
     int nc = 10;
     RcppGSL::matrix<double> mat( nr, nc );
@@ -361,6 +373,5 @@ List test_gsl_matrix_view_indexing() {
 	}
     }
     mat.free();
-    return wrap( res );
+    return res;
 }
-
