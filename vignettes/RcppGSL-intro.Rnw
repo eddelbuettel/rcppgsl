@@ -204,8 +204,9 @@ underlying objects are really \proglang{C} objects conforming to the
 could have with \proglang{C++} vector or matrix structures as used through
 the \pkg{Rcpp} package) and return the result to \proglang{R}.
 
-We should note that \pkg{RcppArmadillo} \citep{CRAN:RcppArmadillo} implements
-a matching \texttt{fastLm} function using the Armadillo library by
+We should note that \pkg{RcppArmadillo}
+\citep{CRAN:RcppArmadillo,Eddelbuettel+Sanderson:2013:RcppArmadillo}
+implements a matching \texttt{fastLm} function using the Armadillo library by
 \cite{Sanderson:2010:Armadillo}, and can do so with more compact code due to
 \proglang{C++} features.
 

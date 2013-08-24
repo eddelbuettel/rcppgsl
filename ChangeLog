@@ -1,3 +1,11 @@
+2013-08-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Suggests): Added 'highlight' so that the package is
+	available during 'R CMD check' in order to build vignettes
+
+	* vignettes/RcppGSL-intro.Rnw: Also cite the Eddelbuettel and
+	Sanderson (2013, CSDA) paper on RcppArmadillo
+
 2013-06-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/unitTests/runit.gsl.R: Corrections to new unitTest scheme
