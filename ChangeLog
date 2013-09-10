@@ -1,3 +1,8 @@
+2013-09-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Imports): Now 'Imports: Rcpp' rather than Depends: to
+	satisfy R CMD check for the R version under development 
+
 2013-08-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Suggests): Added 'highlight' so that the package is
