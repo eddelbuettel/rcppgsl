@@ -1,3 +1,7 @@
+2013-10-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* NAMESPACE: Import LdFlags from Rcpp
+
 2013-09-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Imports): Now 'Imports: Rcpp' rather than Depends: to
