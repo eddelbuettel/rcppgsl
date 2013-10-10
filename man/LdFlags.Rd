@@ -15,7 +15,7 @@
 }
 \usage{
 LdFlags(print=TRUE)
-RcppLdFlags(print=TRUE)
+CFlags(print=TRUE)
 }
 \arguments{
   \item{print}{A boolean determining whether the requested value is
