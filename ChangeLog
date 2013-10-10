@@ -1,11 +1,12 @@
 2013-10-09  Dirk Eddelbuettel  <edd@debian.org>
 
-	* NAMESPACE: Import LdFlags from Rcpp
+	* NAMESPACE: Import LdFlags from Rcpp, and export LdFlags and CFlags
+	* man/LdFlags.Rd: Added documentation for exported functions
 
 2013-09-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Imports): Now 'Imports: Rcpp' rather than Depends: to
-	satisfy R CMD check for the R version under development 
+	satisfy R CMD check for the R version under development
 
 2013-08-24  Dirk Eddelbuettel  <edd@debian.org>
 
