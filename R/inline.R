@@ -13,7 +13,7 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with RcppArmadillo.  If not, see <http://www.gnu.org/licenses/>.
+## along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
 .pkgglobalenv <- new.env(parent=emptyenv())
 
