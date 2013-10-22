@@ -1,6 +1,11 @@
+2013-10-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Added 'Suggests: Rcpp' to build vignette as we call
+	into Rcpp to get its bibtex file
+
 2013-10-09  Dirk Eddelbuettel  <edd@debian.org>
 
-	* NAMESPACE: Import LdFlags from Rcpp, and export LdFlags and CFlags
+	* NAMESPACE: Export LdFlags and CFlags
 	* man/LdFlags.Rd: Added documentation for exported functions
 
 2013-09-10  Dirk Eddelbuettel  <edd@debian.org>

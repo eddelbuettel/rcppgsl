@@ -15,9 +15,8 @@
     also been added for command-line builds.
     \item Unit tests now use \code{sourceCpp()} instead of
     \code{cxxfunction()} from the \pkg{inline} package
-    \item The \code{DESCRIPTION} file now uses \code{Imports: Rcpp}
-    rather than \code{Depends: Rcpp} to satisfy \code{R CMD check} under
-    the R development version.
+    \item The \code{DESCRIPTION} file now uses \code{Suggests: Rcpp}
+    (instead of \code{Depends: Rcpp}) to permit building of the vignette
   }
 }
 

@@ -27,8 +27,7 @@ Description: Rcpp integration for GNU GSL vectors and matrices
   write a similar package against another library.
 License: GPL (>= 2)
 LazyLoad: yes
-Suggests: RUnit, inline, highlight
+Suggests: Rcpp, RUnit, inline, highlight
 LinkingTo: Rcpp
-Imports: Rcpp
 SystemRequirements: GNU GSL
 VignetteBuilder: highlight
