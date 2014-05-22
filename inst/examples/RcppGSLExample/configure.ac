@@ -16,11 +16,11 @@ fi
 
 ## Use Rscript to query Rcpp for compiler and linker flags
 ## link flag providing libary as well as path to library, and optionally rpath
-RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
+##RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
 
 # Now substitute these variables in src/Makevars.in to create src/Makevars
 AC_SUBST(GSL_CFLAGS)
 AC_SUBST(GSL_LIBS)
-AC_SUBST(RCPP_LDFLAGS)
+##AC_SUBST(RCPP_LDFLAGS)
 
 AC_OUTPUT(src/Makevars)

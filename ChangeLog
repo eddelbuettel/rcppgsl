@@ -1,3 +1,12 @@
+2014-05-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/examples/RcppGSLExample/DESCRIPTION: Updated
+	* inst/examples/RcppGSLExample/NAMESPACE: Ditto
+	* inst/examples/RcppGSLExample/configure.ac: Ditto
+	* inst/examples/RcppGSLExample/configure: Ditto
+	* inst/examples/RcppGSLExample/src/Makevars.in: Ditto
+	* inst/examples/RcppGSLExample/src/Makevars.win: Ditto
+
 2014-05-21  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Updated for Rcpp (>= 0.11.0)
