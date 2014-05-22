@@ -1,4 +1,5 @@
 ## Copyright (C) 2010 - 2012  Dirk Eddelbuettel and Romain Francois
+## Copyright (C) 2014         Dirk Eddelbuettel 
 ##
 ## This file is part of RcppGSL.
 ##
@@ -41,7 +42,7 @@ CFlags <- function(print = TRUE) {
 }
 
 inlineCxxPlugin <- function(...) {
-    plugin <- Rcpp:::Rcpp.plugin.maker(
+    plugin <- Rcpp::Rcpp.plugin.maker(
         include.before = "#include <RcppGSL.h>",
         libs = sprintf( "%s $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)", LdFlags(FALSE) ),
         package = "RcppGSL", Makevars = NULL, Makevars.win = NULL

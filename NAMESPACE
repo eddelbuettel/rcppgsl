@@ -1,6 +1,8 @@
 useDynLib(RcppGSL)
 
+importFrom(Rcpp, evalCpp)
 importFrom(utils,assignInNamespace)
+
 export(fastLmPure,
        fastLm,
        LdFlags,

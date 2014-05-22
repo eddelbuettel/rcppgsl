@@ -1,3 +1,16 @@
+2014-05-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Updated for Rcpp (>= 0.11.0)
+	* NAMESPACE: Ditto
+
+	* configure.ac: Simplified as we longer need -L flags for Rcpp
+	* src/Makevars.in: Ditto
+	* src/Makevars.win (PKG_LIBS): Removed call to Rcpp:::LdFlags()
+
+	* R/inline.R (inlineCxxPlugin): Now call Rcpp::Rcpp.plugin.maker()
+
+	* .Rbuildignore: Added
+
 2013-10-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Added 'Suggests: Rcpp' to build vignette as we call

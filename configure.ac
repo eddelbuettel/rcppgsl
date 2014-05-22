@@ -1,13 +1,15 @@
 
 ## Process this file with autoconf to produce a configure script.
 ##
-## Configure.in for RcppGSL
+## Configure.ac for RcppGSL
 ##
 ## Copyright (C) 2010 Romain Francois and Dirk Eddelbuettel
+## Copyright (C) 2014 Dirk Eddelbuettel
+##
 ## Licensed under GNU GPL 2 or later
 
 # The version set here will propagate to other files from here
-AC_INIT([RcppGSL], 0.1.0)
+AC_INIT([RcppGSL], 0.2.0)
 
 # Checks for common programs using default macros
 AC_PROG_CC
@@ -28,26 +30,26 @@ fi
 ## Use Rscript to query Rcpp for compiler and linker flags
 ##
 ## look for Rscript, but use the one found via R_HOME to allow for multiple installations
-AC_DEFUN(AC_PROG_RSCRIPT, [AC_CHECK_PROG(RSCRIPT,Rscript,yes)])
-AC_PROG_RSCRIPT
-if test x"${RSCRIPT}" == x"yes" ; then
-     : ${R_HOME=`R RHOME`}
-     if test -z "${R_HOME}"; then
-         AC_MSG_ERROR([Could not determine R_HOME.])
-     fi
-     ## Rcpp compile flag providing header directory containing Rcpp.h
-     RCPP_CXXFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::CxxFlags()'`
-     ## link flag providing libary as well as path to library, and optionally rpath
-     RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
-else
-    AC_MSG_ERROR([Rscript not found, is R installed?])
-fi
+dnl AC_DEFUN(AC_PROG_RSCRIPT, [AC_CHECK_PROG(RSCRIPT,Rscript,yes)])
+dnl AC_PROG_RSCRIPT
+dnl if test x"${RSCRIPT}" == x"yes" ; then
+dnl      : ${R_HOME=`R RHOME`}
+dnl      if test -z "${R_HOME}"; then
+dnl          AC_MSG_ERROR([Could not determine R_HOME.])
+dnl      fi
+dnl      ## Rcpp compile flag providing header directory containing Rcpp.h
+dnl      RCPP_CXXFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::CxxFlags()'`
+dnl      ## link flag providing libary as well as path to library, and optionally rpath
+dnl      RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
+dnl else
+dnl     AC_MSG_ERROR([Rscript not found, is R installed?])
+dnl fi
 
 # Now substitute these variables in src/Makevars.in to create src/Makevars
 AC_SUBST(GSL_CFLAGS)
 AC_SUBST(GSL_LIBS)
-AC_SUBST(RCPP_CXXFLAGS)
-AC_SUBST(RCPP_LDFLAGS)
+dnl AC_SUBST(RCPP_CXXFLAGS)
+dnl AC_SUBST(RCPP_LDFLAGS)
 
 AC_OUTPUT(src/Makevars)
 
