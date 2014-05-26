@@ -1,7 +1,7 @@
 #!/usr/bin/r -t
-#                        Emacs make this -*- mode: R; tab-width: 4 -*-
 #
-# Copyright (C) 2010	Romain Francois and Dirk Eddelbuettel
+# Copyright (C) 2010  Romain Francois and Dirk Eddelbuettel
+# Copyright (C) 2014  Dirk Eddelbuettel
 #
 # This file is part of RcppGSL.
 #
@@ -21,24 +21,25 @@
 test.client.package <- function(){
     pkg <- "RcppGSLExample"
     td <- tempfile()
-	cwd <- getwd()
-	dir.create( td )
-	file.copy( system.file( "examples", pkg, package = "RcppGSL" ) , td, recursive = TRUE)
-	Sys.chmod( file.path( td, "RcppGSLExample", "configure"), "0755")
-	setwd( td )
-	on.exit( {
-	    setwd( cwd)
-	    unlink( td, recursive = TRUE )
-	} )
-	R <- shQuote( file.path( R.home( component = "bin" ), "R" ))
-	cmd <- paste( R , "CMD build", pkg )
-	system( cmd )
-	dir.create( "templib" )
-	install.packages( paste( pkg, "_0.0.1.tar.gz", sep = "" ), "templib", repos = NULL, type = "source" )
-	require( pkg, "templib", character.only = TRUE )
-	m <- matrix( 1:16, nc = 4 )
-	res <- colNorm( m )
+    cwd <- getwd()
+    dir.create(td)
+    file.copy(system.file("examples", pkg, package = "RcppGSL" ) , td, recursive = TRUE)
+    Sys.chmod(file.path(td, "RcppGSLExample", "configure"), "0755")
+    setwd(td)
+    on.exit( {
+        setwd(cwd)
+        unlink(td, recursive = TRUE)
+    } )
+    R <- shQuote(file.path(R.home(component = "bin" ), "R"))
+    cmd <- paste(R , "CMD build", pkg)
+    system(cmd)
+    dir.create("templib")
+    install.packages(paste(pkg, "_0.0.2.tar.gz", sep = ""), "templib", repos = NULL, type = "source")
+    require(Rcpp)
+    require(pkg, "templib", character.only = TRUE)
+    m <- matrix(1:16, nc = 4)
+    res <- colNorm(m)
     val <- apply(m, 2, function(x) sqrt(sum(x^2)))
-	unlink( "templib", recursive = TRUE )
-    checkEquals( res, val, msg = "colNorm in client package" )
+    unlink("templib", recursive = TRUE)
+    checkEquals(res, val, msg = "colNorm in client package")
 }

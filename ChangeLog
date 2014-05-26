@@ -1,3 +1,8 @@
+2014-05-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/unitTests/runit.client.package.R: Add 'require(Rcpp)' which is
+	now needed as we only Import: rather than Depends: in the example
+
 2014-05-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/examples/RcppGSLExample/DESCRIPTION: Updated
