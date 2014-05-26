@@ -2,21 +2,26 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in version 0.2.1 (2013-xx-yy)}{
+\section{Changes in version 0.2.1 (2014-05-26)}{
   \itemize{
     \item Added new example based on B-splines example in GSL manual
-    illustrating simple GSL use via Rcpp attributes
+      illustrating simple GSL use via Rcpp attributes
     \item Vignette compilation has been reverted to using \pkg{highlight} 
-    since version 0.4.2 or greater can be used as a vignette engine
-    (with R 3.0.* or later). 
+      since version 0.4.2 or greater can be used as a vignette engine
+      (with R 3.0.* or later). 
     \item Vignette compilation is now being done by \code{R CMD build}
-    as R 3.0.0 supports different vignette engines, so the vignette
-    build process has been simplified. A convenience helper script has
-    also been added for command-line builds.
+      as R 3.0.0 supports different vignette engines, so the vignette
+      build process has been simplified. A convenience helper script has
+      also been added for command-line builds.
     \item Unit tests now use \code{sourceCpp()} instead of
     \code{cxxfunction()} from the \pkg{inline} package
     \item The \code{DESCRIPTION} file now uses \code{Suggests: Rcpp}
-    (instead of \code{Depends: Rcpp}) to permit building of the vignette
+      (instead of \code{Depends: Rcpp}) to permit building of the
+      vignette
+    \item The package now takes advantage of the simplified build
+      process available with Rcpp (>= 0.11.0)
+    \item Similar updates to the build process were made for the example
+      package included with RcppGSL
   }
 }
 
