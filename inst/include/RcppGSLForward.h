@@ -130,7 +130,7 @@ public:
 	typedef typename vector_view_type<T>::type view_type ;
 	typedef typename vector<T>::Proxy Proxy ;
 	
-	vector_view( view_type view_ ) : view(view_), vector_(&view_.vector) {} 
+	vector_view( view_type view_ ) : view(view_), vector_(&view.vector) {} 
 	inline operator view_type(){ return view ; }
 	inline Proxy operator[]( int i){ 
 		return vector_[i] ;
@@ -154,7 +154,7 @@ public:
 	typedef typename matrix_view_type<T>::type view_type ;
 	typedef typename matrix<T>::Proxy Proxy ;
 	
-	matrix_view( view_type view_ ) : view(view_), matrix_(&view_.matrix) {} 
+	matrix_view( view_type view_ ) : view(view_), matrix_(&view.matrix) {} 
 	inline operator view_type(){ return view; }
 	inline Proxy operator()(int row, int col){
 		return matrix_(row,col);
