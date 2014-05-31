@@ -1,3 +1,9 @@
+2014-05-31  Dirk Eddelbuettel  <edd@debian.org>
+
+ 	* DESCRIPTION: Version 0.2.2
+	
+	* inst/NEWS.Rd: Ditto
+
 2014-05-30  Kevin Ushey  <kevinushey@gmail.com>
 
 	* inst/include/RcppGSLForward.h: Take address of private member, not

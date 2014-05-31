@@ -2,6 +2,13 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 0.2.2 (2014-05-31)}{
+  \itemize{
+    \item A subtle bug (tickled only by clang on some OS versions) in
+    vector and matrix view initialization was corrected by Kevin Ushey 
+  }
+}
+
 \section{Changes in version 0.2.1 (2014-05-26)}{
   \itemize{
     \item Added new example based on B-splines example in GSL manual
