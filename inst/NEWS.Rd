@@ -3,7 +3,7 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
 \section{Changes in version 0.2.3 (2015-01-06)}{
-  \itemize
+  \itemize{
     \item The \code{src/Makevars.in} was pruned of GNU make features at
     the request of the CRAN Maintainers
     \item \code{configure.ac} and \code{configure} were updated, and
