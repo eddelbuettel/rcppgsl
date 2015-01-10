@@ -1,4 +1,4 @@
-\documentclass[10pt]{article}
+\documentclass[11pt]{article}
 %\VignetteIndexEntry{RcppGSL}
 %\VignetteKeywords{R,GSL,Rcpp,data transfer}
 %\VignetteDepends{RcppGSL}
@@ -19,11 +19,18 @@
 \setmargrb{0.75in}{0.75in}{0.75in}{0.75in}
 \usepackage{booktabs}           % fancier \hrule
 
+\usepackage{microtype}                     %% cf http://www.khirevich.com/latex/microtype/
+\usepackage[T1]{fontenc}		   %% cf http://www.khirevich.com/latex/font/
+\usepackage[bitstream-charter]{mathdesign} %% cf http://www.khirevich.com/latex/font/
+
 \newcommand{\proglang}[1]{\textsf{#1}}
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
 
-\RequirePackage{ae,mathpple}    % ae as a default font pkg works with Sweave
-\RequirePackage[T1]{fontenc}
+\newsavebox{\hlbox}
+\definecolor{hlBg}{rgb}{0.949019607843137,0.949019607843137,0.949019607843137}
+\definecolor{hlBd}{rgb}{0,0,0}
+\renewenvironment{Hchunk}{\vspace{0.125em}\noindent\begin{lrbox}{\hlbox}\begin{minipage}[b]{.98\linewidth}}%
+    {\end{minipage}\end{lrbox}\fcolorbox{hlBd}{hlBg}{\usebox{\hlbox}}\vspace{0.125em}}
 
 <<setup,echo=FALSE,print=FALSE>>=
 require(inline)
@@ -587,14 +594,9 @@ else
     AC_MSG_ERROR([gsl-config not found, is GSL installed?])
 fi
 
-## Use Rscript to query Rcpp for compiler and linker flags
-## link flag providing libary as well as path to library, and optionally rpath
-RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e 'Rcpp:::LdFlags()'`
-
 # Now substitute these variables in src/Makevars.in to create src/Makevars
 AC_SUBST(GSL_CFLAGS)
 AC_SUBST(GSL_LIBS)
-AC_SUBST(RCPP_LDFLAGS)
 
 AC_OUTPUT(src/Makevars)
 @
@@ -612,11 +614,9 @@ information. Therefore the configure script can also be written as:
 
 GSL_CFLAGS=`${R_HOME}/bin/Rscript -e "RcppGSL:::CFlags()"`
 GSL_LIBS=`${R_HOME}/bin/Rscript -e "RcppGSL:::LdFlags()"`
-RCPP_LDFLAGS=`${R_HOME}/bin/Rscript -e "Rcpp:::LdFlags()"`
 
 sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
     -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
-    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
     src/Makevars.in > src/Makevars
 @
 
@@ -625,11 +625,9 @@ Similarly, the configure.win for windows can be written as:
 <<lang=sh,size=small>>=
 GSL_CFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::CFlags()"`
 GSL_LIBS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "RcppGSL:::LdFlags()"`
-RCPP_LDFLAGS=`${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe -e "Rcpp:::LdFlags()"`
 
 sed -e "s|@GSL_LIBS@|${GSL_LIBS}|" \
     -e "s|@GSL_CFLAGS@|${GSL_CFLAGS}|" \
-    -e "s|@RCPP_LDFLAGS@|${RCPP_LDFLAGS}|" \
     src/Makevars.in > src/Makevars.win
 @
 
@@ -676,11 +674,10 @@ supplied by \texttt{configure} during build-time:
 # set by configure
 GSL_CFLAGS = @GSL_CFLAGS@
 GSL_LIBS   = @GSL_LIBS@
-RCPP_LDFLAGS = @RCPP_LDFLAGS@
 
 # combine with standard arguments for R
 PKG_CPPFLAGS = $(GSL_CFLAGS)
-PKG_LIBS = $(GSL_LIBS) $(RCPP_LDFLAGS)
+PKG_LIBS = $(GSL_LIBS) 
 @
 
 The variables surrounded by \@ will be filled by \texttt{configure} during
