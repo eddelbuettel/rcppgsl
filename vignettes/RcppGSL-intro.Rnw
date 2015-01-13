@@ -550,6 +550,27 @@ Similar to the vector views discussed above, the \pkg{RcppGSL} also provides
 an implicit conversion operator which returns the underlying matrix stored in
 the matrix view class.
 
+\section{Error handler}
+
+When input values for \pkg{GSL} functions are invalid,
+the default error handler will abort the program after printing error
+message, which will lead \proglang{R} to an abortion error.
+To avoid this, we need to close it first by using \texttt{gsl\_set\_error\_handler\_off()}
+and then detect the result is NAN or not.
+
+<<lang=cpp,size=small>>=
+// close the GSL error handler
+gsl_set_error_handler_off();
+
+// feed GSL function with some invalid values
+double res = gsl_sf_hyperg_2F1(1, 1, 1.1467003, 1);
+
+// detect the result is NAN or not
+if (ISNAN(res)){
+    Rcpp::Rcout << "Invalid input found!" << std::endl;
+}
+@
+
 \section{Using \pkg{RcppGSL} in your package}
 
 The \pkg{RcppGSL} package contains a complete example providing a single
