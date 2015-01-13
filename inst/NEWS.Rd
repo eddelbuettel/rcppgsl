@@ -2,6 +2,13 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 0.2.4 (2015-XX-YY)}{
+  \itemize{
+    \item The \code{RcppGSL-intro.Rnw} vignette was expanded with a
+    short section on the GSL error handler.
+  }
+}
+
 \section{Changes in version 0.2.3 (2015-01-10)}{
   \itemize{
     \item The \code{src/Makevars.in} was pruned of GNU make features at
