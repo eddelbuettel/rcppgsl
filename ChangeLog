@@ -1,3 +1,8 @@
+2015-01-13  Quiank Kou <qkou@umail.iu.edu>
+
+	* vignettes/RcppGSL-intro.Rnw: Add section about setting default
+	error in GSL per http://thread.gmane.org/gmane.comp.lang.r.rcpp/7905
+
 2015-01-10  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Version 0.2.3
