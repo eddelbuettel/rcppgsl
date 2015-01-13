@@ -550,7 +550,7 @@ Similar to the vector views discussed above, the \pkg{RcppGSL} also provides
 an implicit conversion operator which returns the underlying matrix stored in
 the matrix view class.
 
-%% next section contributed by Quiank Kou
+%% next section contributed by Qiang Kou
 \section{Error handler}
 
 When input values for \pkg{GSL} functions are invalid, the default error
