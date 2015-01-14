@@ -4,10 +4,12 @@
 
 \section{Changes in version 0.2.4 (2015-XX-YY)}{
   \itemize{
+    \item Two new helper function to turn the default GSL error handler
+    off (and to restore it) were added. The default handler is now
+    turned off when the package is attached so that GSL will no longer
+    abort an R session on error. Users will have to check the error code.
     \item The \code{RcppGSL-intro.Rnw} vignette was expanded with a
-    short section on the GSL error handler.
-    \item Two new helper function to turn the default GSL
-    error handler off (and to restore it) were added.
+    short section on the GSL error handler (thanks to Qiang Kou).
   }
 }
 

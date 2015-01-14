@@ -5,6 +5,8 @@
 	value if so desired. Note that under the default value GSL will abort
 	on error which is not desirable when called from R.
 
+	* R/init.R (.onAttach): Call the new gslSetErrorHandler() function
+
 2015-01-13  Qiang Kou <qkou@umail.iu.edu>
 
 	* vignettes/RcppGSL-intro.Rnw: Add section about setting default
