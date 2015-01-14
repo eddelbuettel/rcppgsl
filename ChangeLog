@@ -1,3 +1,10 @@
+2015-01-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/setErrorHandler.cpp: Add two simple functions to turn off the
+	GSL error handler (which is recommended), and to reset to the default
+	value if so desired. Note that under the default value GSL will abort
+	on error which is not desirable when called from R.
+
 2015-01-13  Qiang Kou <qkou@umail.iu.edu>
 
 	* vignettes/RcppGSL-intro.Rnw: Add section about setting default

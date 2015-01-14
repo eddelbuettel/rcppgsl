@@ -6,6 +6,8 @@
   \itemize{
     \item The \code{RcppGSL-intro.Rnw} vignette was expanded with a
     short section on the GSL error handler.
+    \item Two new helper function to turn the default GSL
+    error handler off (and to restore it) were added.
   }
 }
 
