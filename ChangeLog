@@ -1,3 +1,8 @@
+2015-01-22  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/RcppGSL-intro.Rnw: Updated to note that package turns off
+	GSL error when loaded via .onAttach().
+
 2015-01-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/setErrorHandler.cpp: Add two simple functions to turn off the
