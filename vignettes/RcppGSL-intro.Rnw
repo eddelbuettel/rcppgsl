@@ -574,6 +574,13 @@ if (ISNAN(res)){
 
 See \url{http://thread.gmane.org/gmane.comp.lang.r.rcpp/7905} for a longer discussion.
 
+Starting with release 0.2.4, two new functions are available:
+\texttt{gslSetErrorHandlerOff()} and \texttt{gslResetErrorHandler()} which
+can allow to turn off the error handler (as discussed above), and to reset to
+the prior (default) value.  
+
+In addition, the package now also calls \texttt{gslSetErrorHandlerOff()} when
+being attached, ensuring that the GSL error handler is turned off by default.
 
 \section{Using \pkg{RcppGSL} in your package}
 
