@@ -2,7 +2,7 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in version 0.2.4 (2015-XX-YY)}{
+\section{Changes in version 0.2.4 (2015-01-24)}{
   \itemize{
     \item Two new helper function to turn the default GSL error handler
     off (and to restore it) were added. The default handler is now

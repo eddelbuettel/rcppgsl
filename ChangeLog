@@ -1,3 +1,7 @@
+2015-01-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION: Version 0.2.4
+
 2015-01-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* vignettes/RcppGSL-intro.Rnw: Updated to note that package turns off
