@@ -1,3 +1,8 @@
+2015-06-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/examples/bSpline/bSpline.cpp (fitData): Removed unneccessary
+	instantiation of a data.frame object
+
 2015-01-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Version 0.2.4

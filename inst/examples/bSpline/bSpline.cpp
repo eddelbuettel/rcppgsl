@@ -59,7 +59,7 @@ Rcpp::List genData() {
 
 
 // [[Rcpp::export]]
-Rcpp::List fitData(Rcpp::DataFrame ds) {
+Rcpp::List fitData(Rcpp::DataFrame D) {
 
     const size_t ncoeffs = NCOEFFS;
     const size_t nbreak = NBREAK;
@@ -67,7 +67,6 @@ Rcpp::List fitData(Rcpp::DataFrame ds) {
     const size_t n = N;
     size_t i, j;
 
-    Rcpp::DataFrame D(ds);    		// construct the data.frame object
     RcppGSL::vector<double> y = D["y"];	// access columns by name, 
     RcppGSL::vector<double> x = D["x"];	// assigning to GSL vectors
     RcppGSL::vector<double> w = D["w"];
