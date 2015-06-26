@@ -1,7 +1,7 @@
 #!/usr/bin/r -t
 #                        Emacs make this -*- mode: R; tab-width: 4 -*-
 #
-# Copyright (C) 2010 - 2012	 Romain Francois and Dirk Eddelbuettel
+# Copyright (C) 2010 - 2015	 Romain Francois and Dirk Eddelbuettel
 #
 # This file is part of RcppGSL.
 #
@@ -20,7 +20,7 @@
 
 test.fastLm <- function() {
     data(trees, package="datasets")
-    flm <- .Call("fastLm",
+    flm <- .Call("RcppGSL_fastLm",
                  cbind(1, log(trees$Girth)),
                  log(trees$Volume),
                  PACKAGE="RcppGSL")

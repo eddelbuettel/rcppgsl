@@ -2,7 +2,7 @@
 //
 // fastLm.cpp: Rcpp and GSL based implementation of lm
 //
-// Copyright (C)  2010 - 2013  Dirk Eddelbuettel and Romain Francois
+// Copyright (C)  2010 - 2015  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of RcppGSL.
 //
@@ -24,48 +24,40 @@
 #include <gsl/gsl_multifit.h>
 #include <cmath>
 
-extern "C" SEXP fastLm(SEXP Xs, SEXP ys) {
+// [[Rcpp::export]]
+Rcpp::List fastLm(Rcpp::NumericMatrix Xs, Rcpp::NumericVector ys) {
 
-    try {
+    RcppGSL::vector<double> y = Rcpp::wrap(ys);		// create gsl data structures 
+	RcppGSL::matrix<double> X = Rcpp::wrap(Xs); 
 	
-		RcppGSL::vector<double> y = ys;		// create gsl data structures from SEXP
-		RcppGSL::matrix<double> X = Xs; 
-	
-		int n = X.nrow(), k = X.ncol();
-		double chisq;
+	int n = X.nrow(), k = X.ncol();
+	double chisq;
 
-		RcppGSL::vector<double> coef(k); 	// to hold the coefficient vector 
-		RcppGSL::matrix<double> cov(k,k);	// and the covariance matrix
+	RcppGSL::vector<double> coef(k); 	// to hold the coefficient vector 
+	RcppGSL::matrix<double> cov(k,k);	// and the covariance matrix
     
-		// the actual fit requires working memory we allocate and free
-		gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
-		gsl_multifit_linear (X, y, coef, cov, &chisq, work);
-		gsl_multifit_linear_free (work);
+	// the actual fit requires working memory we allocate and free
+	gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, k);
+	gsl_multifit_linear (X, y, coef, cov, &chisq, work);
+	gsl_multifit_linear_free (work);
 
-		// assign diagonal to a vector, then take square roots to get std.error
-		Rcpp::NumericVector std_err;
-		std_err = gsl_matrix_diagonal(cov); // need two step decl. and assignment
-		std_err = sqrt(std_err);    		// sqrt() is an Rcpp sugar function
+	// assign diagonal to a vector, then take square roots to get std.error
+	Rcpp::NumericVector std_err;
+	std_err = gsl_matrix_diagonal(cov); // need two step decl. and assignment
+	std_err = sqrt(std_err);    		// sqrt() is an Rcpp sugar function
 
-		Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
-											Rcpp::Named("stderr")       = std_err,
-											Rcpp::Named("df.residual")  = n - k);
+	Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
+										Rcpp::Named("stderr")       = std_err,
+										Rcpp::Named("df.residual")  = n - k);
 
-		// free all the GSL vectors and matrices -- as these are really C data structures
-		// we cannot take advantage of automatic memory management
-		coef.free() ;
-		cov.free();
-		y.free();
-		X.free();
+	// free all the GSL vectors and matrices -- as these are really C data structures
+	// we cannot take advantage of automatic memory management
+	coef.free() ;
+	cov.free();
+	y.free();
+	X.free();
 
-		return res;    // return the result list to R 
-	    
-    } catch( std::exception &ex ) {
-		forward_exception_to_r( ex );
-
-    } catch(...) { 
-		::Rf_error( "c++ exception (unknown reason)" ); 
-    }
-    return R_NilValue; // -Wall
+	return res;    // return the result list to R 
+    
 }
 

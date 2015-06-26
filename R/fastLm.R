@@ -22,7 +22,7 @@ fastLmPure <- function(X, y) {
 
     stopifnot(is.matrix(X), is.numeric(y), nrow(y)==nrow(X))
 
-    res <- .Call("fastLm", X, y, package="RcppGSL")
+    res <- .Call("RcppGSL_fastLm", X, y, package="RcppGSL")
 }
 
 fastLm <- function(X, ...) UseMethod("fastLm")

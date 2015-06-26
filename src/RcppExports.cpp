@@ -6,6 +6,18 @@
 
 using namespace Rcpp;
 
+// fastLm
+Rcpp::List fastLm(Rcpp::NumericMatrix Xs, Rcpp::NumericVector ys);
+RcppExport SEXP RcppGSL_fastLm(SEXP XsSEXP, SEXP ysSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Xs(XsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ys(ysSEXP);
+    __result = Rcpp::wrap(fastLm(Xs, ys));
+    return __result;
+END_RCPP
+}
 // gslSetErrorHandlerOff
 bool gslSetErrorHandlerOff();
 RcppExport SEXP RcppGSL_gslSetErrorHandlerOff() {
