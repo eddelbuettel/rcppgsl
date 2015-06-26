@@ -673,28 +673,18 @@ and applies the \pkg{GSL} function to each column.
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_blas.h>
 
-extern "C" SEXP colNorm(SEXP sM) {
-
-  try {
-
-        RcppGSL::matrix<double> M = sM;     // create gsl data structures from SEXP
-        int k = M.ncol();
-        Rcpp::NumericVector n(k);           // to store results
-
-        for (int j = 0; j < k; j++) {
-            RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
-            n[j] = gsl_blas_dnrm2(colview);
-        }
-        M.free() ;
-        return n;                           // return vector
-
-  } catch( std::exception &ex ) {
-        forward_exception_to_r( ex );
-
-  } catch(...) {
-        ::Rf_error( "c++ exception (unknown reason)" );
-  }
-  return R_NilValue; // -Wall
+// [[Rcpp::export]]
+Rcpp::NumericVector colNorm(Rcpp::NumericMatrix M) {
+    // this conversion involves an allocation
+    RcppGSL::matrix<double> G = Rcpp::as< RcppGSL::matrix<double> >(M);
+    int k = G.ncol();
+    Rcpp::NumericVector n(k);           // to store results
+    for (int j = 0; j < k; j++) {
+        RcppGSL::vector_view<double> colview = gsl_matrix_column (G, j);
+        n[j] = gsl_blas_dnrm2(colview);
+    }
+    G.free();
+    return n;                           // return vector
 }
 @
 
@@ -717,14 +707,9 @@ package build-time.
 
 \subsection{The \texttt{R} directory}
 
-The \proglang{R} source is very simply: a single matrix is passed to \proglang{C++}:
-
-<<size=small>>=
-colNorm <- function(M) {
-    stopifnot(is.matrix(M))
-    res <- .Call("colNorm", M, package="RcppGSLExample")
-}
-@
+The \proglang{R} source is very simply: it contains a single file created by
+the \texttt{Rcpp::compileAttributes()} function implementing the wrapper to
+the \texttt{colNorm()} function.
 
 \section{Using \pkg{RcppGSL} with \pkg{inline}}
 
@@ -783,8 +768,10 @@ package.skeleton( "mypackage", foo )
 \textsl{Rcpp Attributes} \citep{CRAN:Rcpp:Attributes} builds on the features
 of the \pkg{inline} package described in previous section, and streamline the
 compilation, loading and linking process even further.  It leverages the
-existing plugins for \pkg{inline}. This section illustrates how the example
-from the previous section can be written using \textsl{Rcpp Attributes}.
+existing plugins for \pkg{inline}. We already showed the corresponding
+function in the previous section.  Here, we show it again as a self-contained
+example used via \texttt{sourceCpp()} --- which is not the recommended
+practice in a package, but useful at the command-line.
 
 
 <<colNormAttr,lang=cpp,size=small>>=

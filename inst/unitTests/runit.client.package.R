@@ -1,7 +1,7 @@
 #!/usr/bin/r -t
 #
-# Copyright (C) 2010  Romain Francois and Dirk Eddelbuettel
-# Copyright (C) 2014  Dirk Eddelbuettel
+# Copyright (C) 2010         Romain Francois and Dirk Eddelbuettel
+# Copyright (C) 2014 - 2015  Dirk Eddelbuettel
 #
 # This file is part of RcppGSL.
 #
@@ -34,7 +34,7 @@ test.client.package <- function(){
     cmd <- paste(R , "CMD build", pkg)
     system(cmd)
     dir.create("templib")
-    install.packages(paste(pkg, "_0.0.2.tar.gz", sep = ""), "templib", repos = NULL, type = "source")
+    install.packages(paste(pkg, "_0.0.3.tar.gz", sep = ""), "templib", repos = NULL, type = "source")
     require(Rcpp)
     require(pkg, "templib", character.only = TRUE)
     m <- matrix(1:16, nc = 4)

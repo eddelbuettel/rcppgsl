@@ -1,9 +1,17 @@
 2015-06-26  Dirk Eddelbuettel  <edd@debian.org>
 
+	* inst/examples/RcppGSLExample/DESCRIPTION: Updated Date and Version
 	* inst/examples/RcppGSLExample/src/colNorm.cpp: Added new version
 	based on Attributes
 	* inst/examples/RcppGSLExample/src/RcppExports.cpp: Added
 	* inst/examples/RcppGSLExample/R/RcppExports.R: Added
+	* inst/examples/RcppGSLExample/R/colNorm.R: Retired
+
+	* inst/unitTests/runit.client.package.R (test.client.package):
+	Updated to use version 0.0.3 of RcppGSLExample
+
+	* vignettes/RcppGSL-intro.Rnw (Rcpp): Updated to reflect updated
+	example client package RcppGSLExample
 
 	* src/RcppExports.cpp: Updated via newer compileAttributes()
 
