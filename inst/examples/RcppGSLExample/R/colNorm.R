@@ -17,8 +17,9 @@
 ## You should have received a copy of the GNU General Public License
 ## along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-colNorm <- function(M) {
+## old call now shadowed by auto-generated colNorm() in RcppExports.R
+colNorm_old <- function(M) {
     stopifnot(is.matrix(M))
-    res <- .Call("colNorm", M, package="RcppGSLExample")
+    res <- .Call("colNorm_old", M, package="RcppGSLExample")
 }
 

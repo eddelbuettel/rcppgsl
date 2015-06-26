@@ -7,13 +7,13 @@
 using namespace Rcpp;
 
 // colNorm
-Rcpp::NumericVector colNorm(Rcpp::NumericMatrix NM);
-RcppExport SEXP RcppGSLExample_colNorm(SEXP NMSEXP) {
+Rcpp::NumericVector colNorm(Rcpp::NumericMatrix M);
+RcppExport SEXP RcppGSLExample_colNorm(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type NM(NMSEXP);
-    __result = Rcpp::wrap(colNorm(NM));
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type M(MSEXP);
+    __result = Rcpp::wrap(colNorm(M));
     return __result;
 END_RCPP
 }
