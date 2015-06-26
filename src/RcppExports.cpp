@@ -10,27 +10,19 @@ using namespace Rcpp;
 bool gslSetErrorHandlerOff();
 RcppExport SEXP RcppGSL_gslSetErrorHandlerOff() {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        bool __result = gslSetErrorHandlerOff();
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    __result = Rcpp::wrap(gslSetErrorHandlerOff());
+    return __result;
 END_RCPP
 }
 // gslResetErrorHandler
 bool gslResetErrorHandler();
 RcppExport SEXP RcppGSL_gslResetErrorHandler() {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        bool __result = gslResetErrorHandler();
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    __result = Rcpp::wrap(gslResetErrorHandler());
+    return __result;
 END_RCPP
 }

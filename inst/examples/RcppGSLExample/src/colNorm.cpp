@@ -4,7 +4,7 @@
 //              adapted from `Section 8.4.13 Example programs for matrices' 
 //              of the GSL manual
 //
-// Copyright (C)  2010 Dirk Eddelbuettel and Romain Francois
+// Copyright (C)  2010 - 2015 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of RcppGSL.
 //
@@ -26,7 +26,8 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_blas.h>
 
-extern "C" SEXP colNorm(SEXP sM) {
+// old initial implementation, kept for comparison
+extern "C" SEXP colNorm_old(SEXP sM) {
 
     try {
 		
@@ -49,4 +50,22 @@ extern "C" SEXP colNorm(SEXP sM) {
     }
     return R_NilValue; // -Wall
 }
+
+
+// newer Attributes-based implementation
+
+// [[Rcpp::export]]
+Rcpp::NumericVector colNorm(Rcpp::NumericMatrix NM) {
+    // this conversion involves an allocation
+    RcppGSL::matrix<double> M = Rcpp::as< RcppGSL::matrix<double> >(NM);
+    int k = M.ncol();
+    Rcpp::NumericVector n(k);           // to store results
+    for (int j = 0; j < k; j++) {
+        RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
+        n[j] = gsl_blas_dnrm2(colview);
+    }
+    M.free();
+    return n;                           // return vector
+}
+
 

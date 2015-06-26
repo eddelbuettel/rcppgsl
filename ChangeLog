@@ -1,3 +1,12 @@
+2015-06-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/examples/RcppGSLExample/src/colNorm.cpp: Added new version
+	based on Attributes
+	* inst/examples/RcppGSLExample/src/RcppExports.cpp: Added
+	* inst/examples/RcppGSLExample/R/RcppExports.R: Added
+
+	* src/RcppExports.cpp: Updated via newer compileAttributes()
+
 2015-06-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/examples/bSpline/bSpline.cpp (fitData): Removed unneccessary
