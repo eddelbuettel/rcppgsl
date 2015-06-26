@@ -7,6 +7,8 @@
 
 	* src/RcppExports.cpp: Updated via newer compileAttributes()
 
+	* .travis.yml (install): Use Launchpad PPA for r-cran-* packages
+
 2015-06-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/examples/bSpline/bSpline.cpp (fitData): Removed unneccessary
