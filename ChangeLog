@@ -1,3 +1,7 @@
+2015-06-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Description, Date): More Title Case; rolled Date
+
 2015-06-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/examples/RcppGSLExample/DESCRIPTION: Updated Date and Version
