@@ -1,3 +1,7 @@
+2015-07-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/RcppGSL-intro.Rnw (Rcpp): Updated and edited throughout.
+
 2015-06-27  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Description, Date): More Title Case; rolled Date
