@@ -346,7 +346,7 @@ double gsl_vector_sum_2(Rcpp::List data) {
 }
 @
 
-called from \proglang{R} :
+called from \proglang{R}:
 
 <<inlinexex2,results=hide, echo=FALSE>>=
 Rcpp::cppFunction("double gsl_vector_sum_2(Rcpp::List data) {
@@ -798,8 +798,8 @@ Rcpp::NumericVector foo(Rcpp::NumericMatrix sM) {
     Rcpp::NumericVector n(k);           // to store results
 
     for (int j = 0; j < k; j++) {
-	RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
-	n[j] = gsl_blas_dnrm2(colview);
+        RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
+        n[j] = gsl_blas_dnrm2(colview);
     }
     M.free() ;
     return n;                           // return vector
