@@ -240,8 +240,7 @@ typedef struct {
     int * data;
     gsl_block_int * block;
     int owner;
-}
-gsl_vector_int;
+} gsl_vector_int;
 @
 
 A typical use of the \verb|gsl_vector| struct is given below:
