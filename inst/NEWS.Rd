@@ -2,6 +2,21 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 0.2.5 (2015-07-05)}{
+  \itemize{
+    \item The \code{colnorm} function in the included example package
+    was rewritten to use Rcpp Attributes, the example package was
+    updated and the version number increased to 0.0.3.
+    \item The unit tests also use the updated version of the example
+    package.
+    \item The package, and the included example package, were updated
+    throughout to conform to the current \code{R CMD check} standards.
+    \item The RcppGSL-intro vignette was updated throughout.
+    \item The Travis CI integration now uses r-cran-* packages which
+    leads to faster tests.
+  }
+}
+
 \section{Changes in version 0.2.4 (2015-01-24)}{
   \itemize{
     \item Two new helper function to turn the default GSL error handler
@@ -16,9 +31,9 @@
 \section{Changes in version 0.2.3 (2015-01-10)}{
   \itemize{
     \item The \code{src/Makevars.in} was pruned of GNU make features at
-    the request of the CRAN Maintainers
+    the request of the CRAN Maintainers.
     \item \code{configure.ac} and \code{configure} were updated, and
-    shortened
+    shortened.
     \item The \code{RcppGSL-intro.Rnw} vignette was updated for its look
     and feel.
   }
