@@ -1,3 +1,9 @@
+2015-07-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* NAMESPACE: Added now-required importFrom() statements
+
+	* DESCRIPTION: Added Imports: stats
+
 2015-07-04  Dirk Eddelbuettel  <edd@debian.org>
 
 	* vignettes/RcppGSL-intro.Rnw (Rcpp): Updated and edited throughout.
