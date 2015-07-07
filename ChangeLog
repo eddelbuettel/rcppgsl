@@ -1,5 +1,7 @@
 2015-07-06  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION: Release 0.2.5
+
 	* NAMESPACE: Added now-required importFrom() statements
 
 	* DESCRIPTION: Added Imports: stats
