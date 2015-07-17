@@ -2,6 +2,14 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
+\section{Changes in version 0.2.6 (2015-xx-yy)}{
+  \itemize{
+    \item The RcppGSL matrix and vector class now keep track of object
+    allocation and can therefore automatically free allocated object in
+    the destructor. Explicit \code{x.free()} are still supported.
+  }
+}
+
 \section{Changes in version 0.2.5 (2015-07-05)}{
   \itemize{
     \item The \code{colnorm} function in the included example package
