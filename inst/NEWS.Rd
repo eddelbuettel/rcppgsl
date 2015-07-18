@@ -6,7 +6,7 @@
   \itemize{
     \item The \code{colnorm} function in the included example package
     was rewritten to use Rcpp Attributes, the example package was
-    updated and the version number increased to 0.0.3.
+    updated and its version number increased to 0.0.3.
     \item The unit tests also use the updated version of the example
     package.
     \item The package, and the included example package, were updated
