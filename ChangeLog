@@ -1,8 +1,15 @@
 2015-07-19  Dirk Eddelbuettel  <edd@debian.org>
 
-	* src/fastLm.cpp (fastLm): Simplified thanks to reference counting
-	and improved object management: GSL objects now in signature, and no
-	explicit free needed.
+	* src/fastLm.cpp: Simplified thanks to reference counting and
+	improved object management: GSL objects now in signature, and no
+	longer require an explicit free() call (but still allow it).
+
+	* inst/examples/RcppGSLExample: idem
+	* inst/examples/bSpline: idem
+
+	* vignettes/RcppGSL-intro.Rnw: idem
+
+	* inst/include/*: Consistent indentation and whitespace
 
 2015-07-17  Dirk Eddelbuettel  <edd@debian.org>
 

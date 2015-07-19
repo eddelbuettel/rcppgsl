@@ -10,7 +10,9 @@
     \item Examples such as \code{fastLm} can now be written in a much
     cleaner and shorter way as GSL objects can appear in the function
     signature and without requiring explicit \code{.free()} calls at the
-    end. 
+    end.
+    \item The included examples, as well as the introductory vignette,
+    have been updated accordingly. 
   }
 }
 
