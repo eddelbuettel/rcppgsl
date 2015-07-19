@@ -1,8 +1,8 @@
 // -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// RcppGSL.h: Seamless R and GSL Integration via Rcpp
+// RcppGSL_typedef.h: Shorthand Definitions for Seamless R and GSL Integration
 //
-// Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2015  Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -19,18 +19,17 @@
 // You should have received a copy of the GNU General Public License
 // along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef RCPPGSL__RCPPGSL_H
-#define RCPPGSL__RCPPGSL_H
+#ifndef RCPPGSL__TYPEDEF_H
+#define RCPPGSL__TYPEDEF_H
 
-#include <RcppGSLForward.h>
+namespace RcppGSL {
 
-#include <Rcpp.h>
+    typedef matrix<double> Matrix;
+    typedef vector<double> Vector;
 
-#include <RcppGSL_vector.h>
-#include <RcppGSL_matrix.h>
-#include <RcppGSL_vector_view.h>
-#include <RcppGSL_matrix_view.h>
-
-#include <RcppGSL_typedef.h>
+    typedef matrix<int> IntMatrix;
+    typedef vector<int> IntVector;
+    
+}
 
 #endif
