@@ -1,4 +1,6 @@
-// RcppGSL.h: Rcpp/GSL glue
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
+//
+// RcppGSL.h: Seamless R and GSL Integration via Rcpp
 //
 // Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
 //

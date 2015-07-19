@@ -1,6 +1,6 @@
 // -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// RcppGSLForward.h: Rcpp/GSL glue
+// RcppGSLForward.h: Forward Declarations for Seamless R and GSL Integration
 //
 // Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
 //

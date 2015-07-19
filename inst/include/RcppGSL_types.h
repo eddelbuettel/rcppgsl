@@ -1,6 +1,6 @@
 // -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
-// RCPPGSL_SPEC.h: Rcpp/GSL glue
+// RcppGSL_types.h: Type macros for Seamless R and GSL Integration
 //
 // Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
 //
