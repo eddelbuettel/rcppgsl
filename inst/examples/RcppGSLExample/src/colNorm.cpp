@@ -55,7 +55,7 @@ extern "C" SEXP colNorm_old(SEXP sM) {
 // newer Attributes-based implementation
 
 // [[Rcpp::export]]
-Rcpp::NumericVector colNorm(Rcpp::NumericMatrix M) {
+Rcpp::NumericVector colNorm_old2(Rcpp::NumericMatrix M) {
     // this conversion involves an allocation
     RcppGSL::matrix<double> G = Rcpp::as< RcppGSL::matrix<double> >(M);
     int k = G.ncol();
@@ -65,6 +65,19 @@ Rcpp::NumericVector colNorm(Rcpp::NumericMatrix M) {
         n[j] = gsl_blas_dnrm2(colview);
     }
     G.free();
+    return n;                           // return vector
+}
+
+// newer Attributes-based simplementation with reference counting
+
+// [[Rcpp::export]]
+Rcpp::NumericVector colNorm(RcppGSL::matrix<double> G) {
+    int k = G.ncol();
+    Rcpp::NumericVector n(k);           // to store results
+    for (int j = 0; j < k; j++) {
+        RcppGSL::vector_view<double> colview = gsl_matrix_column (G, j);
+        n[j] = gsl_blas_dnrm2(colview);
+    }
     return n;                           // return vector
 }
 

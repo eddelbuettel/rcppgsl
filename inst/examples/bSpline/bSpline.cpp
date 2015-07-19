@@ -48,9 +48,6 @@ Rcpp::List genData() {
                                                   Rcpp::Named("y") = y,
                                                   Rcpp::Named("w") = w);
 
-    x.free();
-    y.free();
-    w.free();
     gsl_rng_free(r);
 
     return(res);
@@ -72,7 +69,7 @@ Rcpp::List fitData(Rcpp::DataFrame D) {
     RcppGSL::vector<double> w = D["w"];
 
     gsl_bspline_workspace *bw;
-    gsl_vector *B;
+    gsl_vector *B;              	// these could be RcppGSL::... as well 
     gsl_vector *c; 
     gsl_matrix *X, *cov;
     gsl_multifit_linear_workspace *mw;
@@ -114,11 +111,10 @@ Rcpp::List fitData(Rcpp::DataFrame D) {
         FY[i] = yi;
     }
 
-    Rcpp::List res =
-      Rcpp::List::create(Rcpp::Named("X")=FX,
-                         Rcpp::Named("Y")=FY,
-			 Rcpp::Named("chisqdof")=Rcpp::wrap(chisq/dof),
-			 Rcpp::Named("rsq")=Rcpp::wrap(Rsq));
+    Rcpp::List res = Rcpp::List::create(Rcpp::Named("X")=FX,
+                                        Rcpp::Named("Y")=FY,
+                                        Rcpp::Named("chisqdof") = Rcpp::wrap(chisq/dof),
+                                        Rcpp::Named("rsq") = Rcpp::wrap(Rsq));
 
     gsl_bspline_free(bw);
     gsl_vector_free(B);
@@ -127,10 +123,6 @@ Rcpp::List fitData(Rcpp::DataFrame D) {
     gsl_matrix_free(cov);
     gsl_multifit_linear_free(mw);
     
-    y.free();
-    x.free();
-    w.free();
-
     return(res);   
 }
 
