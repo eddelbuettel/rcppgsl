@@ -101,7 +101,7 @@ namespace RcppGSL {
     template <typename T> struct vector_view_type;
     template <typename T> struct matrix_view_type;
     
-    #include <macros/RCPPGSL_SPEC.h>
+    #include "RcppGSL_types.h"
 
     _RCPPGSL_SPEC_NOSUFFIX(double          , double                                         )
     _RCPPGSL_SPEC(float                    , _float                , float                  )
