@@ -1,8 +1,8 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 4 -*-
+// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 //
 // RcppGSL_matrix_view.h: Rcpp/GSL glue
 //
-// Copyright (C)  2010 Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
