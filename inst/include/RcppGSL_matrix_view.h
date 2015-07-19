@@ -27,39 +27,39 @@
 
 namespace Rcpp{
 
-#define RCPPGSL_VIEW(SUFFIX)                                         \
-template <> SEXP wrap( const gsl_matrix##SUFFIX##_view& x){          \
-	return wrap(x.matrix) ;                                          \
-}                                                                    \
-template <> SEXP wrap( const gsl_matrix##SUFFIX##_const_view& x ){   \
-   return wrap(x.matrix) ;                                           \
-}
+    #define RCPPGSL_VIEW(SUFFIX)                                        \
+    template <> SEXP wrap(const gsl_matrix##SUFFIX##_view& x) {         \
+        return wrap(x.matrix);                                          \
+    }                                                                   \
+    template <> SEXP wrap( const gsl_matrix##SUFFIX##_const_view& x ){  \
+        return wrap(x.matrix) ;                                         \
+    }
 
-RCPPGSL_VIEW(_int)
-RCPPGSL_VIEW(_float)
-RCPPGSL_VIEW(_long)
-RCPPGSL_VIEW(_char)
-RCPPGSL_VIEW(_complex)
-RCPPGSL_VIEW(_complex_float)
-RCPPGSL_VIEW(_complex_long_double)
-RCPPGSL_VIEW(_long_double)
-RCPPGSL_VIEW(_short)
-RCPPGSL_VIEW(_uchar)
-RCPPGSL_VIEW(_uint)
-RCPPGSL_VIEW(_ushort)
-RCPPGSL_VIEW(_ulong)
-#undef RCPPGSL_VIEW
+    RCPPGSL_VIEW(_int)
+    RCPPGSL_VIEW(_float)
+    RCPPGSL_VIEW(_long)
+    RCPPGSL_VIEW(_char)
+    RCPPGSL_VIEW(_complex)
+    RCPPGSL_VIEW(_complex_float)
+    RCPPGSL_VIEW(_complex_long_double)
+    RCPPGSL_VIEW(_long_double)
+    RCPPGSL_VIEW(_short)
+    RCPPGSL_VIEW(_uchar)
+    RCPPGSL_VIEW(_uint)
+    RCPPGSL_VIEW(_ushort)
+    RCPPGSL_VIEW(_ulong)
+    #undef RCPPGSL_VIEW
 
-#define RCPPGSL_VIEW(SUFFIX)                                      
-template <> SEXP wrap( const gsl_matrix_view& x){       
-	return wrap(x.matrix) ;                                       
-}                                                                 
-template <> SEXP wrap( const gsl_matrix_const_view& x ){
-   return wrap(x.matrix) ;                                        
-}
-template <typename T> SEXP wrap( const ::RcppGSL::matrix_view<T>& x){
-	return wrap( x.view.matrix ) ;
-}
+    #define RCPPGSL_VIEW(SUFFIX)                                      
+    template <> SEXP wrap(const gsl_matrix_view& x) {       
+        return wrap(x.matrix);                                       
+    }                                                                 
+    template <> SEXP wrap(const gsl_matrix_const_view& x) {
+        return wrap(x.matrix);                                        
+    }
+    template <typename T> SEXP wrap(const ::RcppGSL::matrix_view<T>& x) {
+        return wrap(x.view.matrix);
+    }
 
 } 
 
