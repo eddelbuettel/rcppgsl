@@ -6,7 +6,11 @@
   \itemize{
     \item The RcppGSL matrix and vector class now keep track of object
     allocation and can therefore automatically free allocated object in
-    the destructor. Explicit \code{x.free()} are still supported.
+    the destructor. Explicit \code{x.free()} use is still supported.
+    \item Examples such as \code{fastLm} can now be written in a much
+    cleaner and shorter way as GSL objects can appear in the function
+    signature and without requiring explicit \code{.free() calls at the
+    end. 
   }
 }
 

@@ -25,11 +25,8 @@
 #include <cmath>
 
 // [[Rcpp::export]]
-Rcpp::List fastLm(Rcpp::NumericMatrix Xs, Rcpp::NumericVector ys) {
+Rcpp::List fastLm(RcppGSL::matrix<double> X, RcppGSL::vector<double> y) {
 
-    RcppGSL::vector<double> y = Rcpp::wrap(ys);		// create gsl data structures 
-	RcppGSL::matrix<double> X = Rcpp::wrap(Xs); 
-	
 	int n = X.nrow(), k = X.ncol();
 	double chisq;
 
@@ -46,18 +43,9 @@ Rcpp::List fastLm(Rcpp::NumericMatrix Xs, Rcpp::NumericVector ys) {
 	std_err = gsl_matrix_diagonal(cov); // need two step decl. and assignment
 	std_err = sqrt(std_err);    		// sqrt() is an Rcpp sugar function
 
-	Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
-										Rcpp::Named("stderr")       = std_err,
-										Rcpp::Named("df.residual")  = n - k);
-
-	// free all the GSL vectors and matrices -- as these are really C data structures
-	// we cannot take advantage of automatic memory management
-	coef.free() ;
-	cov.free();
-	y.free();
-	X.free();
-
-	return res;    // return the result list to R 
+	return Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
+                              Rcpp::Named("stderr")       = std_err,
+                              Rcpp::Named("df.residual")  = n - k);
     
 }
 

@@ -1,3 +1,9 @@
+2015-07-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/fastLm.cpp (fastLm): Simplified thanks to reference counting
+	and improved object management: GSL objects now in signature, and no
+	explicit free needed.
+
 2015-07-17  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/include/macros/RCPPGSL_SPEC.h: Add boolean to check whether
