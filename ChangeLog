@@ -1,3 +1,8 @@
+2015-07-17  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/macros/RCPPGSL_SPEC.h: Add boolean to check whether
+	'data' remains allocated, and use it to free resources in destructor
+
 2015-07-06  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION: Release 0.2.5
