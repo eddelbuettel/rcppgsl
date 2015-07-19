@@ -154,9 +154,7 @@ example for \pkg{GSL} integration with \proglang{R}.
 #include <cmath>
 
 // [[Rcpp::export]]
-Rcpp::List fastLm(Rcpp::NumericMatrix Xs, Rcpp::NumericVector ys) {
-    RcppGSL::vector<double> y = Rcpp::wrap(ys);         // create gsl data structures 
-    RcppGSL::matrix<double> X = Rcpp::wrap(Xs); 
+Rcpp::List fastLm(RcppGSL::matrix<double> X, RcppGSL::vector<double> y) {
         
     int n = X.nrow(), k = X.ncol();
     double chisq;
@@ -173,15 +171,9 @@ Rcpp::List fastLm(Rcpp::NumericMatrix Xs, Rcpp::NumericVector ys) {
     std_err = gsl_matrix_diagonal(cov);     // need two step decl. and assignment
     std_err = sqrt(std_err);                // sqrt() is an Rcpp sugar function
 
-    Rcpp::List res = Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
-                                        Rcpp::Named("stderr")       = std_err,
-                                        Rcpp::Named("df.residual")  = n - k);
-
-    // free all the GSL vectors and matrices -- as these are really C data structures
-    // we cannot take advantage of automatic memory management
-    coef.free(); cov.free(); y.free(); X.free();
-
-    return res;    // return the result list to R 
+    return Rcpp::List::create(Rcpp::Named("coefficients") = coef, 
+                              Rcpp::Named("stderr")       = std_err,
+                              Rcpp::Named("df.residual")  = n - k);
 }
 @
 
@@ -197,12 +189,17 @@ diagonal element from the covariance matrix. We then employ a so-called
 iterator---a common \proglang{C++} idiom from the Standard Template Library
 (STL)---to iterate over the vector of diagonal and transforming it by
 applying the square root function to compute our standard error of the
-estimate. Finally we create a named list with the return value before we free
-temporary memory allocation (a step that has to be done because the
-underlying objects are really \proglang{C} objects conforming to the
-\pkg{GSL} interface and hence without the automatic memory management we
-could have with \proglang{C++} vector or matrix structures as used through
-the \pkg{Rcpp} package) and return the result to \proglang{R}.
+estimate. Finally we create a named list with the return values. 
+
+In earlier version of the \textsl{RcppGSL} package, we also explicitly called
+\texttt{free()} to return temporary memory allocation to the operating
+system. This step had to be done as the underlying objects are managed
+as \proglang{C} objects. They conforming to the \pkg{GSL} interface and hence
+without any automatic memory management. But as we actually provide a
+\proglang{C++} data structure for matrix and vector objects, we can managed
+them in the \proglang{C++} style and free the memory when the object goes out
+of scope. Explicit \texttt{free()} calls are still permitted as we keep track
+of the object status so that no memory is accidentally released twice.
 
 We note that \pkg{RcppArmadillo}
 \citep{CRAN:RcppArmadillo,Eddelbuettel+Sanderson:2013:RcppArmadillo}
@@ -253,13 +250,16 @@ for (i = 0; i < 3; i++) {               // fill the vector
     gsl_vector_set(v, i, 1.23 + i);
 }
 
-double sum = 0.0 ;                      // access elements
+double sum = 0.0;                       // access elements
 for (i = 0; i < 3; i++) {
     sum += gsl_vector_set(v, i);
 }
 
 gsl_vector_free(v);                     // free the memory
 @
+
+Note that we explicitly free the allocated memory at the end. In \proglang{C}
+style programming this is the responsibility of the programmer.
 
 \subsection{RcppGSL::vector}
 
@@ -275,20 +275,22 @@ for (i = 0; i < 3; i++) {               // fill the vector
     v[i] = 1.23 + i;
 }
 
-double sum = 0.0 ;                      // access elements
+double sum = 0.0;                       // access elements
 for (i = 0; i < 3; i++) {
     sum += v[i];
 }
 
-v.free();                               // free the memory
+v.free();                               // (optionally) free the memory 
+                                        // also automatic when out of scope
 @
 
 The class \texttt{RcppGSL::vector<double>} is a smart pointer, that can be used
 anywhere where a raw pointer \verb|gsl_vector| can be used, such as the
 \verb|gsl_vector_set| and \verb|gsl_vector_get| functions above.
 
-Beyond the convenience of a nicer syntax for allocation and release of
-memory, the \texttt{RcppGSL::vector} template faciliates interchange of
+Beyond the convenience of a nicer syntax for allocation (and of course the
+managed release of memory either via \texttt{free()} or when going out of
+scope), the \texttt{RcppGSL::vector} template faciliates interchange of
 \pkg{GSL} vectors with \pkg{Rcpp} objects, and hence \pkg{R} objects. The
 following example defines a \texttt{.Call} compatible function called
 \verb|sum_gsl_vector_int| that operates on a \verb|gsl_vector_int| through
@@ -298,10 +300,13 @@ the \texttt{RcppGSL::vector<int>} template specialization:
 // [[Rcpp::export]]
 int sum_gsl_vector_int( RcppGSL::vector<int> vec){
     int res = std::accumulate(vec.begin(), vec.end(), 0);
-    vec.free();    // we need to free vec after use
     return res;
 }
 @
+
+Here we no longer need to call \texttt{free()} explicitly as the \texttt{vec}
+allocation is returned automatically at the end of the function body when the
+variable goes out of scope.
 
 Once the function has created via \texttt{sourceCpp()} or
 \texttt{cppFunction()} from \textsl{Rcpp Attributes} (see
@@ -310,8 +315,7 @@ section~\ref{sec:attributes} for more on this), it can then be called from
 
 <<inlineex1,results=hide,echo=FALSE>>=
 fx <- Rcpp::cppFunction("int sum_gsl_vector_int(RcppGSL::vector<int> vec) {
-    int res = std::accumulate( vec.begin(), vec.end(), 0) ;
-    vec.free();  // we need to free vec after use
+    int res = std::accumulate( vec.begin(), vec.end(), 0);
     return res;
 }", depends="RcppGSL")
 <<callinlineex1,size=small>>=
@@ -327,21 +331,16 @@ of \pkg{Rcpp}
 // [[Rcpp::export]]
 double gsl_vector_sum_2(Rcpp::List data) {
     // grab "x" as a gsl_vector through the RcppGSL::vector<double> class
-    RcppGSL::vector<double> x = data["x"] ;
+    RcppGSL::vector<double> x = data["x"];
 
     // grab "y" as a gsl_vector through the RcppGSL::vector<int> class
-    RcppGSL::vector<int> y = data["y"] ;
-    double res = 0.0 ;
+    RcppGSL::vector<int> y = data["y"];
+    double res = 0.0;
     for (size_t i=0; i< x->size; i++) {
-       res += x[i] * y[i] ;
+       res += x[i] * y[i];
     }
 
-    // as usual with GSL, we need to explicitely free the memory
-    x.free() ;
-    y.free() ;
-
-    // return the result
-    return res ;
+    return res;    // return the result, memory freed automatically
 }
 @
 
@@ -351,13 +350,11 @@ called from \proglang{R}:
 Rcpp::cppFunction("double gsl_vector_sum_2(Rcpp::List data) {
     RcppGSL::vector<double> x = data[\"x\"];
     RcppGSL::vector<int> y = data[\"y\"];
-    double res = 0.0 ;
+    double res = 0.0;
     for (size_t i=0; i< x->size; i++) {
-        res += x[i] * y[i] ;
+        res += x[i] * y[i];
     }
-    x.free() ;
-    y.free() ;
-    return res ;
+    return res;
 }", depends= "RcppGSL")
 @
 <<callinlineex2,size=small>>=
@@ -407,10 +404,10 @@ to handle vector views using \proglang{C++} syntax.
 <<lang=cpp,size=small>>=
 // [[Rcpp::export]]
 List test_gsl_vector_view() {
-    int n = 10 ;
-    RcppGSL::vector<double> v(n) ;
+    int n = 10;
+    RcppGSL::vector<double> v(n);
     for (int i=0 ; i<n; i++) {
-        v[i] = i ;
+        v[i] = i;
     }
     RcppGSL::vector_view<double> v_even =
         gsl_vector_subvector_with_stride(v,0,2,n/2);
@@ -419,8 +416,7 @@ List test_gsl_vector_view() {
 
     List res = List::create(Named("even") = v_even,
                             Named("odd" ) = v_odd);
-    v.free() ;  	// we only need to free v, the views do not own data
-    return res ;
+    return res;
 }
 @
 
@@ -525,7 +521,7 @@ The \texttt{RcppGSL::matrix} type also defines the following member functions:
   \item[\texttt{nrow}] extracts the number of rows
   \item[\texttt{ncol}] extract the number of columns
   \item[\texttt{size}] extracts the number of elements
-  \item[\texttt{free}] releases the memory
+  \item[\texttt{free}] releases the memory (also called via destructor)
   \end{itemize}
 \end{quote}
 
@@ -674,16 +670,13 @@ and applies the \pkg{GSL} function to each column.
 #include <gsl/gsl_blas.h>
 
 // [[Rcpp::export]]
-Rcpp::NumericVector colNorm(Rcpp::NumericMatrix M) {
-    // this conversion involves an allocation
-    RcppGSL::matrix<double> G = Rcpp::as< RcppGSL::matrix<double> >(M);
+Rcpp::NumericVector colNorm(RcppGSL::matrix<double> G) {
     int k = G.ncol();
     Rcpp::NumericVector n(k);           // to store results
     for (int j = 0; j < k; j++) {
         RcppGSL::vector_view<double> colview = gsl_matrix_column (G, j);
         n[j] = gsl_blas_dnrm2(colview);
     }
-    G.free();
     return n;                           // return vector
 }
 @
@@ -744,7 +737,6 @@ bodytxt='
     RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
     n[j] = gsl_blas_dnrm2(colview);
   }
-  M.free() ;
   return n;                           // return vector
 '
 
@@ -800,7 +792,6 @@ Rcpp::NumericVector foo(Rcpp::NumericMatrix sM) {
         RcppGSL::vector_view<double> colview = gsl_matrix_column (M, j);
         n[j] = gsl_blas_dnrm2(colview);
     }
-    M.free() ;
     return n;                           // return vector
 }
 
