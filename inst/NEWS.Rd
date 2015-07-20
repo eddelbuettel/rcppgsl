@@ -5,14 +5,16 @@
 \section{Changes in version 0.2.6 (2015-xx-yy)}{
   \itemize{
     \item The RcppGSL matrix and vector class now keep track of object
-    allocation and can therefore automatically free allocated object in
-    the destructor. Explicit \code{x.free()} use is still supported.
+      allocation and can therefore automatically free allocated object in
+      the destructor. Explicit \code{x.free()} use is still supported.
+    \item Shorthand form such as \code{Rcpp::Matrix} have been added for
+      \code{double} and \code{int} vectors and matrices including views.
     \item Examples such as \code{fastLm} can now be written in a much
-    cleaner and shorter way as GSL objects can appear in the function
-    signature and without requiring explicit \code{.free()} calls at the
-    end.
+      cleaner and shorter way as GSL objects can appear in the function
+      signature and without requiring explicit \code{.free()} calls at the
+      end.
     \item The included examples, as well as the introductory vignette,
-    have been updated accordingly. 
+      have been updated accordingly. 
   }
 }
 

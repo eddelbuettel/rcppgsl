@@ -1,3 +1,7 @@
+2015-07-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/RcppGSL_typedef.h: Also define MatrixView and VectorView
+
 2015-07-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/fastLm.cpp: Simplified thanks to reference counting and
@@ -10,6 +14,8 @@
 	* vignettes/RcppGSL-intro.Rnw: idem
 
 	* inst/include/*: Consistent indentation and whitespace
+
+	* inst/include/RcppGSL_typedef.h: Define Matrix and Vector shorthands
 
 2015-07-17  Dirk Eddelbuettel  <edd@debian.org>
 

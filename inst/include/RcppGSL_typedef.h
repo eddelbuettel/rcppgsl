@@ -27,8 +27,15 @@ namespace RcppGSL {
     typedef matrix<double> Matrix;
     typedef vector<double> Vector;
 
+    typedef matrix_view<double> MatrixView;
+    typedef vector_view<double> VectorView;
+
+    
     typedef matrix<int> IntMatrix;
     typedef vector<int> IntVector;
+
+    typedef matrix_view<int> IntMatrixView;
+    typedef vector_view<int> IntVectorView;
     
 }
 

@@ -71,11 +71,24 @@ Rcpp::NumericVector colNorm_old2(Rcpp::NumericMatrix M) {
 // newer Attributes-based simplementation with reference counting
 
 // [[Rcpp::export]]
-Rcpp::NumericVector colNorm(RcppGSL::matrix<double> G) {
+Rcpp::NumericVector colNorm_old3(RcppGSL::matrix<double> G) {
     int k = G.ncol();
     Rcpp::NumericVector n(k);           // to store results
     for (int j = 0; j < k; j++) {
         RcppGSL::vector_view<double> colview = gsl_matrix_column (G, j);
+        n[j] = gsl_blas_dnrm2(colview);
+    }
+    return n;                           // return vector
+}
+
+// newest version using typedefs
+
+// [[Rcpp::export]]
+Rcpp::NumericVector colNorm(RcppGSL::Matrix G) {
+    int k = G.ncol();
+    Rcpp::NumericVector n(k);           // to store results
+    for (int j = 0; j < k; j++) {
+        RcppGSL::VectorView colview = gsl_matrix_column (G, j);
         n[j] = gsl_blas_dnrm2(colview);
     }
     return n;                           // return vector
