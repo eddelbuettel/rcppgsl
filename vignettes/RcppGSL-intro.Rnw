@@ -66,7 +66,7 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
   The \pkg{RcppGSL} package provides an easy-to-use interface between
   \pkg{GSL} and \proglang{R}, with a particular focus on matrix and vector
   data structures. \pkg{RcppGSL} relies on \pkg{Rcpp}
-  \citep{JSS:Rcpp,CRAN:Rcpp,Eddelbuettel:2013:Rcpp} which is
+  \citep{JSS:Rcpp,Eddelbuettel:2013:Rcpp,CRAN:Rcpp} which is
   itself a package that eases the interfaces between \proglang{R} and C++.}
 
 \section{Introduction}
@@ -74,7 +74,7 @@ prettyDate <- format(Sys.Date(), "%B %e, %Y")
 The GNU Scientific Library, or \pkg{GSL}, is a collection of numerical
 routines for scientific computing \citep{GSL}. It is a rigourously developed
 and tested library providing support for a wide range of scientific or
-numerical tasks. Among the topics covered in the GSL are
+numerical tasks. Among the topics covered in the \pkg{GSL} are
 %% from the GSL manual
 complex numbers, roots of polynomials,
 special functions, vector and matrix data structures,
@@ -89,28 +89,28 @@ root-finding, discrete Hankel transforms
 least-squares fitting,	minimization,
 physical constants, basis splines and wavelets.
 
-Support for \proglang{C} programming with the GSL is readily available: the
-GSL itself is written in \proglang{C}
+Support for \proglang{C} programming with the \pkg{GSL} is readily available: the
+\pkg{GSL} itself is written in \proglang{C}
 and provides a \proglang{C}-language Application Programming Interface
 (API). Access from \proglang{C++} is therefore possible, albeit not at the
 abstraction level that can be offered by dedicated \proglang{C++}
-implementations.\footnote{Several \proglang{C++} wrappers for the GSL have
+implementations.\footnote{Several \proglang{C++} wrappers for the \pkg{GSL} have
   been written over the years yet none reached a state of completion
-  comparable to the GSL itself. Three such wrapping library are
+  comparable to the \pkg{GSL} itself. Three such wrapping library are
   \url{http://cholm.home.cern.ch/cholm/misc/gslmm/},
   \url{http://gslwrap.sourceforge.net/} and
   \url{http://code.google.com/p/gslcpp/}.}
 
-The GSL is somewhat unique among numerical libraries. Its combination of
+The \pkg{GSL} is somewhat unique among numerical libraries. Its combination of
 broad coverage of scientific topics, serious implementation effort and the
 use of the well-known GNU General Public License (GPL) have lead to a fairly
 wide usage of the library.  As a concrete example, we can consider the the
 CRAN repository network for the \proglang{R} language and environment
-\citep{R:Main}.  CRAN contains over a dozen packages interfacing the GSL:
+\citep{R:Main}.  CRAN contains over a dozen packages interfacing the \pkg{GSL}:
 \pkg{copula}, \pkg{dynamo}, \pkg{gsl}, \pkg{gstat}, \pkg{magnets},
 \pkg{mvabund}, \pkg{QRMlib}, \pkg{RBrownie}, \pkg{RDieHarder}, \pkg{RHmm},
 \pkg{segclust}, \pkg{surveillance}, and \pkg{topicmodels}.  This is a clear
-indication that the GSL is popular among programmers using either the
+indication that the \pkg{GSL} is popular among programmers using either the
 \proglang{C} or \proglang{C++} language for solving problems applied science.
 
 At the same time, the \pkg{Rcpp} package
@@ -124,8 +124,8 @@ permits compact vectorised expressions similar to what can be written in
 \proglang{R} directly at the \proglang{C++} level.
 
 The \pkg{RcppGSL} package discussed here aims the help close the gap. It
-tries to offer access to GSL functions, in particular via the vector and
-matrix data structures used throughout the GSL, while staying closer to the
+tries to offer access to \pkg{GSL} functions, in particular via the vector and
+matrix data structures used throughout the \pkg{GSL}, while staying closer to the
 `whole object model' familar to the \proglang{R} programmer.
 
 The rest of paper is organised as follows. The next section shows a
@@ -179,17 +179,17 @@ Rcpp::List fastLm(RcppGSL::Matrix X, RcppGSL::Vector y) {
 
 The function interface defines two \textsl{RcppGSL} variables: a matrix and a
 vector and matrix. These both use the standard numeric type \texttt{double}
-as discussed below.  The GSL supports other types ranging from lower
+as discussed below.  The \pkg{GSL} supports other types ranging from lower
 precision floating point to signed and unsigned integers as well as complex
 numbers, and the vector matrix classes are templated. Here we use a shorthand
 definition via a \texttt{typdef}.  Having extracted the row and column
 dimentions, we then reserve another vector and matrix to hold the resulting
 coefficient estimates as well as the estimate of the covariance matrix. Next,
-we allocate workspace using a GSL routine, fit the linear model and free the
+we allocate workspace using a \pkg{GSL} routine, fit the linear model and free the
 just-allocated workspace.  The next step involves extracting the diagonal
 element from the covariance matrix, and taking the square root (using a
 vectorised function from \textsl{Rcpp}). Finally we create a named list with
-the return values. 
+the return values.
 
 In earlier version of the \textsl{RcppGSL} package, we also explicitly called
 \texttt{free()} to return temporary memory allocation to the operating
@@ -261,7 +261,7 @@ gsl_vector_free(v);                     // free the memory
 
 Note that we explicitly free the allocated memory at the end. With
 \proglang{C}-style programming, this step is always the responsibility of the
-programmer.  
+programmer.
 
 \subsection{RcppGSL::vector}
 
@@ -498,7 +498,7 @@ matrix(int nrow, int ncol)
 \texttt{RcppGSL::matrix} defines an implicit conversion to a pointer to the
 associated \pkg{GSL} matrix type, as well as dereferencing operators. This
 makes the class \texttt{RcppGSL::matrix} look and feel like a pointer to a
-GSL matrix type.
+\pkg{GSL} matrix type.
 
 <<lang=cpp,size=small>>=
 gsltype* data;
@@ -546,7 +546,7 @@ the matrix view class.
 \section{Error handler}
 
 When input values for \pkg{GSL} functions are invalid, the default error
-handler will abort the program after printing an error message. This 
+handler will abort the program after printing an error message. This
 leads \proglang{R} to an abortion error.  To avoid this behaviour, one needs to avoid it
 first by using \texttt{gsl\_set\_error\_handler\_off()}, and then detect
 error conditions by checking whether the result is \texttt{NAN} or not.
@@ -573,14 +573,14 @@ allow to turn off the error handler (as discussed above), and to reset to
 the prior (default) value.
 
 In addition, the package now also calls \texttt{gslSetErrorHandlerOff()} when
-being attached, ensuring that the GSL error handler is turned off by default.
+being attached, ensuring that the \pkg{GSL} error handler is turned off by default.
 
 
 \section{Using \pkg{RcppGSL} in your package}
 
 The \pkg{RcppGSL} package contains a complete example providing a single
 function \texttt{colNorm} which computes a norm for each column of a
-supplied matrix. This example adapts a matrix example from the GSL manual that has
+supplied matrix. This example adapts a matrix example from the \pkg{GSL} manual that has
 been chosen primarily as a means to showing how to set up a package to use
 \pkg{RcppGSL}.
 
@@ -838,7 +838,7 @@ The GNU Scientific Library (GSL) by \citet{GSL} offers a very comprehensive
 collection of rigorously developed and tested functions for applied
 scientific computing under a widely-used and well-understood Open Source
 license. This has lead to widespread deployment of \pkg{GSL} among a number
-of disciplines. 
+of disciplines.
 
 Using the automatic wrapping and converters offered by the \pkg{RcppGSL}
 package presented here, \proglang{R} users and programmers can now deploy
@@ -848,4 +848,3 @@ algorithmns provided by the \pkg{GSL} with greater ease.
 \bibliography{\Sexpr{Rcpp:::bib()}}
 
 \end{document}
-
