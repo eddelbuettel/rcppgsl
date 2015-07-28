@@ -176,21 +176,21 @@ Rcpp::List fastLm(RcppGSL::Matrix X, RcppGSL::Vector y) {
 }
 @
 
-The function interface defines two \textsl{RcppGSL} variables: a matrix and a
+The function interface defines two \pkg{RcppGSL} variables: a matrix and a
 vector and matrix. These both use the standard numeric type \texttt{double}
 as discussed below.  The \pkg{GSL} supports other types ranging from lower
 precision floating point to signed and unsigned integers as well as complex
 numbers, and the vector matrix classes are templated. Here we use a shorthand
-definition via a \texttt{typdef}.  Having extracted the row and column
+definition via a \texttt{typedef}.  Having extracted the row and column
 dimentions, we then reserve another vector and matrix to hold the resulting
 coefficient estimates as well as the estimate of the covariance matrix. Next,
 we allocate workspace using a \pkg{GSL} routine, fit the linear model and free the
 just-allocated workspace.  The next step involves extracting the diagonal
 element from the covariance matrix, and taking the square root (using a
-vectorised function from \textsl{Rcpp}). Finally we create a named list with
+vectorised function from \pkg{Rcpp}). Finally we create a named list with
 the return values.
 
-In earlier version of the \textsl{RcppGSL} package, we also explicitly called
+In earlier version of the \pkg{RcppGSL} package, we also explicitly called
 \texttt{free()} to return temporary memory allocation to the operating
 system. This step had to be done as the underlying objects are managed as
 \proglang{C} objects. They conform to the \pkg{GSL} interface, and work
@@ -467,8 +467,9 @@ The vector view class also contains a conversion operator to automatically
 transform the data of the view object to a \pkg{GSL} vector object. This
 enables use of vector views where \pkg{GSL} would expect a vector.
 
-And as before, \texttt{double} and \texttt{int} types can be used by
-\texttt{RcppGSL::VectorView} and \texttt{RcppGSL::IntVectorView}, respectively.
+And as before, \texttt{double} and \texttt{int} types can be accessed via the
+\texttt{typedef} variants \texttt{RcppGSL::VectorView} and
+\texttt{RcppGSL::IntVectorView}, respectively.
 
 \section{Matrices}
 
@@ -910,6 +911,12 @@ algorithmns provided by the \pkg{GSL} with greater ease.
   \end{small}
   \caption{CRAN Package Usage of \pkg{GSL} ouright, for vectors and for matrices.}
   \label{tab:mappingVectors}
+
+  \begin{flushleft}
+  \footnotesize Data gathered by use of \texttt{grep} through expanded source
+  code archives of the CRAN network. Access to such a code archive via WU
+  Vienna is gratefully acknowledged.
+  \end{flushleft}
 \end{table}
 
 \end{appendix}
