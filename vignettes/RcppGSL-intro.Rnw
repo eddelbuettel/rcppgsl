@@ -106,10 +106,9 @@ broad coverage of scientific topics, serious implementation effort and the
 use of the well-known GNU General Public License (GPL) have lead to a fairly
 wide usage of the library.  As a concrete example, we can consider the the
 CRAN repository network for the \proglang{R} language and environment
-\citep{R:Main}.  CRAN contains over a dozen packages interfacing the \pkg{GSL}:
-\pkg{copula}, \pkg{dynamo}, \pkg{gsl}, \pkg{gstat}, \pkg{magnets},
-\pkg{mvabund}, \pkg{QRMlib}, \pkg{RBrownie}, \pkg{RDieHarder}, \pkg{RHmm},
-\pkg{segclust}, \pkg{surveillance}, and \pkg{topicmodels}.  This is a clear
+\citep{R:Main}.  As of July 2015, CRAN contains over a three dozen packages
+interfacing the \pkg{GSL}; of these more than half interface the vector or
+matrix classes (see Appendix A for details). This is a clear
 indication that the \pkg{GSL} is popular among programmers using either the
 \proglang{C} or \proglang{C++} language for solving problems applied science.
 
@@ -846,5 +845,73 @@ algorithmns provided by the \pkg{GSL} with greater ease.
 
 \bibliographystyle{plainnat}
 \bibliography{\Sexpr{Rcpp:::bib()}}
+
+\pagebreak
+
+\begin{appendix}
+
+%\section{GSL Usage at CRAN}
+
+% \pkg{copula}, \pkg{dynamo}, \pkg{gsl}, \pkg{gstat}, \pkg{magnets},
+% \pkg{mvabund}, \pkg{QRMlib}, \pkg{RBrownie}, \pkg{RDieHarder}, \pkg{RHmm},
+% \pkg{segclust}, \pkg{surveillance}, and \pkg{topicmodels}.  
+
+\small
+
+\begin{table}[h]
+  \centering
+  \begin{small}
+    \begin{tabular}{lccc}
+      \toprule
+      package            &    gsl      &         gsl\_vector   & gsl\_matrix  \\
+      \midrule
+      abn		 &    $\star$  &       $\star$        & $\star$     \\    
+      BayesLogit	 &    $\star$  &                      &             \\ 
+      BayesSAE           &    $\star$  &     $\star$          & $\star$     \\  
+      BayesVarSel        &    $\star$  &     $\star$          & $\star$     \\
+      BH                 &    $\star$  &     $\star$          &             \\ 
+      bnpmr              &    $\star$  &                      &             \\ 
+      BNSP               &    $\star$  &      $\star$         & $\star$     \\
+      cghseg             &    $\star$  &      $\star$         & $\star$     \\
+      cit       	 &    $\star$  &                      &             \\ 
+      diversitree  	 &    $\star$  &                      & $\star$     \\  
+      eco              	 &    $\star$  &                      &              \\
+      geoCount   	 &    $\star$  &                      &              \\
+      graphscan    	 &    $\star$  &                      &              \\
+      gsl                &    $\star$  &    $\star$           &              \\
+      gstat     	 &    $\star$  &                      &              \\
+      hgm       	 &    $\star$  &                      &              \\
+      HiCseg    	 &    $\star$  &                      & $\star$     \\
+      igraph  		 &    $\star$  &                      &              \\
+      KFKSDS             &    $\star$  &   $\star$            & $\star$      \\
+      libamtrack  	 &    $\star$  &                      &              \\ 
+      mixcat             &    $\star$  &   $\star$            &  $\star$     \\
+      mvabund            &    $\star$  &   $\star$            &  $\star$     \\
+      outbreaker         &    $\star$  &   $\star$            &  $\star$     \\
+      R2GUESS            &    $\star$  &   $\star$            &  $\star$     \\
+      RCA             	 &    $\star$  &                      &              \\   
+      RcppGSL            &    $\star$  &   $\star$            &  $\star$     \\
+      RcppSMC        	 &    $\star$  &                      &              \\
+      RcppZiggurat   	 &    $\star$  &                      &              \\        
+      RDieHarder         &    $\star$  &   $\star$            &  $\star$     \\
+      ridge              &    $\star$  &    $\star$           &  $\star$     \\
+      Rlibeemd           &    $\star$  &    $\star$           &              \\                 
+      Runuran            &    $\star$  &                      &              \\
+      SemiCompRisks      &    $\star$  &                      & $\star$      \\
+      simplexreg         &    $\star$  &    $\star$           & $\star$      \\
+      stsm               &    $\star$  &    $\star$           & $\star$      \\
+      survSNP        	 &    $\star$  &                      &              \\
+      TKF                &    $\star$  &      $\star$         &    $\star$   \\
+      topicmodels        &    $\star$  &      $\star$         &   $\star$    \\
+      VBLPCM             &    $\star$  &      $\star$         &              \\
+      VBmix              &    $\star$  &      $\star$         &   $\star$    \\
+      \bottomrule
+    \end{tabular}
+  \end{small}
+  \caption{CRAN Package Usage of \pkg{GSL} ouright, for vectors and for matrices.}
+  \label{tab:mappingVectors}
+\end{table}
+
+\end{appendix}
 
 \end{document}
