@@ -7,13 +7,13 @@
 using namespace Rcpp;
 
 // fastLm
-Rcpp::List fastLm(RcppGSL::matrix<double> X, RcppGSL::vector<double> y);
+Rcpp::List fastLm(const RcppGSL::matrix<double> &X, const RcppGSL::vector<double> &y);
 RcppExport SEXP RcppGSL_fastLm(SEXP XSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< RcppGSL::matrix<double> >::type X(XSEXP);
-    Rcpp::traits::input_parameter< RcppGSL::vector<double> >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const RcppGSL::matrix<double> & >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const RcppGSL::vector<double> &>::type y(ySEXP);
     __result = Rcpp::wrap(fastLm(X, y));
     return __result;
 END_RCPP

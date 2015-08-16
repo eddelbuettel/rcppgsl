@@ -25,7 +25,7 @@
 #include <cmath>
 
 // [[Rcpp::export]]
-Rcpp::List fastLm(RcppGSL::Matrix X, RcppGSL::Vector y) {
+Rcpp::List fastLm(const RcppGSL::Matrix &X, const RcppGSL::Vector &y) {
 
     int n = X.nrow(), k = X.ncol();
     double chisq;

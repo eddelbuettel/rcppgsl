@@ -127,6 +127,7 @@ namespace RcppGSL {
         typedef vector<T> VEC;
         typedef typename vector<T>::type type;
         typedef typename vector<T>::iterator iterator;
+        typedef typename vector<T>::const_iterator const_iterator;
         
         typedef typename vector<T>::gsltype gsltype;
         typedef typename vector_view_type<T>::type view_type;
@@ -139,7 +140,9 @@ namespace RcppGSL {
         }
         inline iterator begin() { return vector_.begin(); }
         inline iterator end() { return vector_.end(); }
-        inline size_t size() { return vector_.size(); }
+        inline const_iterator begin() const { return vector_.begin(); }
+        inline const_iterator end() const { return vector_.end(); }
+        inline size_t size() const { return vector_.size(); }
         inline operator gsltype*() { return vector_.data; }
     
         view_type view;
@@ -161,9 +164,9 @@ namespace RcppGSL {
         inline Proxy operator()(int row, int col) {
             return matrix_(row,col);
         }
-        inline size_t nrow() { return matrix_.nrow(); }              
-        inline size_t ncol() { return matrix_.ncol(); }              
-        inline size_t size() { return matrix_.size(); }
+        inline size_t nrow() const { return matrix_.nrow(); }              
+        inline size_t ncol() const { return matrix_.ncol(); }              
+        inline size_t size() const { return matrix_.size(); }
         inline operator gsltype*() { return matrix_.data; }
         view_type view;
     private:
