@@ -124,53 +124,47 @@ namespace RcppGSL {
 
     template <typename T> class vector_view {
     public:
-        typedef vector<T> VEC;
         typedef typename vector<T>::type type;
-        typedef typename vector<T>::iterator iterator;
         typedef typename vector<T>::const_iterator const_iterator;
         
         typedef typename vector<T>::gsltype gsltype;
         typedef typename vector_view_type<T>::type view_type;
-        typedef typename vector<T>::Proxy Proxy;
+        typedef typename vector<T>::ConstProxy ConstProxy;
         
-        vector_view(view_type view_) : view(view_), vector_(&view.vector) {} 
+        vector_view(view_type view_) : view(view_) {} 
         inline operator view_type() { return view; }
-        inline Proxy operator[](int i) { 
-            return vector_[i];
+        inline ConstProxy operator[](int i) { 
+            return ConstProxy(&view.vector, i);
         }
-        inline iterator begin() { return vector_.begin(); }
-        inline iterator end() { return vector_.end(); }
-        inline const_iterator begin() const { return vector_.begin(); }
-        inline const_iterator end() const { return vector_.end(); }
-        inline size_t size() const { return vector_.size(); }
-        inline operator gsltype*() { return vector_.data; }
+        inline const_iterator begin() const {
+            return const_iterator(ConstProxy(&view.vector, 0));
+        }
+        inline const_iterator end() const {
+            return const_iterator(ConstProxy(&view.vector, view.vector.size));
+        }
+        inline size_t size() const { return view.vector.size; }
+        inline operator const gsltype*() { return &view.vector; }
     
         view_type view;
-    
-    private:
-        VEC vector_;
     };
 
     template <typename T> class matrix_view {
     public:
-        typedef matrix<T> MAT;
         typedef typename matrix<T>::type type;
         typedef typename matrix<T>::gsltype gsltype;
         typedef typename matrix_view_type<T>::type view_type;
-        typedef typename matrix<T>::Proxy Proxy;
+        typedef typename matrix<T>::ConstProxy ConstProxy;
     
-        matrix_view(view_type view_) : view(view_), matrix_(&view.matrix) {} 
+        matrix_view(view_type view_) : view(view_) {} 
         inline operator view_type() { return view; }
-        inline Proxy operator()(int row, int col) {
-            return matrix_(row,col);
+        inline ConstProxy operator()(int row, int col) {
+            return ConstProxy(&view.matrix, row, col);
         }
-        inline size_t nrow() const { return matrix_.nrow(); }              
-        inline size_t ncol() const { return matrix_.ncol(); }              
-        inline size_t size() const { return matrix_.size(); }
-        inline operator gsltype*() { return matrix_.data; }
+        inline size_t nrow() const { return view.matrix.size1; }              
+        inline size_t ncol() const { return view.matrix.size2; }              
+        inline size_t size() const { return view.matrix.size1 * view.matrix.size2; }
+        inline operator gsltype*() { return &view.matrix; }
         view_type view;
-    private:
-        MAT matrix_;
     };
 }
 
