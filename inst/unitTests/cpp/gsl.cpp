@@ -315,8 +315,8 @@ List test_gsl_vector_view_wrapper() {
     for( int i=0; i<n; i++){
 	vec[i] = i;
     }
-    RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(vec, 0, 2, n/2);
-    RcppGSL::vector_view<double> v_odd  = gsl_vector_subvector_with_stride(vec, 1, 2, n/2);
+    RcppGSL::vector_view<double> v_even = gsl_vector_const_subvector_with_stride(vec, 0, 2, n/2);
+    RcppGSL::vector_view<double> v_odd  = gsl_vector_const_subvector_with_stride(vec, 1, 2, n/2);
 
     List res = List::create(_["even"] = v_even,
 			    _["odd" ] = v_odd);
@@ -336,7 +336,7 @@ List test_gsl_matrix_view_wrapper() {
 	    m(i, j) = k;
 	}
     }
-    RcppGSL::matrix_view<double> x = gsl_matrix_submatrix(m, 2, 2, 2, 2 );
+    RcppGSL::matrix_view<double> x = gsl_matrix_const_submatrix(m, 2, 2, 2, 2 );
 
     List res = List::create(_["full"] = m,
 			    _["view"] = x);
@@ -349,7 +349,7 @@ List test_gsl_matrix_view_wrapper() {
 double test_gsl_vector_view_iterating(NumericVector vec_) {
     RcppGSL::vector<double> vec = as< RcppGSL::vector<double> >(vec_);
     int n = vec.size();
-    RcppGSL::vector_view<double> v_even = gsl_vector_subvector_with_stride(vec, 0, 2, n/2);
+    RcppGSL::vector_view<double> v_even = gsl_vector_const_subvector_with_stride(vec, 0, 2, n/2);
     double res = std::accumulate( v_even.begin(), v_even.end(), 0.0 );
     return res;
 }
@@ -365,7 +365,7 @@ double test_gsl_matrix_view_indexing() {
 	    mat(i,j) = k;
 	}
     }
-    RcppGSL::matrix_view<double> x = gsl_matrix_submatrix(mat, 2, 2, 2, 2 );
+    RcppGSL::matrix_view<double> x = gsl_matrix_const_submatrix(mat, 2, 2, 2, 2 );
     double res = 0.0;
     for( size_t i=0; i<x.nrow(); i++){
 	for( size_t j=0; j<x.ncol(); j++){
