@@ -49,11 +49,29 @@ public:                                                                 \
         inline operator type() {                                        \
             return gsl_vector##__SUFFIX__##_get(parent, index);         \
         }                                                               \
+        inline operator const type() const {                            \
+            return gsl_vector##__SUFFIX__##_get(parent, index);         \
+        }                                                               \
         int index;                                                      \
         gsltype* parent;                                                \
         inline void move(int d) { index += d; }                         \
     };                                                                  \
+    class ConstProxy {                                                  \
+    public:                                                             \
+        ConstProxy(const gsltype* data_, int index_) :                  \
+            index(index_), parent(data_) {}                             \
+        inline operator type() {                                        \
+            return gsl_vector##__SUFFIX__##_get(parent, index);         \
+        }                                                               \
+        inline operator const type() const {                            \
+            return gsl_vector##__SUFFIX__##_get(parent, index);         \
+        }                                                               \
+        int index;                                                      \
+        const gsltype* parent;                                          \
+        inline void move(int d) { index += d; }                         \
+    };                                                                  \
     typedef ::Rcpp::internal::Proxy_Iterator<Proxy> iterator;           \
+    typedef ::Rcpp::internal::Proxy_Iterator<ConstProxy> const_iterator;\
     const static int RTYPE =                                            \
         ::Rcpp::traits::r_sexptype_traits<type>::rtype;                 \
     vector(SEXP x) throw(::Rcpp::not_compatible) :                      \
@@ -70,6 +88,7 @@ public:                                                                 \
         isAllocated(true) {}                                            \
     ~vector() {}                                                        \
     operator gsltype*() { return data; }                                \
+    operator const gsltype*() const { return data; }                    \
     gsltype* operator->() const { return data; }                        \
     gsltype& operator*() const { return *data; }                        \
     vector(const vector& x) : data(x.data), isAllocated(true)  {}       \
@@ -81,9 +100,18 @@ public:                                                                 \
     inline Proxy operator[](int i) {                                    \
     	return Proxy(data, i);                                          \
     }                                                                   \
+    inline ConstProxy operator[](int i) const {                         \
+    	return ConstProxy(data, i);                                     \
+    }                                                                   \
     inline iterator begin() { return iterator(Proxy(*this, 0)); }       \
     inline iterator end() { return iterator(Proxy(*this,data->size)); } \
-    inline size_t size() { return data->size; }                         \
+    inline const_iterator begin() const {                               \
+        return const_iterator(ConstProxy(*this, 0));                    \
+    }                                                                   \
+    inline const_iterator end() const {                                 \
+        return const_iterator(ConstProxy(*this, data->size));           \
+    }                                                                   \
+    inline size_t size() const { return data->size; }                   \
     inline void free() {                                                \
         if (isAllocated) {                                              \
             gsl_vector##__SUFFIX__##_free(data);                        \
@@ -112,9 +140,26 @@ public:                                                                 \
       inline operator type() {                                          \
           return gsl_matrix##__SUFFIX__##_get(parent, row, col);        \
       }                                                                 \
+      inline operator const type() const {                              \
+          return gsl_matrix##__SUFFIX__##_get(parent, row, col);        \
+      }                                                                 \
       int row;                                                          \
       int col;                                                          \
       gsltype* parent;                                                  \
+   };                                                                   \
+   class ConstProxy {                                                   \
+   public:                                                              \
+      ConstProxy(const gsltype* data_, int row_, int col_) :            \
+          row(row_), col(col_), parent(data_) {}                        \
+      inline operator type() {                                          \
+          return gsl_matrix##__SUFFIX__##_get(parent, row, col);        \
+      }                                                                 \
+      inline operator const type() const {                              \
+          return gsl_matrix##__SUFFIX__##_get(parent, row, col);        \
+      }                                                                 \
+      int row;                                                          \
+      int col;                                                          \
+      const gsltype* parent;                                            \
    };                                                                   \
    matrix(SEXP x) throw(::Rcpp::not_compatible) :                       \
        data(0), isAllocated(true) { import(x); }                        \
@@ -124,6 +169,7 @@ public:                                                                 \
        isAllocated(true) {}                                             \
    ~matrix() {}                                                         \
    operator gsltype*() { return data; }                                 \
+   operator const gsltype*() const { return data; }                     \
    gsltype* operator->() const { return data; }                         \
    gsltype& operator*() const { return *data; }                         \
    matrix(const matrix& x) : data(x.data), isAllocated(true)  {}        \
@@ -132,11 +178,14 @@ public:                                                                 \
        isAllocated = other.isAllocated;                                 \
        return *this;                                                    \
    }                                                                    \
-   inline size_t nrow() { return data->size1; }                         \
-   inline size_t ncol() { return data->size2; }                         \
-   inline size_t size() { return data->size1 * data->size2; }           \
+   inline size_t nrow() const { return data->size1; }                   \
+   inline size_t ncol() const { return data->size2; }                   \
+   inline size_t size() const { return data->size1 * data->size2; }     \
    inline Proxy operator()(int row, int col){                           \
        return Proxy( *this, row, col);                                  \
+   }                                                                    \
+   inline ConstProxy operator()(int row, int col) const {               \
+       return ConstProxy( *this, row, col);                             \
    }                                                                    \
    void free(){                                                         \
        if (isAllocated) {                                               \
@@ -174,11 +223,29 @@ public:                                                                 \
        inline operator type() {                                         \
            return gsl_vector_get(parent, index);                        \
        }                                                                \
+       inline operator const type() const {                             \
+           return gsl_vector_get(parent, index);                        \
+       }                                                                \
        int index;                                                       \
        gsltype* parent;                                                 \
        inline void move(int d) { index += d; }                          \
    };                                                                   \
+   class ConstProxy {                                                   \
+   public:                                                              \
+       ConstProxy(const gsltype* data_, int index_) :                   \
+           index(index_), parent(data_) {}                              \
+       inline operator type() {                                         \
+           return gsl_vector_get(parent, index);                        \
+       }                                                                \
+       inline operator const type() const {                             \
+           return gsl_vector_get(parent, index);                        \
+       }                                                                \
+       int index;                                                       \
+       const gsltype* parent;                                           \
+       inline void move(int d) { index += d; }                          \
+   };                                                                   \
    typedef ::Rcpp::internal::Proxy_Iterator<Proxy> iterator;            \
+   typedef ::Rcpp::internal::Proxy_Iterator<ConstProxy> const_iterator; \
    const static int RTYPE =                                             \
        ::Rcpp::traits::r_sexptype_traits<type>::rtype;                  \
    vector(SEXP x) throw(::Rcpp::not_compatible) :                       \
@@ -194,6 +261,7 @@ public:                                                                 \
        data(gsl_vector_calloc(size)), isAllocated(true) {}              \
    ~vector() {}                                                         \
    operator gsltype*() { return data; }                                 \
+   operator const gsltype*() const { return data; }                     \
    gsltype* operator->() const { return data; }                         \
    gsltype& operator*() const { return *data; }                         \
    vector(const vector& x) : data(x.data), isAllocated(true)  {}        \
@@ -205,9 +273,18 @@ public:                                                                 \
    inline Proxy operator[](int i) {                                     \
        return Proxy(data, i);                                           \
    }                                                                    \
+   inline ConstProxy operator[](int i) const {                          \
+       return ConstProxy(data, i);                                      \
+   }                                                                    \
    inline iterator begin() { return iterator(Proxy(*this, 0)); }        \
    inline iterator end() { return iterator(Proxy(*this, data->size)); } \
-   inline size_t size() { return data->size; }                          \
+   inline const_iterator begin() const {                                \
+       return const_iterator(ConstProxy(*this, 0));                     \
+   }                                                                    \
+   inline const_iterator end() const {                                  \
+       return const_iterator(ConstProxy(*this, data->size));            \
+   }                                                                    \
+   inline size_t size() const { return data->size; }                    \
    inline void free() {                                                 \
        if (isAllocated) {                                               \
            gsl_vector_free(data);                                       \
@@ -236,9 +313,26 @@ public:                                                                 \
        inline operator type() {                                         \
            return gsl_matrix_get(parent, row, col);                     \
        }                                                                \
+       inline operator const type() const {                             \
+           return gsl_matrix_get(parent, row, col);                     \
+       }                                                                \
        int row;                                                         \
        int col;                                                         \
        gsltype* parent;                                                 \
+   };                                                                   \
+   class ConstProxy {                                                   \
+   public:                                                              \
+       ConstProxy(const gsltype* data_, int row_, int col_) :           \
+           row(row_), col(col_), parent(data_) {}                       \
+       inline operator type() {                                         \
+           return gsl_matrix_get(parent, row, col);                     \
+       }                                                                \
+       inline operator const type() const {                             \
+           return gsl_matrix_get(parent, row, col);                     \
+       }                                                                \
+       int row;                                                         \
+       int col;                                                         \
+       const gsltype* parent;                                           \
    };                                                                   \
    matrix(SEXP x) throw(::Rcpp::not_compatible) :                       \
        data(0), isAllocated(true) { import(x); }                        \
@@ -247,6 +341,7 @@ public:                                                                 \
        data(gsl_matrix_alloc(nrow, ncol)), isAllocated(true) {}         \
    ~matrix() {}                                                         \
    operator gsltype*() { return data; }                                 \
+   operator const gsltype*() const { return data; }                     \
    gsltype* operator->() const { return data; }                         \
    gsltype& operator*() const { return *data; }                         \
    matrix(const matrix& x) : data(x.data), isAllocated(true) {}         \
@@ -255,11 +350,14 @@ public:                                                                 \
        isAllocated = other.isAllocated;                                 \
        return *this;                                                    \
    }                                                                    \
-   inline size_t nrow() { return data->size1; }                         \
-   inline size_t ncol() { return data->size2; }                         \
-   inline size_t size() { return data->size1 * data->size2; }           \
+   inline size_t nrow() const { return data->size1; }                   \
+   inline size_t ncol() const { return data->size2; }                   \
+   inline size_t size() const { return data->size1 * data->size2; }     \
    inline Proxy operator()(int row, int col) {                          \
        return Proxy(*this, row, col);                                   \
+   }                                                                    \
+   inline ConstProxy operator()(int row, int col) const {               \
+       return ConstProxy(*this, row, col);                              \
    }                                                                    \
    void free() {                                                        \
        if (isAllocated) {                                               \
