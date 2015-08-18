@@ -28,9 +28,11 @@
 #define _RCPPGSL_SPEC(__T__,__SUFFIX__,__CAST__)                        \
 template <> struct vector_view_type<__T__> {                            \
     typedef gsl_vector##__SUFFIX__##_view type;                         \
+    typedef gsl_vector##__SUFFIX__##_const_view const_type;             \
 };                                                                      \
 template <> struct matrix_view_type<__T__> {                            \
     typedef gsl_matrix##__SUFFIX__##_view type;                         \
+    typedef gsl_matrix##__SUFFIX__##_const_view const_type;             \
 };                                                                      \
 template <> class vector<__T__>  {           	                        \
 public:                                                                 \
@@ -201,10 +203,12 @@ private:                                                                \
 
 #define _RCPPGSL_SPEC_NOSUFFIX(__T__,__CAST__)                          \
 template <> struct vector_view_type<__T__> {                            \
-    typedef gsl_vector_const_view type;                                 \
+    typedef gsl_vector_view type;                                       \
+    typedef gsl_vector_const_view const_type;                           \
 };                                                                      \
 template <> struct matrix_view_type<__T__> {                            \
-    typedef gsl_matrix_const_view type;                                 \
+    typedef gsl_matrix_view type;                                       \
+    typedef gsl_matrix_const_view const_type;                           \
 };                                                                      \
 template <> class vector<__T__>  {           	                        \
 public:                                                                 \
