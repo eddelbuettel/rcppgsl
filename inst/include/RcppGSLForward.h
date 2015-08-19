@@ -124,15 +124,23 @@ namespace RcppGSL {
 
     template <typename T> class vector_view {
     public:
+        struct internal_view
+        {
+            const gsl_vector vector;
+            
+            inline internal_view(const gsl_vector &v) : vector(v) {}
+        };
+        
         typedef typename vector<T>::type type;
         typedef typename vector<T>::const_iterator const_iterator;
         
         typedef typename vector<T>::gsltype gsltype;
         typedef typename vector_view_type<T>::type view_type;
+        typedef typename vector_view_type<T>::const_type const_view_type;
         typedef typename vector<T>::ConstProxy ConstProxy;
         
-        vector_view(view_type view_) : view(view_) {} 
-        inline operator view_type() { return view; }
+        vector_view(view_type v) : view(v.vector) {}
+        vector_view(const_view_type v) : view(v.vector) {}
         inline ConstProxy operator[](int i) { 
             return ConstProxy(&view.vector, i);
         }
@@ -145,26 +153,35 @@ namespace RcppGSL {
         inline size_t size() const { return view.vector.size; }
         inline operator const gsltype*() { return &view.vector; }
     
-        view_type view;
+        internal_view view;
     };
 
     template <typename T> class matrix_view {
     public:
+        struct internal_view
+        {
+            const gsl_matrix matrix;
+            
+            inline internal_view(const gsl_matrix &m) : matrix(m) {}
+        };
+        
         typedef typename matrix<T>::type type;
         typedef typename matrix<T>::gsltype gsltype;
         typedef typename matrix_view_type<T>::type view_type;
+        typedef typename matrix_view_type<T>::const_type const_view_type;
         typedef typename matrix<T>::ConstProxy ConstProxy;
     
-        matrix_view(view_type view_) : view(view_) {} 
-        inline operator view_type() { return view; }
+        matrix_view(view_type v) : view(v.matrix) {} 
+        matrix_view(const_view_type v) : view(v.matrix) {}
         inline ConstProxy operator()(int row, int col) {
             return ConstProxy(&view.matrix, row, col);
         }
         inline size_t nrow() const { return view.matrix.size1; }              
         inline size_t ncol() const { return view.matrix.size2; }              
         inline size_t size() const { return view.matrix.size1 * view.matrix.size2; }
-        inline operator gsltype*() { return &view.matrix; }
-        view_type view;
+        inline operator const gsltype*() { return &view.matrix; }
+        
+        internal_view view;
     };
 }
 
