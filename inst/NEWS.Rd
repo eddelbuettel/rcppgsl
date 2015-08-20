@@ -7,7 +7,11 @@
     \item The RcppGSL matrix and vector class now keep track of object
       allocation and can therefore automatically free allocated object in
       the destructor. Explicit \code{x.free()} use is still supported.
-    \item Shorthand form such as \code{Rcpp::Matrix} have been added for
+    \item The matrix and vector classes now support const reference
+      semantics in the interfaces (thanks to PR #7 by Dan Dillon)
+    \item The matrix_view and vector_view classes are reorganized to
+      better support const arguments (thanks to PR #8 and #9 by Dan Dillon)
+    \item Shorthand forms such as \code{Rcpp::Matrix} have been added for
       \code{double} and \code{int} vectors and matrices including views.
     \item Examples such as \code{fastLm} can now be written in a much
       cleaner and shorter way as GSL objects can appear in the function

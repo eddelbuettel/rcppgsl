@@ -1,6 +1,25 @@
+2015-08-18  Daniel C. Dillon <dcdillon@gmail.com>
+
+	* inst/include/RcppGSLForward: Rework vector_view and matrix_view to
+	better support const variants
+	* inst/include/RcppGSL_types.h: Idem
+	* inst/examples/RcppGSLExample/src/colNorm.cpp: Update usage example
+	* inst/unitTests/cpp/gsl.cpp: Update unite tests
+
+2015-08-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/examples/RcppGSLExample/src/colNorm.cpp: Use 'const &'
+
+2015-08-16  Daniel C. Dillon <dcdillon@gmail.com>
+
+	* inst/include/RcppGSLForward: Add support for const references
+	* inst/include/RcppGSL_types.h: Idem
+
+	* src/fastLm: Use 'const &' in function interface
+
 2015-07-27  Dirk Eddelbuettel  <edd@debian.org>
 
-	* vignettes/RcppGSL-intro.Rnw (Rcpp): Added GSL usage table 
+	* vignettes/RcppGSL-intro.Rnw (Rcpp): Added GSL usage table
 
 2015-07-23  Dirk Eddelbuettel  <edd@debian.org>
 
