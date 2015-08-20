@@ -17,13 +17,24 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// colNorm_old3
+Rcpp::NumericVector colNorm_old3(RcppGSL::matrix<double> G);
+RcppExport SEXP RcppGSLExample_colNorm_old3(SEXP GSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< RcppGSL::matrix<double> >::type G(GSEXP);
+    __result = Rcpp::wrap(colNorm_old3(G));
+    return __result;
+END_RCPP
+}
 // colNorm
-Rcpp::NumericVector colNorm(const RcppGSL::matrix<double> &G);
+Rcpp::NumericVector colNorm(const RcppGSL::Matrix& G);
 RcppExport SEXP RcppGSLExample_colNorm(SEXP GSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< const RcppGSL::matrix<double> & >::type G(GSEXP);
+    Rcpp::traits::input_parameter< const RcppGSL::Matrix& >::type G(GSEXP);
     __result = Rcpp::wrap(colNorm(G));
     return __result;
 END_RCPP

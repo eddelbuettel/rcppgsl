@@ -5,6 +5,10 @@ colNorm_old2 <- function(M) {
     .Call('RcppGSLExample_colNorm_old2', PACKAGE = 'RcppGSLExample', M)
 }
 
+colNorm_old3 <- function(G) {
+    .Call('RcppGSLExample_colNorm_old3', PACKAGE = 'RcppGSLExample', G)
+}
+
 colNorm <- function(G) {
     .Call('RcppGSLExample_colNorm', PACKAGE = 'RcppGSLExample', G)
 }
