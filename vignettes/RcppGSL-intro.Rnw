@@ -218,7 +218,7 @@ example for \pkg{GSL} integration with \proglang{R}.
 #include <cmath>
 
 // [[Rcpp::export]]
-Rcpp::List fastLm(RcppGSL::Matrix X, RcppGSL::Vector y) {
+Rcpp::List fastLm(const RcppGSL::Matrix & X, const RcppGSL::Vector & y) {
 
     int n = X.nrow(), k = X.ncol();
     double chisq;
@@ -749,11 +749,11 @@ and applies the \pkg{GSL} function to each column.
 #include <gsl/gsl_blas.h>
 
 // [[Rcpp::export]]
-Rcpp::NumericVector colNorm(RcppGSL::matrix<double> G) {
+Rcpp::NumericVector colNorm(const RcppGSL::Matrix & G) {
     int k = G.ncol();
     Rcpp::NumericVector n(k);           // to store results
     for (int j = 0; j < k; j++) {
-        RcppGSL::vector_view<double> colview = gsl_matrix_column (G, j);
+        RcppGSL::vector_view<double> colview = gsl_matrix_const_column(G, j);
         n[j] = gsl_blas_dnrm2(colview);
     }
     return n;                           // return vector
