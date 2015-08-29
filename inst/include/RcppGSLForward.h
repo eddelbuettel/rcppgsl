@@ -124,10 +124,8 @@ namespace RcppGSL {
 
     template <typename T> class vector_view {
     public:
-        struct internal_view
-        {
+        struct internal_view {
             const gsl_vector vector;
-            
             inline internal_view(const gsl_vector &v) : vector(v) {}
         };
         
@@ -158,10 +156,8 @@ namespace RcppGSL {
 
     template <typename T> class matrix_view {
     public:
-        struct internal_view
-        {
+        struct internal_view {
             const gsl_matrix matrix;
-            
             inline internal_view(const gsl_matrix &m) : matrix(m) {}
         };
         

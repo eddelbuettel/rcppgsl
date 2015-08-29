@@ -543,11 +543,15 @@ to compatible \pkg{GSL} algorithms.
 
 The vector view class also contains a conversion operator to automatically
 transform the data of the view object to a \pkg{GSL} vector object. This
-enables use of vector views where \pkg{GSL} would expect a vector.
-
-And as before, \texttt{double} and \texttt{int} types can be accessed via the
+enables use of vector views where \pkg{GSL} would expect a vector. And as
+before, \texttt{double} and \texttt{int} types can be accessed via the 
 \texttt{typedef} variants \texttt{RcppGSL::VectorView} and
-\texttt{RcppGSL::IntVectorView}, respectively.
+\texttt{RcppGSL::IntVectorView}, respectively.  
+
+Lastly, in order to support \texttt{const \&} behaviour, all
+\texttt{gsl\_vector\_XXX\_const\_view} variants are also supported (where
+\texttt{XXX} stands for any of the atomistic \proglang{C} and \proglang{C++}
+data types).
 
 \section{Matrices}
 
