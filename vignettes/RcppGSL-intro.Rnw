@@ -89,27 +89,26 @@ root-finding, discrete Hankel transforms
 least-squares fitting,	minimization,
 physical constants, basis splines and wavelets.
 
-Support for \proglang{C} programming with the \pkg{GSL} is readily available: the
-\pkg{GSL} itself is written in \proglang{C}
-and provides a \proglang{C}-language Application Programming Interface
-(API). Access from \proglang{C++} is therefore possible, albeit not at the
+Support for \proglang{C} programming with the \pkg{GSL} is readily available as the
+\pkg{GSL} itself is written in \proglang{C}, and provides a
+\proglang{C}-language Application Programming Interface (API). 
+Access from \proglang{C++} is also possible, albeit not at the
 abstraction level that can be offered by dedicated \proglang{C++}
-implementations.\footnote{Several \proglang{C++} wrappers for the \pkg{GSL} have
-  been written over the years yet none reached a state of completion
-  comparable to the \pkg{GSL} itself. Three such wrapping library are
-  \url{http://cholm.home.cern.ch/cholm/misc/gslmm/},
-  \url{http://gslwrap.sourceforge.net/} and
-  \url{http://code.google.com/p/gslcpp/}.}
+implementations. Several \proglang{C++} wrappers for the \pkg{GSL} have
+been written over the years; none reached a state of completion
+comparable to the \pkg{GSL} itself. %Three such wrapping library are
+  %\url{http://cholm.home.cern.ch/cholm/misc/gslmm/},
+  %\url{http://gslwrap.sourceforge.net/} and
+  %\url{http://code.google.com/p/gslcpp/}.
 
-The \pkg{GSL} is somewhat unique among numerical libraries. Its combination
-of broad coverage of scientific topics, serious implementation effort and the
-use of the well-known GNU General Public License (GPL) have lead to a fairly
-wide usage of the library.  As a concrete example, we can consider the the
-CRAN repository network for the \proglang{R} language and environment
-\citep{R:Main}.  The Comprehensive R Archive Network (CRAN) contains over a
-three dozen packages interfacing the \pkg{GSL}. Of these more than half
-interface the vector or matrix classes as shown in
-Table~\ref{tab:useOfGSLatCRAN}. It provides empirical evidence indicating
+The \pkg{GSL} combines broad coverage of scientific topics, serious
+implementation effort, and the use of the well-known GNU General Public
+License (GPL) have lead to fairly wide usage of the library.  As a concrete
+example, we can consider the Comprehensive R Archive Network (CRAN)
+repository network for the \proglang{R} language and environment 
+\citep{R:Main}.  CRAN contains over three dozen packages interfacing the
+\pkg{GSL}. Of these more than half interface the vector or matrix classes as
+shown in Table~\ref{tab:useOfGSLatCRAN}. This provides empirical evidence indicating
 that the \pkg{GSL} is popular among programmers using either the \proglang{C}
 or \proglang{C++} language for solving problems applied science.
 
