@@ -2,7 +2,7 @@
 \title{News for Package \pkg{RcppGSL}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 
-\section{Changes in version 0.2.6 (2015-xx-yy)}{
+\section{Changes in version 0.3.0 (2015-08-30)}{
   \itemize{
     \item The RcppGSL matrix and vector class now keep track of object
       allocation and can therefore automatically free allocated object in
