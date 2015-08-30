@@ -14,5 +14,5 @@ rm -rf autom4te.cache inst/doc/*/auto
 
 (cd vignettes && \
     rm -f RcppGSL*.log RcppGSL*.aux RcppGSL*.out RcppGSL*.tex RcppGSL*.pdf *.blg *.bbl && \
-    rm -rf auto unitTests-results/ )
+    rm -rf auto unitTests-results/ jss/auto/ )
 

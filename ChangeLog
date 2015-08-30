@@ -1,3 +1,9 @@
+2015-08-30  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.3.0
+
+	* vignettes/RcppGSL-intro.Rnw: Minor edits
+
 2015-08-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* vignettes/RcppGSL-intro.Rnw: Updated throughout
