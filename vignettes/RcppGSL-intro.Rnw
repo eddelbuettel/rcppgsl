@@ -28,7 +28,9 @@
 
 \newsavebox{\hlbox}
 \definecolor{hlBg}{rgb}{0.949019607843137,0.949019607843137,0.949019607843137}
-\definecolor{hlBd}{rgb}{0,0,0}
+%\definecolor{hlBd}{rgb}{0,0,0}
+%\definecolor{hlBg}{rgb}{0.97,0.97,0.97}
+\definecolor{hlBd}{rgb}{0.9,0.9,0.9} % border
 \renewenvironment{Hchunk}{\vspace{0.125em}\noindent\begin{lrbox}{\hlbox}\begin{minipage}[b]{.98\linewidth}}%
     {\end{minipage}\end{lrbox}\fcolorbox{hlBd}{hlBg}{\usebox{\hlbox}}\vspace{0.125em}}
 
@@ -162,7 +164,7 @@ or \proglang{C++} language for solving problems applied science.
       \bottomrule
     \end{tabular}
   \end{small}
-  \caption{CRAN Package Usage of \pkg{GSL} ouright, for vectors and for matrices.}
+  \caption{CRAN Package Usage of \pkg{GSL} outright, for vectors and for matrices.}
   \label{tab:useOfGSLatCRAN}
 
   \begin{flushleft}
@@ -879,12 +881,12 @@ but is not the recommended practice in a package.
 // declare the function to be 'exported' to R
 //
 // [[Rcpp::export]]
-Rcpp::NumericVector colNorm(RcppGSL::Matrix M) {
+Rcpp::NumericVector colNorm(const RcppGSL::Matrix & M) {
     int k = M.ncol();
     Rcpp::NumericVector n(k);           // to store results
 
     for (int j = 0; j < k; j++) {
-        RcppGSL::VectorView colview = gsl_matrix_column (M, j);
+        RcppGSL::VectorView colview = gsl_matrix_const_column (M, j);
         n[j] = gsl_blas_dnrm2(colview);
     }
     return n;                           // return vector
