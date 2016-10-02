@@ -1,33 +1,41 @@
-#### doRUnit.R --- Run RUnit tests
-####------------------------------------------------------------------------
+## doRUnit.R --- Run RUnit tests
+##
+## with credits to package fUtilities in RMetrics
+## which credits Gregor Gojanc's example in CRAN package  'gdata'
+## as per the (now deceased) R Wiki http://wiki.r-project.org/rwiki/doku.php?id=developers:runit
+## and changed further by Martin Maechler
+## and usage across several Rcpp* package
+## and more changes by Murray Stokely in HistogramTools
+##
+## Dirk Eddelbuettel, 2010 - 2016
 
-### borrowed from package fUtilities in RMetrics
-### http://r-forge.r-project.org/plugins/scmsvn/viewcvs.php/pkg/fUtilities/tests/doRUnit.R?rev=1958&root=rmetrics&view=markup
+stopifnot(require("RUnit", quietly=TRUE))
+stopifnot(require("RcppGSL", quietly=TRUE))
 
-### Originally follows Gregor Gojanc's example in CRAN package  'gdata'
-### and the corresponding section in the R Wiki:
-###  http://wiki.r-project.org/rwiki/doku.php?id=developers:runit
+## Set a seed to make the test deterministic
+set.seed(42)
 
-### MM: Vastly changed:  This should also be "runnable" for *installed*
-##              package which has no ./tests/
-## ----> put the bulk of the code e.g. in  ../inst/unitTests/runTests.R :
+## Define tests
+testSuite <- defineTestSuite(name="RcppGSL Unit Tests",
+                             dirs=system.file("unitTests", package = "RcppGSL"),
+                             testFuncRegexp = "^[Tt]est.+")
 
-if(require("RUnit", quietly = TRUE)) {
-  pkg <- "RcppGSL"
-                                       
-  require( pkg, character.only=TRUE)
-  
-  path <- system.file("unitTests", package = pkg)
-  
-  stopifnot(file.exists(path), file.info(path.expand(path))$isdir)
-  
-  # without this, we get unit test failures
-  Sys.setenv( R_TESTS = "" )
-  
-  Rcpp.unit.test.output.dir <- getwd()
-  
-  source(file.path(path, "runTests.R"), echo = TRUE)
-  
-} else {
-	print( "package RUnit not available, cannot run unit tests" )
-}                                                                                                 
+## without this, we get (or used to get) unit test failures
+Sys.setenv("R_TESTS"="")
+
+## Run tests
+tests <- runTestSuite(testSuite)
+
+## Print results
+printTextProtocol(tests)
+
+## Return success or failure to R CMD CHECK
+if (getErrors(tests)$nFail > 0) {
+   stop("TEST FAILED!")
+}
+if (getErrors(tests)$nErr > 0) {
+   stop("TEST HAD ERRORS!")
+}
+if (getErrors(tests)$nTestFunc < 1) {
+   stop("NO TEST FUNCTIONS RUN!")
+}
