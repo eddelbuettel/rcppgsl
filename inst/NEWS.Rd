@@ -1,6 +1,17 @@
 \name{NEWS}
 \title{News for Package \pkg{RcppGSL}}
-\newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+\newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
+\newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
+
+\section{Changes in version 0.3.1 (2016-10-02)}{
+  \itemize{
+    \item The unit test driver was updated and simplified, (by request
+    of CRAN) no longer leaves files in `/tmp`, and removes two
+    unexported (and unused) test helper functions (PR \ghpr{10})
+    \item Switched to \code{run.sh} for Travis (PR \ghpr{11})
+    \item Use canonical CRAN URLs in README.md
+  }
+}
 
 \section{Changes in version 0.3.0 (2015-08-30)}{
   \itemize{
