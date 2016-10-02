@@ -6,6 +6,8 @@
 	* R/unit.test.R: Remove unused and unexported function
 	* inst/unitTests/runTests.R: Ditto
 
+	* vignettes/RcppGSL-intro.Rnw: Restore 'boxed' display of code
+
 	* .travis.yml: Switch to using run.sh for Travis CI
 
 2016-05-19  Dirk Eddelbuettel  <edd@debian.org>

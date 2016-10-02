@@ -10,6 +10,7 @@
     unexported (and unused) test helper functions (PR \ghpr{10})
     \item Switched to \code{run.sh} for Travis (PR \ghpr{11})
     \item Use canonical CRAN URLs in README.md
+    \item Restored 'boxed' display of code in vignette (PR \ghpr{12})
   }
 }
 
