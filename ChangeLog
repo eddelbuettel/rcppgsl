@@ -1,3 +1,12 @@
+2017-01-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/skeleton/configure (GSL_LIBS): No longer need RCPP_LIBS
+	* inst/skeleton/configure.win (GSL_LIBS): Idem
+	* inst/skeleton/Makevars.in (PKG_CPPFLAGS): Idem
+	* inst/skeleton/Makevars.win (PKG_LIBS): Idem
+
+	* R/inline.R: Updated / edited
+
 2016-10-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* tests/doRUnit.R: Rewritten in simpler form following lead of some
