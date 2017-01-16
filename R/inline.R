@@ -1,5 +1,5 @@
 ## Copyright (C) 2010 - 2012  Dirk Eddelbuettel and Romain Francois
-## Copyright (C) 2014         Dirk Eddelbuettel 
+## Copyright (C) 2014 - 2017  Dirk Eddelbuettel
 ##
 ## This file is part of RcppGSL.
 ##
@@ -22,11 +22,11 @@
 
     if (.Platform$OS.type=="windows") {
         LIB_GSL <- Sys.getenv("LIB_GSL")
-        gsl_cflags <- sprintf( "-I%s/include", LIB_GSL )
-        gsl_libs   <- sprintf( "-L%s/lib -lgsl -lgslcblas", LIB_GSL )
+        gsl_cflags <- sprintf("-I%s/include", LIB_GSL)
+        gsl_libs   <- sprintf("-L%s/lib -lgsl -lgslcblas", LIB_GSL)
     } else {
-        gsl_cflags <- system( "gsl-config --cflags" , intern = TRUE )
-        gsl_libs   <- system( "gsl-config --libs"   , intern = TRUE )
+        gsl_cflags <- system("gsl-config --cflags", intern = TRUE)
+        gsl_libs   <- system("gsl-config --libs"  , intern = TRUE)
     }
 
     assign("gsl_cflags", gsl_cflags, envir=.pkgglobalenv)
@@ -44,14 +44,14 @@ CFlags <- function(print = TRUE) {
 inlineCxxPlugin <- function(...) {
     plugin <- Rcpp::Rcpp.plugin.maker(
         include.before = "#include <RcppGSL.h>",
-        libs = sprintf( "%s $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)", LdFlags(FALSE) ),
+        libs = sprintf( "%s $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)", LdFlags(FALSE)),
         package = "RcppGSL", Makevars = NULL, Makevars.win = NULL
     )
     settings <- plugin()
     settings$env$PKG_CPPFLAGS <- CFlags(FALSE)
-    settings$configure <- readLines( system.file( "skeleton", "configure", package = "RcppGSL" ) )
-    settings$configure.win <- readLines( system.file( "skeleton", "configure.win", package = "RcppGSL" ) )
-    settings$Makevars.in <- readLines( system.file( "skeleton", "Makevars.in", package = "RcppGSL" ) )
+    settings$configure <- readLines(system.file("skeleton", "configure", package="RcppGSL"))
+    settings$configure.win <- readLines(system.file("skeleton", "configure.win", package="RcppGSL"))
+    settings$Makevars.in <- readLines(system.file("skeleton", "Makevars.in", package = "RcppGSL"))
     settings
 }
 
