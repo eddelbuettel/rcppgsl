@@ -1,3 +1,17 @@
+2017-03-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.3.2
+	* DESCRIPTION (Description): Reworded and shortened
+
+	* src/init.c (R_init_RcppGSL): Call R_registerRoutines()
+	and R_useDynamicSymbols()
+
+	* NAMESPACE: Use .registration=TRUE on useDynLib
+
+	* R/fastLm.R (fastLmPure): Use PACKAGE= with .Call()
+
+	* README.md: One more canonical URL
+
 2017-01-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/skeleton/configure (GSL_LIBS): No longer need RCPP_LIBS
@@ -8,6 +22,8 @@
 	* R/inline.R: Updated / edited
 
 2016-10-02  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.3.1
 
 	* tests/doRUnit.R: Rewritten in simpler form following lead of some
 	other packages using the RUnit testing frameworks

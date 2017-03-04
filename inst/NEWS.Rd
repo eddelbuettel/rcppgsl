@@ -3,6 +3,16 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.2 (2017-03-04)}{
+  \itemize{
+    \item In the \code{fastLm} function, \code{.Call} now uses the
+    correct \code{PACKAGE=} argument 
+    \item Added file \code{init.c} with calls to \code{R_registerRoutines()}
+    \code{and R_useDynamicSymbols()}; also use \code{.registration=TRUE}
+    in \code{useDynLib} in \code{NAMESPACE}
+    \item The skeleton configuration for created packages was updated.
+  }
+}
 \section{Changes in version 0.3.1 (2016-10-02)}{
   \itemize{
     \item The unit test driver was updated and simplified, (by request
