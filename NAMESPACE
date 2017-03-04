@@ -1,7 +1,7 @@
-useDynLib(RcppGSL)
+useDynLib("RcppGSL", .registration=TRUE)
 
-importFrom(Rcpp, "evalCpp")
-importFrom(stats, "model.frame", "model.matrix", "model.response", "fitted", "coef", "printCoefmat", "pt")
+importFrom("Rcpp", "evalCpp")
+importFrom("stats", "model.frame", "model.matrix", "model.response", "fitted", "coef", "printCoefmat", "pt")
 
 export(fastLmPure,
        fastLm,
