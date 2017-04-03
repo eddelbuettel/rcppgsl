@@ -1,3 +1,7 @@
+2017-04-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* R/inline.R (.onLoad): Check for gsl-config at run-time too
+
 2017-03-04  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.3.2

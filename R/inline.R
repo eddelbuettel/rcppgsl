@@ -16,29 +16,32 @@
 ## You should have received a copy of the GNU General Public License
 ## along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-.pkgglobalenv <- new.env(parent=emptyenv())
+.pkgenv <- new.env(parent=emptyenv())
 
 .onLoad <- function(libname, pkgname) {
 
     if (.Platform$OS.type=="windows") {
         LIB_GSL <- Sys.getenv("LIB_GSL")
-        gsl_cflags <- sprintf("-I%s/include", LIB_GSL)
-        gsl_libs   <- sprintf("-L%s/lib -lgsl -lgslcblas", LIB_GSL)
+        .pkgenv[["gsl_cflags"]] <- sprintf("-I%s/include", LIB_GSL)
+        .pkgenv[["gsl_libs"]]   <- sprintf("-L%s/lib -lgsl -lgslcblas", LIB_GSL)
     } else {
-        gsl_cflags <- system("gsl-config --cflags", intern = TRUE)
-        gsl_libs   <- system("gsl-config --libs"  , intern = TRUE)
+        if (unname(Sys.which("gsl-config")) != "") {
+            .pkgenv[["gsl_cflags"]] <- system("gsl-config --cflags", intern = TRUE)
+            .pkgenv[["gsl_libs"]]   <- system("gsl-config --libs"  , intern = TRUE)
+        } else {
+            .pkgenv[["gsl_cflags"]] <- ""
+            .pkgenv[["gsl_libs"]]   <- ""
+            warning("No 'gsl-config' config script found, limiting extensibility.", call. = FALSE)
+        }
     }
-
-    assign("gsl_cflags", gsl_cflags, envir=.pkgglobalenv)
-    assign("gsl_libs", gsl_libs, envir=.pkgglobalenv)
 }
 
 LdFlags <- function(print = TRUE) {
-    if (print) cat(.pkgglobalenv$gsl_libs) else .pkgglobalenv$gsl_libs
+    if (print) cat(.pkgenv$gsl_libs) else .pkgenv$gsl_libs
 }
 
 CFlags <- function(print = TRUE) {
-    if (print) cat(.pkgglobalenv$gsl_cflags) else .pkgglobalenv$gsl_cflags
+    if (print) cat(.pkgenv$gsl_cflags) else .pkgenv$gsl_cflags
 }
 
 inlineCxxPlugin <- function(...) {

@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.3 (2017-xx-yy)}{
+  \itemize{
+    \item We also check for \code{gsl-config} at package load
+  }
+}
+
 \section{Changes in version 0.3.2 (2017-03-04)}{
   \itemize{
     \item In the \code{fastLm} function, \code{.Call} now uses the
