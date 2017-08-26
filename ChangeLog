@@ -1,3 +1,7 @@
+2017-08-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* .travis.yml (before_install): Use https for curl fetch
+
 2017-04-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* R/inline.R (.onLoad): Check for gsl-config at run-time too
