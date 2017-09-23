@@ -1,3 +1,11 @@
+2017-09-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/RcppGSL-intro.Rmd: Converted to Rmd, uses pinp
+
+	* DESCRIPTION: Updated Suggests: and VignetteBuilder:
+	* .travis.yml (before_install): Install r-cran-pinp
+	* cleanup: Extended
+
 2017-08-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml (before_install): Use https for curl fetch
