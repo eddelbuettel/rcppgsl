@@ -13,7 +13,7 @@ if (requireNamespace("RUnit", quietly=TRUE) &&
     requireNamespace("RcppGSL", quietly=TRUE)) {
 
     library(RUnit)
-    library(RcppArmadillo)
+    library(RcppGSL)
 
     ## Set a seed to make the test deterministic
     set.seed(42)
