@@ -7,35 +7,30 @@
 ## and usage across several Rcpp* package
 ## and more changes by Murray Stokely in HistogramTools
 ##
-## Dirk Eddelbuettel, 2010 - 2016
+## Dirk Eddelbuettel, 2010 - 2017
 
-stopifnot(require("RUnit", quietly=TRUE))
-stopifnot(require("RcppGSL", quietly=TRUE))
+if (requireNamespace("RUnit", quietly=TRUE) &&
+    requireNamespace("RcppGSL", quietly=TRUE)) {
 
-## Set a seed to make the test deterministic
-set.seed(42)
+    library(RUnit)
+    library(RcppArmadillo)
 
-## Define tests
-testSuite <- defineTestSuite(name="RcppGSL Unit Tests",
-                             dirs=system.file("unitTests", package = "RcppGSL"),
-                             testFuncRegexp = "^[Tt]est.+")
+    ## Set a seed to make the test deterministic
+    set.seed(42)
 
-## without this, we get (or used to get) unit test failures
-Sys.setenv("R_TESTS"="")
+    ## Define tests
+    testSuite <- defineTestSuite(name="RcppGSL Unit Tests",
+                                 dirs=system.file("unitTests", package = "RcppGSL"),
+                                 testFuncRegexp = "^[Tt]est.+")
 
-## Run tests
-tests <- runTestSuite(testSuite)
+    Sys.setenv("R_TESTS"="")	    	# without this, we get (or used to get) unit test failures
 
-## Print results
-printTextProtocol(tests)
+    tests <- runTestSuite(testSuite)    # run tests
+    printTextProtocol(tests)		# print results
 
-## Return success or failure to R CMD CHECK
-if (getErrors(tests)$nFail > 0) {
-   stop("TEST FAILED!")
-}
-if (getErrors(tests)$nErr > 0) {
-   stop("TEST HAD ERRORS!")
-}
-if (getErrors(tests)$nTestFunc < 1) {
-   stop("NO TEST FUNCTIONS RUN!")
+    ## Return success or failure to R CMD CHECK
+    if (getErrors(tests)$nFail > 0) stop("TEST FAILED!")
+    if (getErrors(tests)$nErr > 0) stop("TEST HAD ERRORS!")
+    if (getErrors(tests)$nTestFunc < 1) stop("NO TEST FUNCTIONS RUN!")
+
 }

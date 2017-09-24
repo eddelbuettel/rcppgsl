@@ -3,9 +3,11 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
-\section{Changes in version 0.3.3 (2017-xx-yy)}{
+\section{Changes in version 0.3.3 (2017-09-24)}{
   \itemize{
-    \item We also check for \code{gsl-config} at package load
+    \item We also check for \code{gsl-config} at package load.
+    \item The vignette now uses the pinp package in two-column mode.
+    \item Minor other fixes to package and testing infrastructure.
   }
 }
 
