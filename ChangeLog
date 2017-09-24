@@ -1,3 +1,7 @@
+2017-09-24  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/RcppGSL-intro.Rmd: Now typset in two-column mode
+
 2017-09-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* vignettes/RcppGSL-intro.Rmd: Converted to Rmd, uses pinp
