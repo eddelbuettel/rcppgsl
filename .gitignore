@@ -6,3 +6,4 @@ src/*.so
 src/*.dll
 vignettes/jss/*tex
 vignettes/jss/*R
+windows

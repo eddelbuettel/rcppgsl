@@ -4,3 +4,4 @@
 vignettes/jss
 vignettes/buildVig.R
 ^local
+^windows$
