@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.4 (2018-xx-yy)}{
+  \itemize{
+    \item Windows builds were updated (Jeroen Ooms in \ghpr{16}).
+  }
+}
+
 \section{Changes in version 0.3.3 (2017-09-24)}{
   \itemize{
     \item We also check for \code{gsl-config} at package load.

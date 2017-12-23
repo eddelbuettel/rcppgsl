@@ -1,3 +1,14 @@
+2017-12-23  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): New minor version
+
+2017-12-23  Jeroen Ooms  <jeroenooms@gmail.com>
+
+	* src/Makevars.win: Support native Windows builds
+	* tools/winlibs.R: Fetch Windows files if needed
+	* .Rbuildignore: Ignore top-level windows/ directory
+	* .gitignore: Idem
+
 2017-09-24  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.3.3
