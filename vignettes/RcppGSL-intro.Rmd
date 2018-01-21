@@ -53,7 +53,8 @@ numbersections: true
 secnumdepth: 5
 
 # Optional: Bibliography 
-bibliography: Rcpp
+## Commented-out here as we include the references directly below
+## bibliography: Rcpp
 
 # Customize footer, eg by referencing the vignette
 footer_contents: "RcppGSL Vignette"
