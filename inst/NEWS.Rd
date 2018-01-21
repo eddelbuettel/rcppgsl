@@ -6,6 +6,8 @@
 \section{Changes in version 0.3.4 (2018-xx-yy)}{
   \itemize{
     \item Windows builds were updated (Jeroen Ooms in \ghpr{16}).
+    \item Set \code{CXX_STD = CXX98} as we use dynamic exception
+    specification which C++11 discourages and g++-7.2 complains about 
   }
 }
 

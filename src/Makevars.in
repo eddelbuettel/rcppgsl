@@ -1,4 +1,7 @@
 
+# We use dynamic exception specifications which are a C++98 thing
+CXX_STD = CXX98
+
 # set by configure
 GSL_CFLAGS = @GSL_CFLAGS@
 GSL_LIBS   = @GSL_LIBS@
