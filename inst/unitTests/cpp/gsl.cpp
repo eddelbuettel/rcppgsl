@@ -2,7 +2,7 @@
 //
 // gsl.cpp: RcppGSL R integration of GSL via Rcpp -- unit tests
 //
-// Copyright (C) 2010 - 2013  Romain Francois and Dirk Eddelbuettel
+// Copyright (C) 2010 - 2018  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -20,6 +20,13 @@
 // along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <RcppGSL.h>
+
+namespace local {
+    // Solaris has issues with ::sqrt; and std::sqrt does not have const signature
+    double sqrt(const double &x) {
+        return std::sqrt(x);
+    }
+}
 
 using namespace Rcpp;
 
@@ -290,7 +297,7 @@ double test_gsl_vector_iterating(NumericVector vec_) {
 NumericVector test_gsl_vector_iterator_transform(NumericVector vec_) {
     RcppGSL::vector<double> vec = as< RcppGSL::vector<double> >(vec_);
     NumericVector res(vec.size());
-    std::transform(vec.begin(), vec.end(), res.begin(), ::sqrt);
+    std::transform(vec.begin(), vec.end(), res.begin(), local::sqrt);
     vec.free();
     return res;
 }
