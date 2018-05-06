@@ -712,7 +712,7 @@ The \texttt{RcppGSL::matrix} template exposes three constructors.
 
 ```cpp
 // convert an R matrix to a GSL matrix
-matrix(SEXP x) throw(::Rcpp::not_compatible)
+matrix(SEXP x) 
 
 // encapsulate a GSL matrix pointer
 matrix(gsl_matrix* x)

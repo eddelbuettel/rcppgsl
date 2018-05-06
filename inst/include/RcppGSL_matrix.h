@@ -2,7 +2,7 @@
 //
 // RcppGSL_matrix.h: Matrix class for Seamless R and GSL Integration
 //
-// Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2010 - 2018  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -100,7 +100,7 @@ namespace RcppGSL {
 
     #undef _RCPPGSL_DEF
     #define _RCPPGSL_DEF(__T__,__SUFFIX__)                                    \
-    inline void matrix<__T__>::import(SEXP x) throw(::Rcpp::not_compatible) { \
+    inline void matrix<__T__>::import(SEXP x) {                               \
         Rcpp::Matrix<RTYPE> mat(x);                                           \
         int nc = mat.ncol();                                                  \
         int nr = mat.nrow();                                                  \
@@ -116,7 +116,7 @@ namespace RcppGSL {
     
     #undef _RCPPGSL_DEF_CAST
     #define _RCPPGSL_DEF_CAST(__T__,__SUFFIX__,__CAST__)                      \
-    inline void matrix<__T__>::import(SEXP x) throw(::Rcpp::not_compatible) { \
+    inline void matrix<__T__>::import(SEXP x) {                               \
         Rcpp::Matrix<RTYPE> mat(x);                                           \
         int nc = mat.ncol();                                                  \
         int nr = mat.nrow();                                                  \
@@ -132,7 +132,7 @@ namespace RcppGSL {
         }                                                                     \
     }
 
-    inline void matrix<double>::import(SEXP x) throw(::Rcpp::not_compatible) {
+    inline void matrix<double>::import(SEXP x) {
         Rcpp::Matrix<RTYPE> mat(x);                                         
         int nc = mat.ncol();                                                 
         int nr = mat.nrow();                                                 
@@ -160,7 +160,7 @@ namespace RcppGSL {
     _RCPPGSL_DEF_CAST(gsl_complex_float        , _complex_float        , gsl_complex_float      )
     _RCPPGSL_DEF_CAST(gsl_complex_long_double  , _complex_long_double  , gsl_complex_long_double)
 
-    inline void matrix<char>::import(SEXP x) throw(::Rcpp::not_compatible) {
+    inline void matrix<char>::import(SEXP x) {
         Rcpp::Matrix<RAWSXP> mat(x);                                        
         int nc = mat.ncol();                                                
         int nr = mat.nrow();                                                

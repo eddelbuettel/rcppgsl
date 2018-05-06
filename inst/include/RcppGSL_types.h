@@ -2,7 +2,7 @@
 //
 // RcppGSL_types.h: Type macros for Seamless R and GSL Integration
 //
-// Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2010 - 2018  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -76,7 +76,7 @@ public:                                                                 \
     typedef ::Rcpp::internal::Proxy_Iterator<ConstProxy> const_iterator;\
     const static int RTYPE =                                            \
         ::Rcpp::traits::r_sexptype_traits<type>::rtype;                 \
-    vector(SEXP x) throw(::Rcpp::not_compatible) :                      \
+    vector(SEXP x) :                                                    \
         data(0), isAllocated(true) {                                    \
         SEXP y = ::Rcpp::r_cast<RTYPE>(x);                              \
         int size = ::Rf_length(y);                                      \
@@ -163,7 +163,7 @@ public:                                                                 \
       int col;                                                          \
       const gsltype* parent;                                            \
    };                                                                   \
-   matrix(SEXP x) throw(::Rcpp::not_compatible) :                       \
+   matrix(SEXP x) :                                                     \
        data(0), isAllocated(true) { import(x); }                        \
    matrix(gsltype* x) : data(x), isAllocated(true) {}                   \
    matrix(int nrow, int ncol) :                                         \
@@ -196,7 +196,7 @@ public:                                                                 \
        }                                                                \
    }                                                                    \
 private:                                                                \
-   inline void import(SEXP x) throw(::Rcpp::not_compatible);            \
+ inline void import(SEXP x);                                            \
    bool isAllocated;                                                    \
 };                                                                      \
 
@@ -252,7 +252,7 @@ public:                                                                 \
    typedef ::Rcpp::internal::Proxy_Iterator<ConstProxy> const_iterator; \
    const static int RTYPE =                                             \
        ::Rcpp::traits::r_sexptype_traits<type>::rtype;                  \
-   vector(SEXP x) throw(::Rcpp::not_compatible) :                       \
+   vector(SEXP x) :                                                     \
        data(0), isAllocated(true) {                                     \
        SEXP y = ::Rcpp::r_cast<RTYPE>(x);                               \
        int size = ::Rf_length(y);                                       \
@@ -338,7 +338,7 @@ public:                                                                 \
        int col;                                                         \
        const gsltype* parent;                                           \
    };                                                                   \
-   matrix(SEXP x) throw(::Rcpp::not_compatible) :                       \
+   matrix(SEXP x) :                                                     \
        data(0), isAllocated(true) { import(x); }                        \
    matrix(gsltype* x) : data(x), isAllocated(true) {}                   \
    matrix(int nrow, int ncol) :                                         \
@@ -370,7 +370,7 @@ public:                                                                 \
        }                                                                \
    }                                                                    \
 private:                                                                \
-   inline void import(SEXP x) throw(::Rcpp::not_compatible);            \
+   inline void import(SEXP x);                                          \
    bool isAllocated;                                                    \
 };                                                                      \
 
