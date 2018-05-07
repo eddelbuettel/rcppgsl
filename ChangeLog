@@ -1,3 +1,7 @@
+2018-05-06  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.3.4
+
 2018-05-05  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/include/RcppGSL_matrix.h: Remove dynamic exception
@@ -14,6 +18,7 @@
 
 	* src/Makevars.in (PKG_LIBS): Set 'CXX_STD = CXX98' to avoid g++
 	whining about dynamic exception specification which C++11 dislikes
+	[ reverted later, see 2018-05-05 entry ]
 
 2017-12-23  Dirk Eddelbuettel  <edd@debian.org>
 

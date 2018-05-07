@@ -7,3 +7,4 @@ src/*.dll
 vignettes/jss/*tex
 vignettes/jss/*R
 windows
+*.tar.gz

@@ -3,11 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
-\section{Changes in version 0.3.4 (2018-xx-yy)}{
+\section{Changes in version 0.3.4 (2018-05-06)}{
   \itemize{
     \item Windows builds were updated (Jeroen Ooms in \ghpr{16}).
-    \item Set \code{CXX_STD = CXX98} as we use dynamic exception
-    specification which C++11 discourages and g++-7.2 complains about 
+    \item Remove dynamic exception specifications which are deprecated
+    with C++11 or later (Dirk in \ghpr{17}).
+    \item Accomodate Solaris by being more explicit about \code{sqrt}.
   }
 }
 

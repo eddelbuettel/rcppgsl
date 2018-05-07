@@ -5,3 +5,4 @@ vignettes/jss
 vignettes/buildVig.R
 ^local
 ^windows$
+.*\.tar\.gz
