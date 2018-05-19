@@ -3,6 +3,13 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.5 (2018-05-19)}{
+  \itemize{
+    \item Update package manual page using references to
+    \code{DESCRIPTION} file [CRAN request].
+  }
+}
+
 \section{Changes in version 0.3.4 (2018-05-06)}{
   \itemize{
     \item Windows builds were updated (Jeroen Ooms in \ghpr{16}).
