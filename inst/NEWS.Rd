@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.6 (2018-06-10)}{
+  \itemize{
+    \item The vignette was updated to accomodate pandoc 2* [CRAN request].
+  }
+}
+
 \section{Changes in version 0.3.5 (2018-05-19)}{
   \itemize{
     \item Update package manual page using references to

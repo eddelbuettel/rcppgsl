@@ -1,3 +1,12 @@
+2018-06-10  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Release 0.3.6
+
+	* vignettes/header.tex: Split off vignette as pandoc 2.* no longer
+	allows embedding this in the header [CRAN request]
+	* vignettes/bib.tex: Idem, also updated entries
+	* vignettes/RcppGSL-intro.Rmd: Use bib.tex and header.tex
+
 2018-05-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Release 0.3.5
