@@ -1,3 +1,7 @@
+2019-10-14  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/include/RcppGSL_types.h: Correct logic, and actually call free()
+
 2018-09-02  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .travis.yml: Switch Travis CI to R 3.5 repo

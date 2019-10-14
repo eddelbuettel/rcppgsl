@@ -2,7 +2,7 @@
 //
 // RcppGSL_types.h: Type macros for Seamless R and GSL Integration
 //
-// Copyright (C)  2010 - 2018  Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2010 - 2019  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -10,7 +10,7 @@
 // under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 2 of the License, or
 // (at your option) any later version.
-//                           
+//
 // RcppGSL is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -34,7 +34,7 @@ template <> struct matrix_view_type<__T__> {                            \
     typedef gsl_matrix##__SUFFIX__##_view type;                         \
     typedef gsl_matrix##__SUFFIX__##_const_view const_type;             \
 };                                                                      \
-template <> class vector<__T__>  {           	                        \
+template <> class vector<__T__>  {                                      \
 public:                                                                 \
     typedef __T__ type;                                                 \
     typedef __T__* pointer;                                             \
@@ -77,33 +77,33 @@ public:                                                                 \
     const static int RTYPE =                                            \
         ::Rcpp::traits::r_sexptype_traits<type>::rtype;                 \
     vector(SEXP x) :                                                    \
-        data(0), isAllocated(true) {                                    \
+        data(nullptr), allocated(false) {                               \
         SEXP y = ::Rcpp::r_cast<RTYPE>(x);                              \
         int size = ::Rf_length(y);                                      \
         data = gsl_vector##__SUFFIX__##_calloc(size);                   \
         ::Rcpp::internal::export_range<__CAST__*>(y,                    \
             reinterpret_cast<__CAST__*>(data->data));                   \
     }                                                                   \
-    vector(gsltype* x) : data(x), isAllocated(true) {}                  \
+    vector(gsltype* x) : data(x), allocated(false) {}                   \
     vector(int size) :                                                  \
         data(gsl_vector##__SUFFIX__##_calloc(size)),                    \
-        isAllocated(true) {}                                            \
-    ~vector() {}                                                        \
+        allocated(true) {}                                              \
+    ~vector() { free(); }                                               \
     operator gsltype*() { return data; }                                \
     operator const gsltype*() const { return data; }                    \
     gsltype* operator->() const { return data; }                        \
     gsltype& operator*() const { return *data; }                        \
-    vector(const vector& x) : data(x.data), isAllocated(true)  {}       \
+    vector(const vector& x) : data(x.data), allocated(x.allocated) {}   \
     vector& operator=(const vector& other) {                            \
         data = other.data;                                              \
-        isAllocated = other.isAllocated;                                \
+        allocated = other.allocated;                                    \
         return *this;                                                   \
     }                                                                   \
     inline Proxy operator[](int i) {                                    \
-    	return Proxy(data, i);                                          \
+        return Proxy(data, i);                                          \
     }                                                                   \
     inline ConstProxy operator[](int i) const {                         \
-    	return ConstProxy(data, i);                                     \
+        return ConstProxy(data, i);                                     \
     }                                                                   \
     inline iterator begin() { return iterator(Proxy(*this, 0)); }       \
     inline iterator end() { return iterator(Proxy(*this,data->size)); } \
@@ -115,15 +115,15 @@ public:                                                                 \
     }                                                                   \
     inline size_t size() const { return data->size; }                   \
     inline void free() {                                                \
-        if (isAllocated) {                                              \
+        if (allocated) {                                                \
             gsl_vector##__SUFFIX__##_free(data);                        \
-            isAllocated = false;                                        \
+            allocated = false;                                          \
         }                                                               \
     }                                                                   \
 private:                                                                \
- bool isAllocated;                                                      \
+ bool allocated;                                                        \
 };                                                                      \
-template <> class matrix<__T__>  {           	                        \
+template <> class matrix<__T__>  {                                      \
 public:                                                                 \
    typedef __T__ type;                                                  \
    typedef __T__* pointer;                                              \
@@ -164,20 +164,20 @@ public:                                                                 \
       const gsltype* parent;                                            \
    };                                                                   \
    matrix(SEXP x) :                                                     \
-       data(0), isAllocated(true) { import(x); }                        \
-   matrix(gsltype* x) : data(x), isAllocated(true) {}                   \
+       data(nullptr), allocated(false) { import(x); }                   \
+   matrix(gsltype* x) : data(x), allocated(false) {}                    \
    matrix(int nrow, int ncol) :                                         \
        data(gsl_matrix##__SUFFIX__##_alloc(nrow, ncol)),                \
-       isAllocated(true) {}                                             \
-   ~matrix() {}                                                         \
+       allocated(true) {}                                               \
+   ~matrix() { free(); }                                                \
    operator gsltype*() { return data; }                                 \
    operator const gsltype*() const { return data; }                     \
    gsltype* operator->() const { return data; }                         \
    gsltype& operator*() const { return *data; }                         \
-   matrix(const matrix& x) : data(x.data), isAllocated(true)  {}        \
+   matrix(const matrix& x) : data(x.data), allocated(x.allocated)  {}   \
    matrix& operator=(const matrix& other) {                             \
        data = other.data;                                               \
-       isAllocated = other.isAllocated;                                 \
+       allocated = other.allocated;                                     \
        return *this;                                                    \
    }                                                                    \
    inline size_t nrow() const { return data->size1; }                   \
@@ -190,14 +190,14 @@ public:                                                                 \
        return ConstProxy( *this, row, col);                             \
    }                                                                    \
    void free(){                                                         \
-       if (isAllocated) {                                               \
+       if (allocated) {                                                 \
            gsl_matrix##__SUFFIX__##_free(data);                         \
-           isAllocated = false;                                         \
+           allocated = false;                                           \
        }                                                                \
    }                                                                    \
 private:                                                                \
  inline void import(SEXP x);                                            \
-   bool isAllocated;                                                    \
+   bool allocated;                                                      \
 };                                                                      \
 
 
@@ -210,7 +210,7 @@ template <> struct matrix_view_type<__T__> {                            \
     typedef gsl_matrix_view type;                                       \
     typedef gsl_matrix_const_view const_type;                           \
 };                                                                      \
-template <> class vector<__T__>  {           	                        \
+template <> class vector<__T__>  {                                      \
 public:                                                                 \
    typedef __T__ type;                                                  \
    typedef __T__* pointer;                                              \
@@ -253,25 +253,25 @@ public:                                                                 \
    const static int RTYPE =                                             \
        ::Rcpp::traits::r_sexptype_traits<type>::rtype;                  \
    vector(SEXP x) :                                                     \
-       data(0), isAllocated(true) {                                     \
+       data(nullptr), allocated(false) {                                \
        SEXP y = ::Rcpp::r_cast<RTYPE>(x);                               \
        int size = ::Rf_length(y);                                       \
        data = gsl_vector_calloc(size);                                  \
        ::Rcpp::internal::export_range<__CAST__*>(y,                     \
            reinterpret_cast<__CAST__*>(data->data));                    \
    }                                                                    \
-   vector(gsltype* x) : data(x), isAllocated(true) {}                   \
+   vector(gsltype* x) : data(x), allocated(false) {}                    \
    vector(int size) :                                                   \
-       data(gsl_vector_calloc(size)), isAllocated(true) {}              \
-   ~vector() {}                                                         \
+       data(gsl_vector_calloc(size)), allocated(true) {}                \
+   ~vector() { free(); }                                                \
    operator gsltype*() { return data; }                                 \
    operator const gsltype*() const { return data; }                     \
    gsltype* operator->() const { return data; }                         \
    gsltype& operator*() const { return *data; }                         \
-   vector(const vector& x) : data(x.data), isAllocated(true)  {}        \
+   vector(const vector& x) : data(x.data), allocated(x.allocated)  {}        \
    vector& operator=(const vector& other) {                             \
        data = other.data;                                               \
-       isAllocated = other.isAllocated;                                 \
+       allocated = other.allocated;                                     \
        return *this;                                                    \
    }                                                                    \
    inline Proxy operator[](int i) {                                     \
@@ -290,13 +290,13 @@ public:                                                                 \
    }                                                                    \
    inline size_t size() const { return data->size; }                    \
    inline void free() {                                                 \
-       if (isAllocated) {                                               \
+       if (allocated) {                                                 \
            gsl_vector_free(data);                                       \
-           isAllocated = false;                                         \
+           allocated = false;                                           \
        }                                                                \
    }                                                                    \
 private:                                                                \
-   bool isAllocated;                                                    \
+   bool allocated;                                                      \
 };                                                                      \
 template <> class matrix<__T__>  {                                      \
 public:                                                                 \
@@ -339,19 +339,19 @@ public:                                                                 \
        const gsltype* parent;                                           \
    };                                                                   \
    matrix(SEXP x) :                                                     \
-       data(0), isAllocated(true) { import(x); }                        \
-   matrix(gsltype* x) : data(x), isAllocated(true) {}                   \
+       data(nullptr), allocated(false) { import(x); }                   \
+   matrix(gsltype* x) : data(x), allocated(false) {}                    \
    matrix(int nrow, int ncol) :                                         \
-       data(gsl_matrix_alloc(nrow, ncol)), isAllocated(true) {}         \
-   ~matrix() {}                                                         \
+       data(gsl_matrix_alloc(nrow, ncol)), allocated(true) {}           \
+   ~matrix() { free(); }                                                \
    operator gsltype*() { return data; }                                 \
    operator const gsltype*() const { return data; }                     \
    gsltype* operator->() const { return data; }                         \
    gsltype& operator*() const { return *data; }                         \
-   matrix(const matrix& x) : data(x.data), isAllocated(true) {}         \
+   matrix(const matrix& x) : data(x.data), allocated(x.allocated) {}    \
    matrix& operator=(const matrix& other) {                             \
        data = other.data;                                               \
-       isAllocated = other.isAllocated;                                 \
+       allocated = other.allocated;                                     \
        return *this;                                                    \
    }                                                                    \
    inline size_t nrow() const { return data->size1; }                   \
@@ -364,14 +364,14 @@ public:                                                                 \
        return ConstProxy(*this, row, col);                              \
    }                                                                    \
    void free() {                                                        \
-       if (isAllocated) {                                               \
+       if (allocated) {                                                 \
            gsl_matrix_free(data);                                       \
-           isAllocated = false;                                         \
+           allocated = false;                                           \
        }                                                                \
    }                                                                    \
 private:                                                                \
    inline void import(SEXP x);                                          \
-   bool isAllocated;                                                    \
+   bool allocated;                                                      \
 };                                                                      \
 
 #endif
