@@ -1,0 +1,11 @@
+\documentclass{article}
+\usepackage{pdfpages}
+%\VignetteIndexEntry{RcppGSL}
+%\VignetteKeywords{R,GSL,Rcpp,data transfer}
+%\VignettePackage{RcppGSL}
+%\VignetteDepends{RcppGSL}
+%\VignetteEncoding{UTF-8}
+
+\begin{document}
+\includepdf[pages=-, fitpaper=true]{RcppGSL-introduction.pdf}
+\end{document}
