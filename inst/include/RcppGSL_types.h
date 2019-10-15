@@ -115,9 +115,10 @@ public:                                                                 \
     }                                                                   \
     inline size_t size() const { return data->size; }                   \
     inline void free() {                                                \
-        if (allocated) {                                                \
+        if (allocated && data) {                                        \
             gsl_vector##__SUFFIX__##_free(data);                        \
             allocated = false;                                          \
+            data = nullptr;                                             \
         }                                                               \
     }                                                                   \
 private:                                                                \
@@ -190,9 +191,10 @@ public:                                                                 \
        return ConstProxy( *this, row, col);                             \
    }                                                                    \
    void free(){                                                         \
-       if (allocated) {                                                 \
+       if (allocated && data) {                                         \
            gsl_matrix##__SUFFIX__##_free(data);                         \
            allocated = false;                                           \
+           data = nullptr;                                              \
        }                                                                \
    }                                                                    \
 private:                                                                \
@@ -290,9 +292,10 @@ public:                                                                 \
    }                                                                    \
    inline size_t size() const { return data->size; }                    \
    inline void free() {                                                 \
-       if (allocated) {                                                 \
+       if (allocated && data) {                                         \
            gsl_vector_free(data);                                       \
            allocated = false;                                           \
+           data = nullptr;                                              \
        }                                                                \
    }                                                                    \
 private:                                                                \
@@ -364,9 +367,10 @@ public:                                                                 \
        return ConstProxy(*this, row, col);                              \
    }                                                                    \
    void free() {                                                        \
-       if (allocated) {                                                 \
+       if (allocated && data) {                                         \
            gsl_matrix_free(data);                                       \
            allocated = false;                                           \
+           data = nullptr;                                              \
        }                                                                \
    }                                                                    \
 private:                                                                \
