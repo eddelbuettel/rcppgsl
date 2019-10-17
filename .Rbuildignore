@@ -1,7 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .travis.yml
-vignettes/jss
+vignettes/rmd/jss
 vignettes/buildVig.R
 ^local
 ^windows$
