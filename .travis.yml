@@ -11,7 +11,7 @@ before_install:
   - ./run.sh bootstrap
 
 install:
-  - ./run.sh install_aptget r-cran-rcpp r-cran-inline r-cran-pinp libgsl0-dev r-cran-runit
+  - ./run.sh install_aptget r-cran-rcpp r-cran-inline r-cran-tinytest libgsl0-dev
 
 script:
   - ./run.sh run_tests

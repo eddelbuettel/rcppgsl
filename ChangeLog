@@ -1,3 +1,12 @@
+2019-10-19  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Date, Version): Roll minor version
+
+	* DESCRIPTION(Suggests): Switch from RUnit to tinytest
+	* tests/tinytest.R: Renamed and converted from doRUnit.R
+	* inst/tinytest/: Renamed and converted from unitTests/
+	* .travis.yml (install): Install r-cran-tinytest not of r-cran-runit
+
 2019-10-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/include/RcppGSL_types.h: Correct logic, and actually call free()
