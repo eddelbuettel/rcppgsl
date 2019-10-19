@@ -1,7 +1,7 @@
 #!/usr/bin/r -t
 #
 # Copyright (C) 2010         Romain Francois and Dirk Eddelbuettel
-# Copyright (C) 2014 - 2015  Dirk Eddelbuettel
+# Copyright (C) 2014 - 2019  Dirk Eddelbuettel
 #
 # This file is part of RcppGSL.
 #
@@ -18,28 +18,31 @@
 # You should have received a copy of the GNU General Public License
 # along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
 
-test.client.package <- function(){
-    pkg <- "RcppGSLExample"
-    td <- tempfile()
-    cwd <- getwd()
-    dir.create(td)
-    file.copy(system.file("examples", pkg, package = "RcppGSL" ) , td, recursive = TRUE)
-    Sys.chmod(file.path(td, "RcppGSLExample", "configure"), "0755")
-    setwd(td)
-    on.exit( {
-        setwd(cwd)
-        unlink(td, recursive = TRUE)
-    } )
-    R <- shQuote(file.path(R.home(component = "bin" ), "R"))
-    cmd <- paste(R , "CMD build", pkg)
-    system(cmd)
-    dir.create("templib")
-    install.packages(paste(pkg, "_0.0.3.tar.gz", sep = ""), "templib", repos = NULL, type = "source")
+#test.client.package <- function(){
+pkg <- "RcppGSLExample"
+cwd <- getwd()
+td <- tempfile()
+dir.create(td)
+file.copy(system.file("examples", pkg, package = "RcppGSL"), td, recursive = TRUE)
+Sys.chmod(file.path(td, "RcppGSLExample", "configure"), "0755")
+setwd(td)
+R <- file.path(R.home(component = "bin" ), "R")
+cmd <- paste("CMD build", pkg)
+system2(R, cmd, stdout=FALSE, stderr=FALSE)
+dir.create("templib")
+cmd <- paste("CMD INSTALL -l templib", paste0(pkg, "_0.0.3.tar.gz"))
+system2(R, cmd, stdout=FALSE, stderr=FALSE)
+suppressMessages({
     require(Rcpp)
     require(pkg, "templib", character.only = TRUE)
-    m <- matrix(1:16, nc = 4)
-    res <- colNorm(m)
-    val <- apply(m, 2, function(x) sqrt(sum(x^2)))
-    unlink("templib", recursive = TRUE)
-    checkEquals(res, val, msg = "colNorm in client package")
-}
+})
+
+m <- matrix(1:16, nc = 4)
+res <- colNorm(m)
+val <- apply(m, 2, function(x) sqrt(sum(x^2)))
+
+expect_equal(res, val, info = "colNorm in client package")
+
+unlink("templib", recursive = TRUE)
+setwd(cwd)
+unlink(td, recursive = TRUE)
