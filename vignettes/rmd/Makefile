@@ -6,7 +6,7 @@ all:                    ${vignettes}
 
 %.pdf:                  %.Rmd
 			Rscript -e 'rmarkdown::render("$^")'
-			Rscript -e 'tools::compactPDF("$@")'
+			Rscript -e 'tools::compactPDF("$@", gs_quality="ebook")'
 			mv -v $@ ..
 
 clean:
