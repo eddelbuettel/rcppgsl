@@ -4,12 +4,12 @@
 ## Configure.ac for RcppGSL
 ##
 ## Copyright (C) 2010         Romain Francois and Dirk Eddelbuettel
-## Copyright (C) 2014 - 2015  Dirk Eddelbuettel
+## Copyright (C) 2014 - 2019  Dirk Eddelbuettel
 ##
 ## Licensed under GNU GPL 2 or later
 
 # The version set here will propagate to other files from here
-AC_INIT([RcppGSL], 0.2.3)
+AC_INIT([RcppGSL], 0.3.7)
 
 # Checks for common programs using default macros
 AC_PROG_CC
@@ -32,4 +32,3 @@ AC_SUBST(GSL_CFLAGS)
 AC_SUBST(GSL_LIBS)
 
 AC_OUTPUT(src/Makevars)
-

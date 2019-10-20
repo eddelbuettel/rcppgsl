@@ -3,6 +3,16 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.7 (2019-10-20)}{
+  \itemize{
+    \item A logic error was corrected in the wrapper class, vector and matrix
+    memory is now properly free()'ed (Dirk in \ghpr{22} fixing \ghpr{20}).
+    \item The introductory vignettes is now premade (Dirk in \ghpr{23}), and
+    was updated lightly in its bibliography handling.
+    \item The unit tests are now run by \pkg{tinytest} (Dirk in \ghpr{24}).
+  }
+}
+
 \section{Changes in version 0.3.6 (2018-06-10)}{
   \itemize{
     \item The vignette was updated to accomodate pandoc 2* [CRAN request].

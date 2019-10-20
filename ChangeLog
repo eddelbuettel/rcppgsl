@@ -1,7 +1,16 @@
 2019-10-20  Dirk Eddelbuettel  <edd@debian.org>
 
+        * DESCRIPTION (Version, Date): New release 0.3.7
+
+        * configure.ac: Mark as 0.3.7
+        * configure: Rebuilt
+
+	* inst/include/RcppGSL_types.h: Revert back from nullptr to NULL to
+	not impose C++11 compilation on client packages
+
 	* vignettes/rmd/RcppGSL-introduction.Rmd: Updated bibluigraphy handling
 	* vignettes/rmd/Rcpp.bib: Copied in from Rcpp package
+	* vignettes/rmd/Makefile: Added 
 
 2019-10-19  Dirk Eddelbuettel  <edd@debian.org>
 
