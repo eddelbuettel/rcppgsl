@@ -77,7 +77,7 @@ public:                                                                 \
     const static int RTYPE =                                            \
         ::Rcpp::traits::r_sexptype_traits<type>::rtype;                 \
     vector(SEXP x) :                                                    \
-        data(nullptr), allocated(false) {                               \
+        data(NULL), allocated(false) {                                  \
         SEXP y = ::Rcpp::r_cast<RTYPE>(x);                              \
         int size = ::Rf_length(y);                                      \
         data = gsl_vector##__SUFFIX__##_calloc(size);                   \
@@ -118,7 +118,7 @@ public:                                                                 \
         if (allocated && data) {                                        \
             gsl_vector##__SUFFIX__##_free(data);                        \
             allocated = false;                                          \
-            data = nullptr;                                             \
+            data = NULL;                                                \
         }                                                               \
     }                                                                   \
 private:                                                                \
@@ -165,7 +165,7 @@ public:                                                                 \
       const gsltype* parent;                                            \
    };                                                                   \
    matrix(SEXP x) :                                                     \
-       data(nullptr), allocated(false) { import(x); }                   \
+       data(NULL), allocated(false) { import(x); }                      \
    matrix(gsltype* x) : data(x), allocated(false) {}                    \
    matrix(int nrow, int ncol) :                                         \
        data(gsl_matrix##__SUFFIX__##_alloc(nrow, ncol)),                \
@@ -194,7 +194,7 @@ public:                                                                 \
        if (allocated && data) {                                         \
            gsl_matrix##__SUFFIX__##_free(data);                         \
            allocated = false;                                           \
-           data = nullptr;                                              \
+           data = NULL;                                                 \
        }                                                                \
    }                                                                    \
 private:                                                                \
@@ -255,7 +255,7 @@ public:                                                                 \
    const static int RTYPE =                                             \
        ::Rcpp::traits::r_sexptype_traits<type>::rtype;                  \
    vector(SEXP x) :                                                     \
-       data(nullptr), allocated(false) {                                \
+       data(NULL), allocated(false) {                                   \
        SEXP y = ::Rcpp::r_cast<RTYPE>(x);                               \
        int size = ::Rf_length(y);                                       \
        data = gsl_vector_calloc(size);                                  \
@@ -270,7 +270,7 @@ public:                                                                 \
    operator const gsltype*() const { return data; }                     \
    gsltype* operator->() const { return data; }                         \
    gsltype& operator*() const { return *data; }                         \
-   vector(const vector& x) : data(x.data), allocated(x.allocated)  {}        \
+   vector(const vector& x) : data(x.data), allocated(x.allocated)  {}   \
    vector& operator=(const vector& other) {                             \
        data = other.data;                                               \
        allocated = other.allocated;                                     \
@@ -295,7 +295,7 @@ public:                                                                 \
        if (allocated && data) {                                         \
            gsl_vector_free(data);                                       \
            allocated = false;                                           \
-           data = nullptr;                                              \
+           data = NULL;                                                 \
        }                                                                \
    }                                                                    \
 private:                                                                \
@@ -342,7 +342,7 @@ public:                                                                 \
        const gsltype* parent;                                           \
    };                                                                   \
    matrix(SEXP x) :                                                     \
-       data(nullptr), allocated(false) { import(x); }                   \
+       data(NULL), allocated(false) { import(x); }                      \
    matrix(gsltype* x) : data(x), allocated(false) {}                    \
    matrix(int nrow, int ncol) :                                         \
        data(gsl_matrix_alloc(nrow, ncol)), allocated(true) {}           \
@@ -370,7 +370,7 @@ public:                                                                 \
        if (allocated && data) {                                         \
            gsl_matrix_free(data);                                       \
            allocated = false;                                           \
-           data = nullptr;                                              \
+           data = NULL;                                                 \
        }                                                                \
    }                                                                    \
 private:                                                                \
