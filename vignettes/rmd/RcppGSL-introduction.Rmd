@@ -53,8 +53,7 @@ numbersections: true
 secnumdepth: 5
 
 # Optional: Bibliography 
-## Commented-out here as we include the references directly below
-## bibliography: Rcpp
+bibliography: Rcpp
 
 # Customize footer, eg by referencing the vignette
 footer_contents: "RcppGSL Vignette"
@@ -62,10 +61,13 @@ footer_contents: "RcppGSL Vignette"
 # Produce a pinp document
 output:
   pinp::pinp:
-    includes:
-      in_header: header.tex
-      after_body: bib.tex
+    collapse: true
+    keep_tex: false
 
+header-includes: >
+  \newcommand{\proglang}[1]{\textsf{#1}}
+  \newcommand{\pkg}[1]{\textbf{#1}}
+    
 # Required: Vignette metadata for inclusion in a package.
 vignette: >
   %\VignetteIndexEntry{RcppGSL}

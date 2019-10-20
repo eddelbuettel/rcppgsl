@@ -1,3 +1,8 @@
+2019-10-20  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/rmd/RcppGSL-introduction.Rmd: Updated bibluigraphy handling
+	* vignettes/rmd/Rcpp.bib: Copied in from Rcpp package
+
 2019-10-19  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Date, Version): Roll minor version
@@ -7,9 +12,16 @@
 	* inst/tinytest/: Renamed and converted from unitTests/
 	* .travis.yml (install): Install r-cran-tinytest not of r-cran-runit
 
+2019-10-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/RcppGSL-intro.Rnw: Wrapper around pre-made vignette
+	* vignettes/RcppGSL-intro.Rmd: Moved to rmd/RcppGSL-introduction.pdf
+	and included pre-made in simpler Sweave vignette
+	* vignettes/RcppGSL-unitTests.Rnw: Removed
+	
 2019-10-14  Dirk Eddelbuettel  <edd@debian.org>
 
-	* inst/include/RcppGSL_types.h: Correct logic, and actually call free()
+	* inst/include/RcppGSL_types.h: Correct logic, actually call free()
 
 2018-09-02  Dirk Eddelbuettel  <edd@debian.org>
 
