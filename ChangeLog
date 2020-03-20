@@ -14,7 +14,7 @@
 
 	* vignettes/rmd/RcppGSL-introduction.Rmd: Updated bibluigraphy handling
 	* vignettes/rmd/Rcpp.bib: Copied in from Rcpp package
-	* vignettes/rmd/Makefile: Added 
+	* vignettes/rmd/Makefile: Added
 
 2019-10-19  Dirk Eddelbuettel  <edd@debian.org>
 
@@ -31,7 +31,7 @@
 	* vignettes/RcppGSL-intro.Rmd: Moved to rmd/RcppGSL-introduction.pdf
 	and included pre-made in simpler Sweave vignette
 	* vignettes/RcppGSL-unitTests.Rnw: Removed
-	
+
 2019-10-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/include/RcppGSL_types.h: Correct logic, actually call free()
