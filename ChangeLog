@@ -1,3 +1,7 @@
+2020-04-01  Dirk Eddelbuettel  <edd@debian.org>
+
+	* README.md: Added a 'last commit' badge, small edits
+
 2020-01-23  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Add a Debian badge

@@ -5,6 +5,7 @@
 [![CRAN](http://www.r-pkg.org/badges/version/RcppGSL)](https://cran.r-project.org/package=RcppGSL) 
 [![Debian package](https://img.shields.io/debian/v/r-cran-rcppgsl/sid?color=brightgreen)](https://packages.debian.org/sid/r-cran-rcppgsl)
 [![Downloads](http://cranlogs.r-pkg.org/badges/RcppGSL?color=brightgreen)](http://www.r-pkg.org/pkg/RcppGSL) 
+[![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rcppgsl)](https://github.com/eddelbuettel/rcppgsl)
 
 This package uses [Rcpp](https://github.com/RcppCore/Rcpp) to connect the
 [R](https://www.r-project.org) system to the [GNU GSL](http://www.gnu.org/software/gsl/), a
@@ -17,7 +18,7 @@ classes.
 
 The `fastLm()` function [included as file `src/fastLm.cpp`](https://github.com/eddelbuettel/rcppgsl/blob/master/src/fastLm.cpp) in the package:
 
-```{.cpp}
+```cpp
 #include <RcppGSL.h>
 
 #include <gsl/gsl_multifit.h>
@@ -55,7 +56,7 @@ Rcpp::List fastLm(const RcppGSL::Matrix &X, const RcppGSL::Vector &y) {
 This example comes from the [complete example package included in RcppGSL](https://github.com/eddelbuettel/rcppgsl/tree/master/inst/examples/RcppGSLExample)
 and is from [the file `inst/examples/RcppGSLExample/src/colNorm.cpp`](https://github.com/eddelbuettel/rcppgsl/blob/master/inst/examples/RcppGSLExample/src/colNorm.cpp)
 
-```{.cpp}
+```cpp
 
 #include <RcppGSL.h>
 #include <gsl/gsl_matrix.h>
@@ -81,7 +82,7 @@ Rcpp::NumericVector colNorm(const RcppGSL::Matrix & G) {
 
 ### Availabililty
 
-On [CRAN](https://cran.r-project.org), here and on [its package page](http://dirk.eddelbuettel.com/code/rcpp.gsl.html).
+On [CRAN](https://cran.r-project.org) and here.
 
 ### Authors
 
