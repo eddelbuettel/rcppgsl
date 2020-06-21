@@ -1,3 +1,8 @@
+2020-06-21  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/examples/RcppGSLExample/man/colNorm.Rd: Update documentation
+	to refer to matrix G just like the code does
+
 2020-04-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Added a 'last commit' badge, small edits

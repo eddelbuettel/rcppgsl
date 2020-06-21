@@ -6,13 +6,13 @@
   example of using \pkg{RcppGSL} with \code{GNU GSL} library.
 }
 \usage{
-colNorm(M)
+colNorm(G)
 }
 \arguments{
-  \item{M}{a numeric matrix.}
+  \item{G}{a numeric matrix.}
 }
 \details{
-  The column norm of \code{M} is returned.
+  The column norm of \code{G} is returned.
 
   This example reprises an example in section 8.4.13 of the GSL
   reference manual. 
