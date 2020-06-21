@@ -1,8 +1,8 @@
 Package: RcppGSL
 Type: Package
 Title: 'Rcpp' Integration for 'GNU GSL' Vectors and Matrices
-Version: 0.3.7
-Date: 2019-10-20
+Version: 0.3.8
+Date: 2020-06-21
 Author: Dirk Eddelbuettel and Romain Francois
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: 'Rcpp' integration for 'GNU GSL' vectors and matrices
@@ -20,5 +20,5 @@ License: GPL (>= 2)
 LazyLoad: yes
 LinkingTo: Rcpp
 Imports: Rcpp (>= 0.11.0), stats
-Suggests: tinytest, inline
+Suggests: tinytest
 SystemRequirements: GNU GSL

@@ -1,5 +1,9 @@
 2020-06-21  Dirk Eddelbuettel  <edd@debian.org>
 
+        * DESCRIPTION (Version, Date): New release 0.3.8
+
+        * configure: Rebuilt
+
 	* inst/include/RcppGSLForward.h: Add some missing 'inline' statements
 	* inst/include/RcppGSL_matrix.h: Idem
 	* inst/include/RcppGSL_matrix_view.h: Idem
@@ -15,6 +19,9 @@
 	to refer to matrix G just like the code does
 
 	* .travis.yml: Update to 'bionic' and R 4.0
+
+        * DESCRIPTION (Suggests): Removed 'inline' which is no longer used
+	* .travis.yml (install): Idem
 
 2020-04-01  Dirk Eddelbuettel  <edd@debian.org>
 

@@ -3,6 +3,17 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.8 (2020-06-21)}{
+  \itemize{
+    \item A few missing \code{inline} statements were added to the
+    headers fixing a (genuine) error that was seen only on Solaris (Dirk).
+    \item The nice \code{colNorm} example is now in a file by itself,
+    the previous versions are off in a new file \code{colNorm_old.cpp} (Dirk).
+    \item The README.me now sports two new badges (Dirk).
+    \item Travis CI was updated to 'bionic' and R 4.0 (Dirk).
+  }
+}
+
 \section{Changes in version 0.3.7 (2019-10-20)}{
   \itemize{
     \item A logic error was corrected in the wrapper class, vector and matrix
