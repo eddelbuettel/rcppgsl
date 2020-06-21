@@ -1,8 +1,7 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 // RcppGSLForward.h: Forward Declarations for Seamless R and GSL Integration
 //
-// Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2010 - 2020  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -215,11 +214,11 @@ namespace Rcpp {
     template<> inline SEXP wrap(const gsl_matrix_view&);         
     template<> inline SEXP wrap(const gsl_matrix_const_view&);
 
-    template <typename T> SEXP wrap(const ::RcppGSL::vector<T>&);
-    template <typename T> SEXP wrap(const ::RcppGSL::matrix<T>&);
+    template <typename T> inline SEXP wrap(const ::RcppGSL::vector<T>&);
+    template <typename T> inline SEXP wrap(const ::RcppGSL::matrix<T>&);
     
-    template <typename T> SEXP wrap(const ::RcppGSL::vector_view<T>&);
-    template <typename T> SEXP wrap(const ::RcppGSL::matrix_view<T>&);
+    template <typename T> inline SEXP wrap(const ::RcppGSL::vector_view<T>&);
+    template <typename T> inline SEXP wrap(const ::RcppGSL::matrix_view<T>&);
     
 }
 

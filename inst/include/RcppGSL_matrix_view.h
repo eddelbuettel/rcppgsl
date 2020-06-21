@@ -1,8 +1,7 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 // RcppGSL_matrix_view.h: Matrix view class for Seamless R and GSL Integration
 //
-// Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2010 - 2020  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -28,10 +27,10 @@
 namespace Rcpp{
 
     #define RCPPGSL_VIEW(SUFFIX)                                        \
-    template <> SEXP wrap(const gsl_matrix##SUFFIX##_view& x) {         \
+    template <> inline SEXP wrap(const gsl_matrix##SUFFIX##_view& x) {         \
         return wrap(x.matrix);                                          \
     }                                                                   \
-    template <> SEXP wrap( const gsl_matrix##SUFFIX##_const_view& x ){  \
+    template <> inline SEXP wrap( const gsl_matrix##SUFFIX##_const_view& x ){  \
         return wrap(x.matrix) ;                                         \
     }
 
@@ -51,13 +50,13 @@ namespace Rcpp{
     #undef RCPPGSL_VIEW
 
     #define RCPPGSL_VIEW(SUFFIX)                                      
-    template <> SEXP wrap(const gsl_matrix_view& x) {       
+    template <> inline SEXP wrap(const gsl_matrix_view& x) {
         return wrap(x.matrix);                                       
     }                                                                 
-    template <> SEXP wrap(const gsl_matrix_const_view& x) {
+    template <> inline SEXP wrap(const gsl_matrix_const_view& x) {
         return wrap(x.matrix);                                        
     }
-    template <typename T> SEXP wrap(const ::RcppGSL::matrix_view<T>& x) {
+    template <typename T> inline SEXP wrap(const ::RcppGSL::matrix_view<T>& x) {
         return wrap(x.view.matrix);
     }
 

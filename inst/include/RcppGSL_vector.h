@@ -1,8 +1,7 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 // RcppGSL_vector.h: Vector class for Seamless R and GSL Integration
 //
-// Copyright (C)  2010 - 2015  Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2010 - 2020  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -49,12 +48,12 @@ namespace RcppGSL {
 namespace Rcpp {
 
     #define RCPPGSL_WRAP(__TYPE__,__DATA__)                                             \
-    template <> SEXP wrap(const __TYPE__& x) {                                          \
+    template <> inline SEXP wrap(const __TYPE__& x) {                                   \
         return wrap(RcppGSL::gslvector_importer<__DATA__>(x.data, x.stride, x.size ) ); \
     } 
 
     #define RCPPGSL_WRAP_CAST(__TYPE__,__DATA__,__CAST__)                                                           \
-    template <>  SEXP wrap(const __TYPE__& x) {                                                                     \
+    template <> inline SEXP wrap(const __TYPE__& x) {                                                                     \
         return wrap(RcppGSL::gslvector_importer<__DATA__>(reinterpret_cast<__CAST__>(x.data), x.stride, x.size ) ); \
     } 
 
@@ -74,7 +73,7 @@ namespace Rcpp {
     RCPPGSL_WRAP_CAST(gsl_vector_complex_float      ,gsl_complex_float      ,gsl_complex_float*)
     RCPPGSL_WRAP_CAST(gsl_vector_complex_long_double,gsl_complex_long_double,gsl_complex_long_double*)
     
-    template <typename T> SEXP wrap(const ::RcppGSL::vector<T>& x) {
+    template <typename T> inline SEXP wrap(const ::RcppGSL::vector<T>& x) {
         return wrap(*(x.data));
     }
 

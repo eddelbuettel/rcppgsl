@@ -1,8 +1,7 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
-//
+
 // RcppGSL_matrix.h: Matrix class for Seamless R and GSL Integration
 //
-// Copyright (C)  2010 - 2018  Romain Francois and Dirk Eddelbuettel
+// Copyright (C)  2010 - 2020  Romain Francois and Dirk Eddelbuettel
 //
 // This file is part of RcppGSL.
 //
@@ -52,7 +51,7 @@ namespace RcppGSL {
 namespace Rcpp {                                                                                  
 
     #define RCPPGSL_WRAP(__TYPE__,__DATA__)                            \
-    template <> SEXP wrap(const __TYPE__& x) {                         \
+    template <> inline SEXP wrap(const __TYPE__& x) {                  \
         SEXP res = PROTECT(wrap(RcppGSL::gslmatrix_importer<__DATA__>( \
             x.data, x.size1, x.size2, x.tda)));                        \
        SEXP dims = PROTECT(::Rf_allocVector(INTSXP, 2));               \
@@ -64,7 +63,7 @@ namespace Rcpp {
     }
     
     #define RCPPGSL_WRAP_CAST(__TYPE__,__DATA__)                       \
-    template <> SEXP wrap(const __TYPE__& x) {                         \
+    template <> inline SEXP wrap(const __TYPE__& x) {                  \
         SEXP res = PROTECT(wrap(RcppGSL::gslmatrix_importer<__DATA__>( \
             reinterpret_cast<__DATA__*>(x.data),                       \
             x.size1, x.size2, x.tda)));                                \
@@ -181,7 +180,7 @@ namespace RcppGSL {
 
 namespace Rcpp {
     
-    template <typename T> SEXP wrap(const ::RcppGSL::matrix<T>& x) {
+    template <typename T> inline SEXP wrap(const ::RcppGSL::matrix<T>& x) {
         return wrap(*(x.data));
     }
     

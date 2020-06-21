@@ -1,5 +1,12 @@
 2020-06-21  Dirk Eddelbuettel  <edd@debian.org>
 
+	* inst/include/RcppGSLForward.h: Add some missing 'inline' statements
+	* inst/include/RcppGSL_matrix.h: Idem
+	* inst/include/RcppGSL_matrix_view.h: Idem
+	* inst/include/RcppGSL_vector.h: Idem
+	* inst/include/RcppGSL_vector_view.h: Idem
+	* inst/include/RcppGSLForward.h: Idem
+
 	* inst/examples/RcppGSLExample/src/colNorm_old.cpp: Spun off
 	alternate versions in seperate file to keep reference file simpler
 	* inst/examples/RcppGSLExample/src/colNorm.cpp: Shortened
