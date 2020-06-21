@@ -7,6 +7,8 @@
 	* inst/examples/RcppGSLExample/man/colNorm.Rd: Update documentation
 	to refer to matrix G just like the code does
 
+	* .travis.yml: Update to 'bionic' and R 4.0
+
 2020-04-01  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Added a 'last commit' badge, small edits
