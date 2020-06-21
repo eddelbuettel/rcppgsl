@@ -1,5 +1,9 @@
 2020-06-21  Dirk Eddelbuettel  <edd@debian.org>
 
+	* inst/examples/RcppGSLExample/src/colNorm_old.cpp: Spun off
+	alternate versions in seperate file to keep reference file simpler
+	* inst/examples/RcppGSLExample/src/colNorm.cpp: Shortened
+
 	* inst/examples/RcppGSLExample/man/colNorm.Rd: Update documentation
 	to refer to matrix G just like the code does
 

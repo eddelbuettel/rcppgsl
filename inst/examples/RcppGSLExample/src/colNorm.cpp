@@ -1,10 +1,9 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; tab-width: 4 -*-
-//
+
 // colNorm.cpp: Rcpp and GSL based example of column norm
 //              adapted from `Section 8.4.13 Example programs for matrices' 
 //              of the GSL manual
 //
-// Copyright (C)  2010 - 2015 Dirk Eddelbuettel and Romain Francois
+// Copyright (C)  2010 - 2020 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of RcppGSL.
 //
@@ -26,62 +25,11 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_blas.h>
 
-// old initial implementation, kept for comparison
-extern "C" SEXP colNorm_old(SEXP sM) {
-
-    try {
-		
-		RcppGSL::matrix<double> M = sM; 	// create gsl data structures from SEXP
-		int k = M.ncol();
-		Rcpp::NumericVector n(k); 			// to store results 
-
-		for (int j = 0; j < k; j++) {
-			RcppGSL::vector_view<double> colview = gsl_matrix_const_column (M, j);
-			n[j] = gsl_blas_dnrm2(colview);
-		}
-		M.free() ;
-		return n;							// return vector  
-
-    } catch( std::exception &ex ) {
-		forward_exception_to_r( ex );
-
-    } catch(...) { 
-		::Rf_error( "c++ exception (unknown reason)" ); 
-    }
-    return R_NilValue; // -Wall
-}
-
-
-// newer Attributes-based implementation
-
-// [[Rcpp::export]]
-Rcpp::NumericVector colNorm_old2(Rcpp::NumericMatrix M) {
-    // this conversion involves an allocation
-    RcppGSL::matrix<double> G = Rcpp::as< RcppGSL::matrix<double> >(M);
-    int k = G.ncol();
-    Rcpp::NumericVector n(k);           // to store results
-    for (int j = 0; j < k; j++) {
-        RcppGSL::vector_view<double> colview = gsl_matrix_const_column (G, j);
-        n[j] = gsl_blas_dnrm2(colview);
-    }
-    G.free();
-    return n;                           // return vector
-}
-
-// newer Attributes-based simplementation with reference counting
-
-// [[Rcpp::export]]
-Rcpp::NumericVector colNorm_old3(RcppGSL::matrix<double> G) {
-    int k = G.ncol();
-    Rcpp::NumericVector n(k);           // to store results
-    for (int j = 0; j < k; j++) {
-        RcppGSL::vector_view<double> colview = gsl_matrix_column (G, j);
-        n[j] = gsl_blas_dnrm2(colview);
-    }
-    return n;                           // return vector
-}
-
 // newest version using typedefs and const &
+//
+// see file colNorm_old.cpp for some older implementations if you are
+// interested in comparing to those older versions, otherwise just enjoy
+// this much shorter and simpler one
 
 // [[Rcpp::export]]
 Rcpp::NumericVector colNorm(const RcppGSL::Matrix & G) {
