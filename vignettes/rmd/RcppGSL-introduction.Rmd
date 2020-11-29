@@ -11,7 +11,7 @@ author:
 
 address:
   - code: a
-    address: \url{http://dirk.eddelbuettel.com}
+    address: \url{https://dirk.eddelbuettel.com}
   - code: b
     address: \url{https://romain.rbind.io/}
 
@@ -855,6 +855,12 @@ The \proglang{R} source is very simply: it contains a single file created by
 the \texttt{Rcpp::compileAttributes()} function implementing the wrapper to
 the \texttt{colNorm()} function.
 
+## Input and Output
+
+Because \pkg{RcppGSL} vectors are really C vectors, a little care is needed
+when using \proglang{C++} \pkg{iostream} output. Vector elements needs to be
+accessed explicitly via accessors as _e.g._ `gsl_vector_get(x, 0)` to display
+the initial element of a vector `x`.
 
 # Using \pkg{RcppGSL} with \pkg{inline}
 
