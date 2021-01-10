@@ -1,6 +1,7 @@
 ## RcppGSL: Rcpp Integration for GNU GSL Vectors and Matrices
 
 [![Build Status](https://travis-ci.org/eddelbuettel/rcppgsl.svg)](https://travis-ci.org/eddelbuettel/rcppgsl) 
+[![CI](https://github.com/eddelbuettel/rcppgsl/workflows/ci/badge.svg)](https://github.com/eddelbuettel/rcppgsl/actions?query=workflow%3Aci)
 [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) 
 [![CRAN](http://www.r-pkg.org/badges/version/RcppGSL)](https://cran.r-project.org/package=RcppGSL) 
 [![Debian package](https://img.shields.io/debian/v/r-cran-rcppgsl/sid?color=brightgreen)](https://packages.debian.org/sid/r-cran-rcppgsl)
