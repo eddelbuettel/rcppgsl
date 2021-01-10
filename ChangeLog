@@ -1,3 +1,7 @@
+2021-01-10  Dirk Eddelbuettel  <edd@debian.org>
+
+        * .github/workflows/ci.yaml: Add CI runner using r-ci
+
 2020-11-29  Dirk Eddelbuettel  <edd@debian.org>
 
 	* vignettes/rmd/RcppGSL-introduction.Rmd: And short subsection

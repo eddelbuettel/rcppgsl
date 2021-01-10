@@ -1,8 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-.travis.yml
+^\.travis\.yml
 vignettes/rmd
 vignettes/buildVig.R
 ^local
 ^windows$
 .*\.tar\.gz
+^\.github
