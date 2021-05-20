@@ -22,3 +22,5 @@ LinkingTo: Rcpp
 Imports: Rcpp (>= 0.11.0), stats
 Suggests: tinytest
 SystemRequirements: GNU GSL
+URL: https://github.com/eddelbuettel/rcppgsl, https://dirk.eddelbuettel.com/code/rcpp.gsl.html
+BugReports: https://github.com/eddelbuettel/rcppgsl/issues
