@@ -5,7 +5,7 @@
 [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html) 
 [![CRAN](http://www.r-pkg.org/badges/version/RcppGSL)](https://cran.r-project.org/package=RcppGSL) 
 [![Debian package](https://img.shields.io/debian/v/r-cran-rcppgsl/sid?color=brightgreen)](https://packages.debian.org/sid/r-cran-rcppgsl)
-[![Downloads](http://cranlogs.r-pkg.org/badges/RcppGSL?color=brightgreen)](http://www.r-pkg.org/pkg/RcppGSL) 
+[![Downloads](http://cranlogs.r-pkg.org/badges/RcppGSL?color=brightgreen)](https://www.r-pkg.org:443/pkg/RcppGSL) 
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rcppgsl)](https://github.com/eddelbuettel/rcppgsl)
 
 This package uses [Rcpp](https://github.com/RcppCore/Rcpp) to connect the

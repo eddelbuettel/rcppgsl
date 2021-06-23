@@ -3,6 +3,16 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.9 (2021-06-23)}{
+  \itemize{
+    \item The pdf vignette was extended by a small subsection (Dirk).
+    \item The CI setup was updated to use \code{run.sh} from
+    \href{https://eddelbuettel.github.io/r-ci/}{r-ci} (Dirk).
+    \item The windows was updated to GSL 2.7, and UCRT support was added
+    (Jeroen in \ghpr{28}).
+  }
+}
+
 \section{Changes in version 0.3.8 (2020-06-21)}{
   \itemize{
     \item A few missing \code{inline} statements were added to the

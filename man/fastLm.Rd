@@ -61,7 +61,7 @@ fastLm(X, \dots)
   \code{\link[MASS]{rlm}} functions..
 }
 \seealso{\code{\link{lm}}, \code{\link{lm.fit}}} 
-\references{GNU GSL project: \url{http://www.gnu.org/software/gsl}}
+\references{GNU GSL project: \url{https://www.gnu.org/software/gsl/}}
 \author{
   The GNU GSL library is being written by team of authors with the
   overall development, design and implementation lead by Brian Gough and
