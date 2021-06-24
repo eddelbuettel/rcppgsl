@@ -1,7 +1,7 @@
 #!/usr/bin/r -t
 #
 # Copyright (C) 2010         Romain Francois and Dirk Eddelbuettel
-# Copyright (C) 2014 - 2019  Dirk Eddelbuettel
+# Copyright (C) 2014 - 2021  Dirk Eddelbuettel
 #
 # This file is part of RcppGSL.
 #
@@ -17,6 +17,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with RcppGSL.  If not, see <http://www.gnu.org/licenses/>.
+
+## On Windows we skip this test. We could add tools/winlibs.R and adjust
+## src/Makevars.win accordingly but it might not be worth it
+isWindows <- Sys.info()[["sysname"]] == "Windows"
+missingEnvVar <- Sys.getenv("LIB_GSL") == ""
+if (isWindows && missingEnvVar) exit_file("Skip client package test on Windows without LIB_GSL")
 
 #test.client.package <- function(){
 pkg <- "RcppGSLExample"
