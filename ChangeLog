@@ -6,9 +6,9 @@
 
 2021-06-23  Jeroen Ooms  <jeroenooms@gmail.com>
 
-	*  tools/winlibs.R: Update to GSL 2.7 and support UCRT build
-	*  src/Makevars.win: Update to GSL 2.7
-	*  src/Makevars.ucrt: Support UCRT build
+	* tools/winlibs.R: Update to GSL 2.7 and support UCRT build
+	* src/Makevars.win: Update to GSL 2.7
+	* src/Makevars.ucrt: Support UCRT build
 
 2021-05-20  Dirk Eddelbuettel  <edd@debian.org>
 
