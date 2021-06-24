@@ -1,5 +1,7 @@
 2021-06-24  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Version, Date): Roll minor version and date
+
 	* inst/tinytest/test_client_package.R: Skip Windows if no LIB_GSL var
 
 2021-06-23  Dirk Eddelbuettel  <edd@debian.org>
