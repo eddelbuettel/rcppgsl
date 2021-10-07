@@ -3,6 +3,14 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.10 (2021-10-07)}{
+  \itemize{
+    \item Tests of the client package now skip of no LIB_GSL is set
+    \item The \code{configure} files were updated to the standard of
+    version 2.69 following a CRAN request
+  }
+}
+
 \section{Changes in version 0.3.9 (2021-06-23)}{
   \itemize{
     \item The pdf vignette was extended by a small subsection (Dirk).
