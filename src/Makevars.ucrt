@@ -1,2 +1,4 @@
-CRT=-ucrt
-include Makevars.win
+## -*- mode: Makefile; -*-
+##
+PKG_CPPFLAGS = -I../inst/include
+PKG_LIBS = -lgsl -lgslcblas
