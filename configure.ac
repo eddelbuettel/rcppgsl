@@ -10,7 +10,7 @@
 
 # The version set here will propagate to other files from here
 ## Process this file with autoconf to produce a configure script.
-AC_INIT([RcppGSL],[0.3.11],[edd@debian.org])
+AC_INIT([RcppGSL],[0.3.12],[edd@debian.org])
 
 # Checks for common programs using default macros
 AC_PROG_CC
