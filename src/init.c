@@ -9,8 +9,8 @@
 
 /* .Call calls */
 extern SEXP RcppGSL_fastLm(SEXP, SEXP);
-extern SEXP RcppGSL_gslResetErrorHandler();
-extern SEXP RcppGSL_gslSetErrorHandlerOff();
+extern SEXP RcppGSL_gslResetErrorHandler(void);
+extern SEXP RcppGSL_gslSetErrorHandlerOff(void);
 
 static const R_CallMethodDef CallEntries[] = {
     {"RcppGSL_fastLm",                (DL_FUNC) &RcppGSL_fastLm,                2},
