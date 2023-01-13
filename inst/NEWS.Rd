@@ -3,6 +3,12 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.13 (2023-01-12)}{
+  \itemize{
+    \item Remove 'AC_PROG_CC' from 'configure.ac' per CRAN wish
+  }
+}
+
 \section{Changes in version 0.3.12 (2022-10-30)}{
   \itemize{
     \item Two function prototypes were updated for \code{clang-15}.

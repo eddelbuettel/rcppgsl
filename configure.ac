@@ -10,7 +10,7 @@
 
 # The version set here will propagate to other files from here
 ## Process this file with autoconf to produce a configure script.
-AC_INIT([RcppGSL],[0.3.12],[edd@debian.org])
+AC_INIT([RcppGSL],[0.3.13],[edd@debian.org])
 
 ## Use gsl-config to find arguments for compiler and linker flags
 ##
