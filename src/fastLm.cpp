@@ -2,7 +2,7 @@
 //
 // fastLm.cpp: Rcpp and GSL based implementation of lm
 //
-// Copyright (C)  2010 - 2015  Dirk Eddelbuettel and Romain Francois
+// Copyright (C)  2010 - 2024  Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of RcppGSL.
 //
@@ -24,7 +24,7 @@
 #include <gsl/gsl_multifit.h>
 #include <cmath>
 
-// [[Rcpp::export]]
+// [[Rcpp::export(fastLm_impl)]]
 Rcpp::List fastLm(const RcppGSL::Matrix &X, const RcppGSL::Vector &y) {
 
     int n = X.nrow(), k = X.ncol();
