@@ -1,3 +1,13 @@
+2024-03-09  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll micro release and date
+
+	* src/fastLm.cpp: Export compute functionas fastLm_impl
+	* R/fastLm.R: Call generated wrapper fastLm_impl
+	* src/init.c: Removed as RcppExports generates its content
+	* src/RcppExports.cpp: Regenerated
+	* R/RcppExports.R: Idem
+
 2023-01-12  Dirk Eddelbuettel  <edd@debian.org>
 
         * DESCRIPTION (Version, Date): Release 0.3.13
