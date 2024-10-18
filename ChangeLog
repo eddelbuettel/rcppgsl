@@ -1,3 +1,7 @@
+2024-10-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Authors@R): Added
+
 2024-07-16  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Switch some URLs from http to https
