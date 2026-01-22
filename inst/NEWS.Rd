@@ -3,6 +3,15 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
+\section{Changes in version 0.3.14 [unreleased] (2026-xx-yy)}{
+  \itemize{
+    \item Updated some internals of \code{fastLm} example and regenerated
+    \code{RcppExports.*} files
+    \item Several updates continuous integration files
+    \item Switched to using Authors@R
+  }
+}
+
 \section{Changes in version 0.3.13 (2023-01-12)}{
   \itemize{
     \item Remove 'AC_PROG_CC' from 'configure.ac' per CRAN wish

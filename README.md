@@ -1,14 +1,14 @@
 ## RcppGSL: Rcpp Integration for GNU GSL Vectors and Matrices
 
 [![CI](https://github.com/eddelbuettel/rcppgsl/workflows/ci/badge.svg)](https://github.com/eddelbuettel/rcppgsl/actions?query=workflow%3Aci)
-[![License](https://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](https://www.gnu.org/licenses/gpl-2.0.html) 
+[![License](https://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](https://www.r-project.org/Licenses/GPL-2) 
 [![CRAN](https://www.r-pkg.org/badges/version/RcppGSL)](https://cran.r-project.org/package=RcppGSL) 
 [![Debian package](https://img.shields.io/debian/v/r-cran-rcppgsl/sid?color=brightgreen)](https://packages.debian.org/sid/r-cran-rcppgsl)
 [![Downloads](https://cranlogs.r-pkg.org/badges/RcppGSL?color=brightgreen)](https://www.r-pkg.org:443/pkg/RcppGSL) 
 [![Last Commit](https://img.shields.io/github/last-commit/eddelbuettel/rcppgsl)](https://github.com/eddelbuettel/rcppgsl)
 
 This package uses [Rcpp](https://github.com/RcppCore/Rcpp) to connect the
-[R](https://www.r-project.org) system to the [GNU GSL](http://www.gnu.org/software/gsl/), a
+[R](https://www.r-project.org) system to the [GNU GSL](https://www.gnu.org/software/gsl/), a
 collection of numerical routines for scientific computing, particularly its vector and matrix
 classes.
 
@@ -77,7 +77,7 @@ Rcpp::NumericVector colNorm(const RcppGSL::Matrix & G) {
 
 ### Dependencies
 
-- [GNU GSL](http://www.gnu.org/software/gsl/) library (eg [libgsl0-dev](https://packages.debian.org/sid/libgsl0-dev) on Debian or Ubuntu)
+- [GNU GSL](https://www.gnu.org/software/gsl/) library (eg [libgsl0-dev](https://packages.debian.org/sid/libgsl0-dev) on Debian or Ubuntu)
 - [Rcpp](https://github.com/RcppCore/Rcpp) for seamless R and C++ integration
 
 ### Availabililty
