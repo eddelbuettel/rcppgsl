@@ -5,9 +5,9 @@
 
 \section{Changes in version 0.3.14 [unreleased] (2026-xx-yy)}{
   \itemize{
-    \item Updated some internals of \code{fastLm} example and regenerated
+    \item Updated some internals of \code{fastLm} example, and regenerated
     \code{RcppExports.*} files
-    \item Several updates continuous integration files
+    \item Several updates for continuous integration 
     \item Switched to using Authors@R
   }
 }
