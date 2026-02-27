@@ -3,7 +3,7 @@
 //              adapted from `Section 8.4.13 Example programs for matrices'
 //              of the GSL manual
 //
-// Copyright (C)  2010 - 2020 Dirk Eddelbuettel and Romain Francois
+// Copyright (C)  2010 - 2026 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of RcppGSL.
 //
@@ -38,22 +38,22 @@ extern "C" SEXP colNorm_old(SEXP sM) {
 
     try {
 
-		RcppGSL::matrix<double> M = sM; 	// create gsl data structures from SEXP
-		int k = M.ncol();
-		Rcpp::NumericVector n(k); 			// to store results
+                RcppGSL::matrix<double> M = sM;         // create gsl data structures from SEXP
+                int k = M.ncol();
+                Rcpp::NumericVector n(k);               // to store results
 
-		for (int j = 0; j < k; j++) {
-			RcppGSL::vector_view<double> colview = gsl_matrix_const_column (M, j);
-			n[j] = gsl_blas_dnrm2(colview);
-		}
-		M.free() ;
-		return n;							// return vector
+                for (int j = 0; j < k; j++) {
+                        RcppGSL::vector_view<double> colview = gsl_matrix_const_column (M, j);
+                        n[j] = gsl_blas_dnrm2(colview);
+                }
+                M.free() ;
+                return n;                               // return vector
 
     } catch( std::exception &ex ) {
-		forward_exception_to_r( ex );
+                forward_exception_to_r( ex );
 
     } catch(...) {
-		::Rf_error( "c++ exception (unknown reason)" );
+                (Rf_error)("c++ exception (unknown reason)");
     }
     return R_NilValue; // -Wall
 }

@@ -1,3 +1,8 @@
+2026-02-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/examples/RcppGSLExample/src/colNorm_old.cpp (colNorm_old):
+	Replace ::Rf_error with (Rf_error) in pure demo code outside package
+
 2026-01-22  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml: Switch to actions/checkout@v6
