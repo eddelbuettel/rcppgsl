@@ -9,6 +9,9 @@
     \code{RcppExports.*} files
     \item Several updates for continuous integration 
     \item Switched to using Authors@R
+    \item Replace \code{::Rf_error} with \code{(Rf_error)} in old example to
+    aid \pkg{Rcpp} transition to \code{Rcpp::stop} (or this pass-through)
+    \item Vignette now uses the \code{Rcpp::asis} builder for pre-made pdfs
   }
 }
 

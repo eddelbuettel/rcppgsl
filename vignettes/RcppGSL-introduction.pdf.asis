@@ -1,0 +1,5 @@
+%\VignetteIndexEntry{RcppGSL}
+%\VignetteKeywords{R,GSL,Rcpp,data transfer}
+%\VignettePackage{RcppGSL}
+%\VignetteEncoding{UTF-8}
+%\VignetteEngine{Rcpp::asis}

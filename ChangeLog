@@ -1,3 +1,10 @@
+2026-03-05  Dirk Eddelbuettel  <edd@debian.org>
+
+	* vignettes/RcppGSL-introduction.pdf.asis: Switch to 'asis' vignette
+	builder
+	* DESCRIPTION (VignetteBuilder): Add 'VignetteBuilder: Rcpp' along
+	with versioned Imports: on version 1.1.1 or newer
+
 2026-02-27  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/examples/RcppGSLExample/src/colNorm_old.cpp (colNorm_old):

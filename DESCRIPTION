@@ -21,8 +21,10 @@ Description: 'Rcpp' integration for 'GNU GSL' vectors and matrices
 License: GPL (>= 2)
 LazyLoad: yes
 LinkingTo: Rcpp
-Imports: Rcpp (>= 0.11.0), stats
+Imports: Rcpp (>= 1.1.1), stats
 Suggests: tinytest
 SystemRequirements: GNU GSL
 URL: https://github.com/eddelbuettel/rcppgsl, https://dirk.eddelbuettel.com/code/rcpp.gsl.html
 BugReports: https://github.com/eddelbuettel/rcppgsl/issues
+Encoding: UTF-8
+VignetteBuilder: Rcpp
