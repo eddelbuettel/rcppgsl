@@ -1,5 +1,9 @@
 2026-03-05  Dirk Eddelbuettel  <edd@debian.org>
 
+        * DESCRIPTION (Version, Date): Release 0.3.14
+        * configure.ac: Idem
+        * configure: Idem
+
 	* vignettes/RcppGSL-introduction.pdf.asis: Switch to 'asis' vignette
 	builder
 	* DESCRIPTION (VignetteBuilder): Add 'VignetteBuilder: Rcpp' along

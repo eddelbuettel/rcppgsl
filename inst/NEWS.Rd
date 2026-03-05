@@ -3,7 +3,7 @@
 \newcommand{\ghpr}{\href{https://github.com/eddelbuettel/rcppgsl/pull/#1}{##1}}
 \newcommand{\ghit}{\href{https://github.com/eddelbuettel/rcppgsl/issues/#1}{##1}}
 
-\section{Changes in version 0.3.14 [unreleased] (2026-xx-yy)}{
+\section{Changes in version 0.3.14 (2026-03-05)}{
   \itemize{
     \item Updated some internals of \code{fastLm} example, and regenerated
     \code{RcppExports.*} files
@@ -12,6 +12,7 @@
     \item Replace \code{::Rf_error} with \code{(Rf_error)} in old example to
     aid \pkg{Rcpp} transition to \code{Rcpp::stop} (or this pass-through)
     \item Vignette now uses the \code{Rcpp::asis} builder for pre-made pdfs
+    \item Vignette references have been updated, URLs prefer https and DOIs
   }
 }
 
