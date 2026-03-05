@@ -1,15 +1,16 @@
-@String{CRAN = "http://CRAN.R-Project.org/" }
+@String{CRAN = "https://CRAN.R-Project.org/" }
 @String{manuals = CRAN # "doc/manuals/" }
 @String{RCoreTeam = "{R Core Team}" }
 @String{RFoundation = "R Foundation for Statistical Computing" }
-@String{R-Forge = "http://R-Forge.R-Project.org/" }
+@String{R-Forge = "https://R-Forge.R-Project.org/" }
+@String{DOI = "10.32614/CRAN.package." }
 
 @manual{Abrahams+Grosse-Kunstleve:2003:Boost.Python,
   author =	 { David Abrahams and Ralf W. Grosse-Kunstleve },
   organization = "Boost Consulting",
   title =	 "Building Hybrid Systems with Boost.Python",
   year =	 2003,
-  url =		 "http://www.boostpro.com/writing/bpl.pdf"
+  url =		 "https://www.boost.org/doc/libs/latest/libs/python/doc/html/article.html"
 }
 
 @Book{Abrahams+Gurtovoy:2004:TemplateMetaprogramming,
@@ -39,7 +40,7 @@
   author =	 {Whit Armstrong},
   year =	 2009,
   note =	 {Code repository last updated 2009-07-22.},
-  url =		 {http://github.com/armstrtw/rabstraction}
+  url =		 {https://github.com/armstrtw/rabstraction}
 }
 
 @Manual{Armstrong:2009:RObjects,
@@ -48,7 +49,7 @@
   author =	 {Whit Armstrong},
   year =	 2009,
   note =	 {Code repository last updated 2009-11-28.},
-  url =		 {http://github.com/armstrtw/RObjects}
+  url =		 {https://github.com/armstrtw/RObjects}
 }
 
 @InProceedings{Bates+DebRoy:2001:C++Classes,
@@ -59,7 +60,7 @@
 		  Universit\"at Wien, Vienna, Austria},
   editor =       {Kurt Hornik and Friedrich Leisch},
   year =         {2001},
-  url =          {http://www.ci.tuwien.ac.at/Conferences/DSC-2001/Proceedings/},
+  url =          {https://www.r-project.org/conferences/DSC-2001/Proceedings/BatesDebRoy.pdf},
   note =         {ISSN 1609-395X}
 }
 
@@ -68,24 +69,26 @@
   author = 	 {Frank B. Brokken},
   title = 	 {C++ Annotations},
   howpublished = {Electronic book, University of Groningen},
-  year = 	 2011,
-  url =          {http://www.icce.rug.nl/documents/cplusplus/}
+  year = 	 2026,
+  url =          {https://fbb-git.gitlab.io/cppannotations/},
 }
 
 @Manual{CRAN:Matrix,
   title =	 {\pkg{Matrix}: Sparse and Dense Matrix Classes and Methods},
   author =	 {Douglas Bates and Martin Maechler},
-  year =	 2019,
-  note =	 {R package version 1.2-17},
-  url =		 CRAN # "package=Matrix"
+  year =	 2025,
+  note =	 {R package version 1.7-4},
+  oldurl =	 CRAN # "package=Matrix",
+  doi =		 DOI # "Matrix"
 }
 
 @Manual{CRAN:RInside,
   title =	 {RInside: C++ classes to embed R in C++ applications},
   author =	 {Dirk Eddelbuettel and Romain Fran\c{c}ois},
-  year =	 2019,
-  note =	 {R package version 0.2.15},
-  url =		 CRAN # "package=RInside"
+  year =	 2025,
+  note =	 {R package version 0.2.19},
+  oldurl =	 CRAN # "package=RInside",
+  doi =		 DOI # "RInside"
 }
 
 @Manual{CRAN:RProtoBuf,
@@ -96,21 +99,23 @@
   url =		 CRAN # "package=RProtoBuf"
 }
 
-@Manual{CRAN:RQuantLib,
-  title =	 {RQuantLib: {R} interface to the {QuantLib} library},
-  author =	 {Dirk Eddelbuettel and Khanh Nguyen and Terry Leitch},
-  year =	 2019,
-  note =	 {R package version 0.4.9},
-  url =		 CRAN # "package=RQuantLib"
+@Manual{CRAN:RProtoBuf,
+  title =	 {RProtoBuf: R Interface to the Protocol Buffers API},
+  author =	 {Romain Fran\c{c}ois and Dirk Eddelbuettel and Murray Stokely and Jeroen Ooms},
+  year =	 2025,
+  note =	 {R package version 0.4.24},
+  oldurl =	 CRAN # "package=RProtoBuf",
+  doi =		 DOI # "RProtoBuf"
 }
 
 @Manual{CRAN:RUnit,
   title =        {RUnit: R Unit Test Framework},
   author =       {Matthias Burger and Klaus Juenemann and Thomas
                   Koenig},
-  year =         2015,
-  note =         {R package version 0.4.31},
-  url =          {https://CRAN.R-project.org/package=RUnit},
+  year =         2024,
+  note =         {R package version 0.4.33.1},
+  oldurl =	 CRAN # "package=RUnit",
+  doi =		 DOI # "RUnit"
 }
 
 @Manual{CRAN:Rcpp,
@@ -118,9 +123,10 @@
   author =	 {Dirk Eddelbuettel and Romain Fran\c{c}ois and JJ
                   Allaire and Kevin Ushey and Qiang Kou and
                   Nathan Russel and John Chambers and Douglas Bates},
-  year =	 2019,
-  note =	 {R package version 1.0.2},
-  url =		 CRAN # "package=Rcpp"
+  year =	 2026,
+  note =	 {R package version 1.1.1},
+  oldurl =	 CRAN # "package=Rcpp",
+  doi =		 DOI # "Rcpp"
 }
 
 @Manual{CRAN:Rcpp:Attributes,
@@ -128,113 +134,126 @@
   author =       {J. J. Allaire and Dirk Eddelbuettel and Romain
                   Fran\c{c}ois},
   title =        {{Rcpp} Attributes},
-  year =         2018,
+  year =         2026,
   note =         {Vignette included in R package Rcpp},
-  url =          CRAN # "package=Rcpp"
+  oldurl =       CRAN # "package=Rcpp",
+  doi =          DOI # "Rcpp"
 }
 
 @Manual{CRAN:Rcpp:FAQ,
   crossref =     {CRAN:Rcpp},
   author =       {Dirk Eddelbuettel and Romain Fran\c{c}ois},
   title =        {Frequently Asked Questions About {Rcpp}},
-  year =         2018,
+  year =         2026,
   note =         {Vignette included in R package {Rcpp}},
-  url =          CRAN # "package=Rcpp"
+  oldurl =       CRAN # "package=Rcpp",
+  doi =          DOI # "Rcpp"
 }
 
 @Manual{CRAN:Rcpp:Modules,
   crossref =     {CRAN:Rcpp},
   author = 	 {Dirk Eddelbuettel and Romain Fran\c{c}ois},
   title = 	 {Exposing {C++} functions and classes with {Rcpp} modules},
-  year = 	 2018,
+  year = 	 2026,
   note = 	 {Vignette included in R package Rcpp},
-  url =		 CRAN # "package=Rcpp"
+  oldurl =	 CRAN # "package=Rcpp",
+  doi =		 DOI # "Rcpp"
 }
 
 @Manual{CRAN:Rcpp:Package,
   crossref =     {CRAN:Rcpp},
   author =       {Dirk Eddelbuettel and Romain Fran\c{c}ois},
   title =        {Writing a package that uses {Rcpp}},
-  year =         2018,
+  year =         2026,
   note =         {Vignette included in R package {Rcpp}},
-  url =          CRAN # "package=Rcpp"
+  oldurl =       CRAN # "package=Rcpp",
+  doi =          DOI # "Rcpp"
 }
 
 @Manual{CRAN:Rcpp:Sugar,
   crossref =     {CRAN:Rcpp},
   author =       {Dirk Eddelbuettel and Romain Fran\c{c}ois},
   title =        {Rcpp syntactic sugar},
-  year =         2018,
+  year =         2026,
   note =         {Vignette included in R package {Rcpp}},
-  url =          CRAN # "package=Rcpp"
+  oldurl =       CRAN # "package=Rcpp",
+  doi =          DOI # "Rcpp"
 }
 
 @Manual{CRAN:RcppArmadillo,
-  title =	 {RcppArmadillo: Rcpp integration for Armadillo
-                  templated linear algebra library},
+  title =	 {RcppArmadillo: Rcpp Integration for the Armadillo
+                  Templated Linear Algebra Library},
   author =	 {Dirk Eddelbuettel and Romain Fran\c{c}ois and
-                  Douglas Bates and Binxiang Ni},
-  year =	 2019,
-  note =	 {R package version 0.9.600.4.0},
-  url =		 CRAN # "package=RcppArmadillo"
+                  Douglas Bates and Binxiang Ni and Conrad Sanderson},
+  year =	 2025,
+  note =	 {R package version 15.2.3-1},
+  oldurl =	 CRAN # "package=RcppArmadillo",
+  doi =		 DOI # "RcppArmadillo"
 }
 
 @Manual{CRAN:RcppClassic,
   title =	 {RcppClassic: Deprecated 'classic' Rcpp API},
   author =	 {Dirk Eddelbuettel and Romain Fran\c{c}ois},
-  year =	 2018,
-  note =	 {R package version 0.9.11},
-  url =		 CRAN # "package=RcppClassic"
+  year =	 2022,
+  note =	 {R package version 0.9.13},
+  oldurl =	 CRAN # "package=RcppClassic",
+  doi =		 DOI # "RcppClassic"
 }
 
 @Manual{CRAN:RcppDE,
-  title =	 {RcppDE: Global optimization by differential evolution in C++},
+  title =	 {RcppDE: Global Optimization by Differential Evolution in C++},
   author =	 {Dirk Eddelbuettel},
-  year =	 2018,
-  note =	 {R package version 0.1.6},
-  url =		 CRAN # "package=RcppDE"
+  year =	 2025,
+  note =	 {R package version 0.1.8},
+  oldurl =	 CRAN # "package=RcppDE",
+  doi =		 DOI # "RcppDE"
 }
 
 @Manual{CRAN:RcppEigen,
-  title =	 {RcppEigen: Rcpp integration for the Eigen templated linear
-		  algebra library},
+  title =	 {RcppEigen: Rcpp Integration for the Eigen Templated Linear
+		  Algebra Library},
   author =	 {Douglas Bates and Dirk Eddelbuettel and Romain Fran\c{c}ois and Yixuan Qiu},
-  year =	 2018,
-  note =	 {{R} package version 0.3.3.5.0},
-  url =		 CRAN # "package=RcppEigen"
+  year =	 2024,
+  note =	 {{R} package version 0.3.4.0.2},
+  oldurl =	 CRAN # "package=RcppEigen",
+  doi =		 DOI # "RcppEigen"
 }
 
 @Manual{CRAN:RcppExamples,
   title =	 {RcppExamples: Examples using {Rcpp} to interface {R}
                   and {C++}},
   author =	 {Dirk Eddelbuettel and Romain Fran\c{c}ois},
-  year =	 2016,
-  note =	 {R package version 0.1.8},
-  url =		 CRAN # "package=RcppExamples"
+  year =	 2025,
+  note =	 {R package version 0.1.10},
+  oldurl =	 CRAN # "package=RcppExamples",
+  doi =		 DOI # "RcppExamples"
 }
 
 @Manual{CRAN:RcppGSL,
-  title =	 {RcppGSL: Rcpp integration for GNU GSL vectors and matrices},
+  title =	 {RcppGSL: Rcpp Integration for GNU GSL Vectors and Matrices},
   author = 	 {Dirk Eddelbuettel and Romain Fran\c{c}ois},
-  year =	 2018,
-  note =	 {R package version 0.3.6},
-  url =		 CRAN # "package=RcppGSL"
+  year =	 2026,
+  note =	 {R package version 0.3.14},
+  oldurl =	 CRAN # "package=RcppGSL",
+  doi =		 DOI # "RcppGSL"
 }
 
 @Manual{CRAN:RcppZiggurat,
   title =	 {RcppZiggurat: Rcpp Integration of Different Ziggurat Normal RNG Implementations},
   author = 	 {Dirk Eddelbuettel},
-  year =	 2018,
-  note =	 {R package version 0.1.5},
-  url =		 CRAN # "package=RcppZiggurat"
+  year =	 2025,
+  note =	 {R package version 0.1.8},
+  oldurl =	 CRAN # "package=RcppZiggurat",
+  doi =		 DOI # "RcppZiggurat"
 }
 
 @Manual{CRAN:Rserve,
-  title =	 {Rserve: Binary R server},
+  title =	 {Rserve: Versatile R Server},
   author =	 {Simon Urbanek},
-  year =	 2019,
-  note =	 {R package version 1.7-3.1},
-  url =		 CRAN # "package=Rserve"
+  year =	 2025,
+  note =	 {R package version 1.8-16},
+  oldurl =	 CRAN # "package=Rserve",
+  doi =		 DOI # "Rserve"
 }
 
 @Manual{CRAN:cxxPack,
@@ -243,68 +262,77 @@
   author =	 {Dominick Samperi},
   year =	 2010,
   note =	 {R package version 7.0.6},
-  url =		 CRAN # "package=cxxPack"
+  oldurl =	 CRAN # "package=cxxPack",
+  doi =		 DOI # "cxxPack"
 }
 
 @Manual{CRAN:devtools,
   title =        {devtools: Tools to Make Developing R Packages
                   Easier},
-  author =       {Hadley Wickham and Winston Chang},
-  year =         2016,
-  note =         {R package version 1.12.0},
-  url =          {https://CRAN.R-project.org/package=devtools},
+  author =       {Hadley Wickham and Jim Hester and Winston Chang},
+  year =         2025,
+  note =         {R package version 2.4.6},
+  oldurl =       CRAN # "package=devtools",
+  doi =          DOI # "devtools"
 }
 
 @Manual{CRAN:highlight,
-  title =	 {highlight: Syntax highlighter},
-  author =	 {Romain Fran\c{c}ois},
-  year =	 2017,
-  note =	 {R package with version 0.4.7.2},
-  url =		 CRAN # "package=highlight"
+  title =	 {highlight: Syntax Highlighter},
+  author =	 {Hadley Wickham and Romain Fran\c{c}ois and Andre Simon},
+  year =	 2025,
+  note =	 {R package with version 0.5.2},
+  oldurl =	 CRAN # "package=highlight",
+  doi =		 DOI # "highlight"
 }
 
 @Manual{CRAN:inline,
-  title =	 {inline: Inline C, C++, Fortran function calls from
+  title =        {inline: Functions to Inline C, C++, Fortran Function Calls from
                   R},
-  author =	 {Oleg Sklyar and Duncan Murdoch and Mike Smith and
-                  Dirk Eddelbuettel and Romain Fran\c{c}ois},
-  year =	 2018,
-  note =	 {R package version 0.3.15},
-  url =		 CRAN # "package=inline"
+  author =       {Oleg Sklyar and Duncan Murdoch and Mike Smith and
+                  Dirk Eddelbuettel and Romain Fran\c{c}ois and
+                  Karline Soetaert and Johannes Ranke},
+  year =         2025,
+  note =         {R package version 0.3.21},
+  oldurl =       CRAN # "package=inline",
+  doi =          DOI # "inline"
 }
 
 @Manual{CRAN:littler,
   title =        {littler: {R} at the {Command-Line} via r},
   author =       {Dirk Eddelbuettel and Jeffrey Horner},
-  year =         2017,
-  note =         {R package version 0.3.2},
-  url =          CRAN # "package=littler"
+  year =         2025,
+  note =         {R package version 0.3.21},
+  oldurl =       CRAN # "package=littler",
+  doi =          DOI # "littler"
 }
 
 @Manual{CRAN:microbenchmark,
   title =        {microbenchmark: Accurate Timing Functions},
   author =       {Olaf Mersmann},
-  year =         2015,
-  note =         {R package version 1.4-2.1},
-  url =          {https://CRAN.R-project.org/package=microbenchmark}
+  year =         2023,
+  note =         {R package version 1.5-0},
+  oldurl =	 CRAN # "package=microbenchmark",
+  doi =		 DOI # "microbenchmark"
 }
 
 @Manual{CRAN:minqa,
-  title =	 {minqa: Derivative-free optimization algorithms by
-                  quadratic approximation},
+  title =	 {minqa: Derivative-Free Optimization Algorithms by
+                  Quadratic Approximation},
   author =	 {Douglas Bates and Katharine M. Mullen and John
                   C. Nash and Ravi Varadhan},
-  year =	 2014,
-  note =	 {R package version 1.2.4},
-  url =		 CRAN # "package=minqa"
+  year =	 2024,
+  note =	 {R package version 1.2.8},
+  oldurl =	 CRAN # "package=minqa",
+  doi =		 DOI # "minqa"
 }
 
 @Manual{CRAN:profvis,
   title =        {profvis: Interactive Visualizations for Profiling R Code},
-  author =       {Winston Chang and Javier Luraschi},
-  year =         2017,
-  note =         {R package version 0.3.3},
-  url =          {https://CRAN.R-project.org/package=profvis},
+  author =       {Winston Chang and Javier Luraschi and and Timothy Mastny},
+  year =         2024,
+  note =         {R package version 0.4.0},
+  oldurl =       CRAN # "package=profvis",
+  doi =          DOI # "profvis"
 }
 
 @Manual{CRAN:rbenchmark,
@@ -312,15 +340,17 @@
   author =	 {Wacek Kusnierczyk},
   year =	 2012,
   note =	 {R package version 1.0.0},
-  url =		 CRAN # "package=rbenchmark"
+  oldurl =	 CRAN # "package=rbenchmark",
+  doi =		 DOI # "rbenchmark"
 }
 
 @Manual{CRAN:roxygen2,
-  title =	 {roxygen2: In-source documentation for R},
-  author =	 {Hadley Wickham and Peter Danenberg and Manuel Eugster},
-  year =	 2017,
-  note =	 {R package version 6.0.1},
-  url =		 CRAN # "package=roxygen2"
+  title =	 {roxygen2: In-Line documentation for R},
+  author =	 {Hadley Wickham and Peter Danenberg and G\a'bor Cs\a'rdi and Manuel Eugster},
+  year =	 2025,
+  note =	 {R package version 7.3.3},
+  oldurl =	 CRAN # "package=roxygen2",
+  doi =		 DOI # "roxygen2"
 }
 
 @Article{CRAN:testthat,
@@ -367,8 +397,7 @@
   title =        "\proglang{C++} 2011 Standard Document 14882:2011",
   howpublished = {ISO/IEC Standard Group for Information Technology / Programming Languages / C++},
   year =         2011,
-  url =         "http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=50372",
-  urlansi =     "http://webstore.ansi.org/RecordDetail.aspx?sku=ISO/IEC%2014882:2011"
+  url =          "https://www.iso.org/standard/50372.html"
 }
 
 @book{Dongarra:1979:UGLINPACK,
@@ -387,8 +416,7 @@
   volume =	 71,
   month =        {March},
   pages =        {1054--1063},
-  doi =          {10.1016/j.csda.2013.02.005},
-  url =          {http://dx.doi.org/10.1016/j.csda.2013.02.005}
+  doi =          {10.1016/j.csda.2013.02.005}
 }
 
 @Article{Eddelbuettel+Sanderson:2014:RcppArmadillo,
@@ -399,8 +427,7 @@
   volume =	 71,
   month =        {March},
   pages =        {1054--1063},
-  doi =          {10.1016/j.csda.2013.02.005},
-  url =          {http://dx.doi.org/10.1016/j.csda.2013.02.005}
+  doi =          {10.1016/j.csda.2013.02.005}
 }
 
 @Book{Eddelbuettel:2013:Rcpp,
@@ -440,7 +467,7 @@
   year = 	{2010},
   edition =     {3rd},
   note = 	{Version 1.14. {ISBN} 0954612078},
-  url = 	{http://www.gnu.org/software/gsl}
+  url = 	{https://www.gnu.org/software/gsl/}
 }
 
 @Book{Gentleman:2009:RProgramming,
@@ -464,7 +491,7 @@
   title = 	 {A high-performance, portable implementation of the {MPI} message passing interface standard},
   journal = 	 {Parallel Computing},
   year = 	 1996,
-  url =          {http://dx.doi.org/10.1016/0167-8191(96)00024-5},
+  doil =         {10.1016/0167-8191(96)00024-5},
   volume = 	 22,
   number = 	 6,
   pages = 	 {789--828}
@@ -493,7 +520,6 @@
 
 @article{JOSS:RcppCNPy,
   doi =          {10.21105/joss.00055},
-  url =          {https://doi.org/10.21105/joss.00055},
   year =         {2016},
   month =        {sep},
   publisher =    {The Open Journal},
@@ -524,7 +550,7 @@
   volume =	 40,
   number =	 8,
   pages =	 {1--18},
-  url =		 {http://www.jstatsoft.org/v40/i08/},
+  doi =          {10.18637/jss.v040.i08}
 }
 
 @Article{JSS:RcppEigen,
@@ -536,7 +562,7 @@
   volume =	 {52},
   number =	 {5},
   pages =	 {1--24},
-  url =		 {http://www.jstatsoft.org/v52/i05/},
+  doi =          {10.18637/jss.v052.i05}
 }
 
 @Unpublished{Java+Gaile+Manly:2007:RCpp,
@@ -554,7 +580,7 @@
 @misc{KDE-TechBase:2012,
   author =       {KDE-TechBase},
   title =        {Binary Compatibility Issues With {C++}},
-  url  =         "http://techbase.kde.org/Policies/Binary_Compatibility_Issues_With_C++",
+  url  =         "https://techbase.kde.org/Policies/Binary_Compatibility_Issues_With_C++",
   year =         2012,
   note =         "[Online; accessed 24-November-2012]"
 }
@@ -602,8 +628,7 @@
                   6)},
   booktitle =    {JTC1/SC22/WG21 - The C++ Standards Committee},
   year =         {2008},
-  url =
-                  {http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2761.pdf},
+  url =          {https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1262.pdf},
   note =         {{N2761=08-0271}}
 }
 
@@ -662,9 +687,10 @@
   author =	 RCoreTeam,
   organization = RFoundation,
   address =	 {Vienna, Austria},
-  year =	 2018,
+  year =	 2025,
   title =	 "R Installation and Administration",
   annote =	 {{ISBN} 3-900051-09-7},
+  doi = 	 "10.32614/R.manuals",
   url =		 manuals # "R-admin.html"
 }
 
@@ -672,9 +698,10 @@
   author =	 RCoreTeam,
   organization = RFoundation,
   address =	 {Vienna, Austria},
-  year =	 2018,
+  year =	 2025,
   title =	 "Writing R extensions",
   annote =	 {{ISBN} 3-900051-11-9},
+  doi = 	 "10.32614/R.manuals",
   url =		 manuals # "R-exts.html"
 }
 
@@ -682,9 +709,10 @@
   author =	 RCoreTeam,
   organization = RFoundation,
   address =	 {Vienna, Austria},
-  year =	 2018,
+  year =	 2025,
   title =	 "R internals",
   annote =	 {{ISBN} 3-900051-14-3},
+  doi = 	 "10.32614/R.manuals",
   url =		 manuals # "R-ints.html"
 }
 
@@ -692,9 +720,10 @@
   author =	 RCoreTeam,
   organization = RFoundation,
   address =	 {Vienna, Austria},
-  year =	 2018,
+  year =	 2025,
   title =	 "R language",
   annote =	 {{ISBN} 3-900051-13-5},
+  doi = 	 "10.32614/R.manuals",
   url =		 manuals # "R-lang.html"
 }
 
@@ -704,7 +733,8 @@
   author =       RCoreTeam,
   organization = RFoundation,
   address =      {Vienna, Austria},
-  year =         2018,
+  year =         2025,
+  doi = 	 "10.32614/R.manuals",
   url =          {https://www.R-project.org/}
 }
 
@@ -727,7 +757,6 @@
 
 @article{Sanderson+Curtin:2016,
   doi =          {10.21105/joss.00026},
-  url =          {http://dx.doi.org/10.21105/joss.00026},
   year =         2016,
   month =        {{June}},
   publisher =    {The Open Journal},
@@ -746,7 +775,7 @@
                   Experiments },
   institution =	 {{NICTA}},
   year =	 2010,
-  url =		 "http://arma.sf.net"
+  url =		 "https://arma.sourceforge.net/"
 }
 
 @Book{Stroustrup:1997:Cpp,
@@ -811,8 +840,8 @@
                    Statistical Computing, Vienna, Austria},
   editor	= {Kurt Hornik and Friedrich Leisch and Achim Zeileis},
   year		= {2003},
-  url		= {http://www.ci.tuwien.ac.at/Conferences/DSC-2003/Proceedings/},
-  note		= {{ISSN 1609-395X}}
+  url		= {https://www.r-project.org/conferences/DSC-2003/Proceedings/Urbanek.pdf},
+note		= {{ISSN 1609-395X}}
 }
 
 @Book{Vandevoorde+Josuttis:2003:Templates,
@@ -853,5 +882,5 @@
   address =      {New York},
   year =         2002,
   note =         {ISBN 0-387-95457-0},
-  url =          {http://www.stats.ox.ac.uk/pub/MASS4},
+  url =          {https://www.stats.ox.ac.uk/pub/MASS4},
 }

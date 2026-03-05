@@ -13,7 +13,7 @@ address:
   - code: a
     address: \url{https://dirk.eddelbuettel.com}
   - code: b
-    address: \url{https://romain.rbind.io/}
+    address: \url{https://github.com/romainfrancois}
 
 # For footer text
 lead_author_surname: Eddelbuettel and François
@@ -691,8 +691,8 @@ if (ISNAN(res)) {
 }
 ```
 
-See \url{http://thread.gmane.org/gmane.comp.lang.r.rcpp/7905} for a longer
-discussion of the related issues.
+<!-- See \url{http://thread.gmane.org/gmane.comp.lang.r.rcpp/7905} for a longer -->
+<!-- discussion of the related issues. -->
 
 Starting with release 0.2.4, two new functions are available:
 \texttt{gslSetErrorHandlerOff()} and \texttt{gslResetErrorHandler()} which

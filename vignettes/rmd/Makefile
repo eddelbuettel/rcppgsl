@@ -10,4 +10,4 @@ all:                    ${vignettes}
 			mv -v $@ ..
 
 clean:
-			rm -f pinp.cls jss.bst RcppGSL*.tex
+			rm -f pinp.cls jss.bst RcppGSL*.tex RcppGSL*.log

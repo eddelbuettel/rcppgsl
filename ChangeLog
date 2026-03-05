@@ -5,6 +5,11 @@
 	* DESCRIPTION (VignetteBuilder): Add 'VignetteBuilder: Rcpp' along
 	with versioned Imports: on version 1.1.1 or newer
 
+	* vignettes/RcppGSL-introduction.pdf: Re-rendered
+	* vignettes/rmd/RcppGSL-introduction.Rmd: Prefer https
+	* vignettes/rmd/Rcpp.bib: Updated references, prefer doi and https
+	* vignettes/rmd/Makefile: Also remove .log file
+
 2026-02-27  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/examples/RcppGSLExample/src/colNorm_old.cpp (colNorm_old):
